@@ -1,0 +1,42 @@
+'use client'
+import { DataTable } from '@/components/data-table'
+import { ClientType, ColumnsClient } from '@/components/page/client/column'
+import FilterDateRange from '@/components/filter/filter-date-range'
+import FilterSelectDate from '@/components/filter/filter-select-time'
+import { useHandlePagination } from '@/hooks'
+import SearchInput from '@/components/form/search-input'
+import { ApiResponse } from '@/service'
+
+interface PageProps {
+  data: ApiResponse<unknown>
+}
+
+const Page = ({ data }: PageProps) => {
+  const { pagination, onPaginationChange } = useHandlePagination()
+
+  return (
+    <div className="w-full ">
+      <div className="mb-9 flex justify-between">
+        <SearchInput param="q" placeholder="Search Superagent" />
+        <div className="flex items-center space-x-2.5">
+          <FilterDateRange />
+          <FilterSelectDate />
+        </div>
+      </div>
+
+      <div className="grid w-full">
+        <DataTable
+          rowCount={data?.total_items}
+          data={(data?.data as ClientType[]) ?? []}
+          onPaginationChange={onPaginationChange}
+          columns={ColumnsClient}
+          pagination={pagination}
+        />
+      </div>
+    </div>
+  )
+}
+
+Page.displayName = 'PageClients'
+
+export default Page
