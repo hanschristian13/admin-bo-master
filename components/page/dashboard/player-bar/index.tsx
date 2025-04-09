@@ -8,33 +8,48 @@ interface PlayerBarProps {
   newlyRegisteredPlayerfromYesterday: number
   newlyActivePlayerfromYesterday: number
 }
+
 const PlayerBar = ({
   newRegisterPlayer,
   activePlayer,
   newlyRegisteredPlayerfromYesterday,
   newlyActivePlayerfromYesterday
 }: PlayerBarProps) => {
-  const progressNewRegister = newRegisterPlayer / (newRegisterPlayer + activePlayer) * 100
-  const progressActivePlayer = activePlayer / (newRegisterPlayer + activePlayer) * 100
+  const getPercentageChange = (value: number, total: number): number => 
+    total === 0 ? 0 : (value / total) * 100;
 
-  const progressNewRegisterVsYesterday = (newRegisterPlayer - newlyRegisteredPlayerfromYesterday) / newlyRegisteredPlayerfromYesterday * 100
-  const progressActivePlayerVsYesterday = (activePlayer - newlyActivePlayerfromYesterday) / newlyActivePlayerfromYesterday * 100
+  // Calculate percentages of total players
+  const totalPlayers = newRegisterPlayer + activePlayer;
+  const newRegisterPercent = getPercentageChange(newRegisterPlayer, totalPlayers);
+  const activePlayerPercent = getPercentageChange(activePlayer, totalPlayers);
+
+  // Calculate percentage changes vs yesterday
+  const newRegisterChange = getPercentageChange(
+    newRegisterPlayer - newlyRegisteredPlayerfromYesterday, 
+    newlyRegisteredPlayerfromYesterday
+  );
+  
+  const activePlayerChange = getPercentageChange(
+    activePlayer - newlyActivePlayerfromYesterday, 
+    newlyActivePlayerfromYesterday
+  );
+
   return (
     <div className='bg-neutral-100 flex space-x-[6px] rounded-md p-[6px] w-full mb-[112px]'>
       <ProgressBar
         title='new register member'
-        progress={progressNewRegister}
+        progress={newRegisterPercent}
         style='orange'
         numberOfPlayer={newRegisterPlayer}
-        progressTodayVsYesterday={progressNewRegisterVsYesterday}
+        progressTodayVsYesterday={newRegisterChange}
       />
       <ProgressBar
         title='active player'
-        progress={progressActivePlayer}
+        progress={activePlayerPercent}
         style='green'
         numberOfPlayer={activePlayer}
         detailPosition='center'
-        progressTodayVsYesterday={progressActivePlayerVsYesterday}
+        progressTodayVsYesterday={activePlayerChange}
       />
     </div>
   )

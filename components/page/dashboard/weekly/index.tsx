@@ -1,11 +1,12 @@
 import React from 'react'
-
 import { Card } from '@/components/ui/card'
 import { CalendarDays } from 'lucide-react'
 import ProgressStatus from '@/components/progress-status'
 import { iDailyUserDashboard } from '@/lib/definitions'
 import { timeFormat } from '@/lib/utils'
 import { getOverviewDailyUser } from '@/service/dashboard'
+import { formatNumber } from '@/lib/format-number'
+
 const DashboardWeekly = async () => {
   const { data } = (await getOverviewDailyUser({
     start_date: timeFormat().subtract(7, 'days').format(),
@@ -51,14 +52,14 @@ const DashboardWeekly = async () => {
             <div className="flex flex-col px-5 py-4">
               <h5 className="text-sm font-medium text-neutral-300 capitalize">Turnover Slot</h5>
               <div className="flex space-x-2">
-                <span>Rp{item?.turnover}</span>
+                <span>Rp{formatNumber(item?.turnover)}</span>
                 <ProgressStatus progress={item?.percentage_difference?.turnover ?? 0} />
               </div>
             </div>
             <div className="flex flex-col px-5 py-4">
               <h5 className="text-sm font-medium text-neutral-300 capitalize">Profit Slot</h5>
               <div className="flex space-x-2">
-                <span>Rp{item?.profit}</span>
+                <span>Rp{formatNumber(item?.profit)}</span>
                 <ProgressStatus progress={item?.percentage_difference?.profit ?? 0} />
               </div>
             </div>
@@ -67,14 +68,14 @@ const DashboardWeekly = async () => {
                 New Register Player
               </h5>
               <div className="flex space-x-2">
-                <span>{item?.new_register_player} Player</span>
+                <span>{formatNumber(item?.new_register_player)} Player</span>
                 <ProgressStatus progress={item?.percentage_difference?.new_register_player ?? 0} />
               </div>
             </div>
             <div className="flex flex-col px-5 py-4">
               <h5 className="text-sm font-medium text-neutral-300 capitalize">Active Player</h5>
               <div className="flex space-x-2">
-                <span>{item?.active_player} Player</span>
+                <span>{formatNumber(item?.active_player)} Player</span>
                 <ProgressStatus progress={item?.percentage_difference?.active_player ?? 0} />
               </div>
             </div>

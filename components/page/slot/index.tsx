@@ -37,7 +37,7 @@ const Page: FC<{ superAgent: ApiResponse<unknown>; detail: ApiResponse<unknown> 
   return (
     <div className="w-full">
       <div className="mb-9 flex justify-between">
-        <SearchInput param="q" placeholder="Seacrh Superagent" />
+        <SearchInput param="q" placeholder="Search Superagent" />
         <div className="flex items-center space-x-2.5">
           <FilterDateRange />
           <FilterSelectDate />

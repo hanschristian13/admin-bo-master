@@ -230,6 +230,29 @@ export const ColumnsClientDetail: ColumnDef<ClientType>[] = [
     footer: () => <div className="text-neutral-300">Total</div>
   },
   {
+    accessorKey: 'parent_id',
+    header: ({ column }) => {
+      const sortType = column.getIsSorted()
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(sortType === 'asc')}
+          className="has-[>svg]:px-0">
+          Super Agent
+          <ButtonSort sortType={sortType} />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="mx-auto capitalize flex gap-x-1.5 items-center h-7">
+          <InitialAvatar name={row.getValue('parent_id')} />
+          {row.getValue('parent_id')}
+        </div>
+      )
+    }
+  },
+  {
     accessorKey: 'dealer_id',
     header: ({ column }) => {
       const sortType = column.getIsSorted()

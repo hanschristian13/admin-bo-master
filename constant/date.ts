@@ -30,7 +30,9 @@ export const filterDateOptions = [
 ]
 
 export const defaultStartAndEndDateReport = {
-  startDate: timeFormat().subtract(7, 'days').format(),
+  //startDate: timeFormat().subtract(7, 'days').format(),
+  //default today
+  startDate: timeFormat().format(), 
   endDate: timeFormat().format()
 }
 

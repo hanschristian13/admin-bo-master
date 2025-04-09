@@ -16,15 +16,27 @@ const formatRange = (dateRange: string) => {
 }
 
 const FilterDateRange = () => {
-  const [date, setDate] = useState<DateRange | undefined>(undefined)
+  // Initialize with today's date
+  const today = new Date()
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: today,
+    to: today
+  })
 
   const { setSearchParams, getValue } = useGetUpdateParams()
   const value = getValue('date')
   const debouncedDate = useDebounce(date, 800)
 
   useEffect(() => {
+    // Only update from URL if there's a value
     if (value) {
       setDate(formatRange(value))
+    } else if (!value && date?.from) {
+      // If no URL value but we have a default date, update the URL
+      setSearchParams({
+        date: `${timeFormat(date.from).format()}|${timeFormat(date.to).format()}`,
+        page: 1
+      })
     }
   }, [value])
 
@@ -39,6 +51,7 @@ const FilterDateRange = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedDate])
+  
   return <DatePickerWithRange onChange={setDate} value={date} />
 }
 

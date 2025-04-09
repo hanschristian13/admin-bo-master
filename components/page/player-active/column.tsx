@@ -168,6 +168,29 @@ export const ColumnsPlayerActiveDetail: ColumnDef<PlayerActiveDetailType>[] = [
     cell: ({ row }) => <div className="text-center">{row.index + 1}</div>
   },
   {
+    accessorKey: 'parent_id',
+    header: ({ column }) => {
+      const sortType = column.getIsSorted()
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(sortType === 'asc')}
+          className="has-[>svg]:px-0 text-left">
+          Super Agent
+          <ButtonSort sortType={sortType} />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="capitalize flex gap-x-1.5 items-center h-7">
+          <InitialAvatar name={row.getValue('parent_id')} />
+          {row.getValue('parent_id')}
+        </div>
+      )
+    }
+  },
+  {
     accessorKey: 'dealer_id',
     header: ({ column }) => {
       const sortType = column.getIsSorted()
@@ -222,7 +245,7 @@ export const ColumnsPlayerActiveDetail: ColumnDef<PlayerActiveDetailType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0 w-full justify-end">
-          Turnover Slot
+          Turnover
           <ButtonSort sortType={sortType} />
         </Button>
       )
@@ -256,7 +279,7 @@ export const ColumnsPlayerActiveDetail: ColumnDef<PlayerActiveDetailType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0 w-full justify-end">
-          Win Slot
+          Win Player
           <ButtonSort sortType={sortType} />
         </Button>
       )
@@ -290,7 +313,7 @@ export const ColumnsPlayerActiveDetail: ColumnDef<PlayerActiveDetailType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0 w-full justify-end">
-          Profit Slot
+          Profit
           <ButtonSort sortType={sortType} />
         </Button>
       )

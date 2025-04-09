@@ -37,6 +37,7 @@ const DasboardDaily = async () => {
   const todayData = data?.find(x => timeFormat(x?.date)?.isSame(new Date()))
   const yesterdayData = data?.find(x => timeFormat(x?.date)?.isBefore(new Date()))
   const percentage = calculatePercentageDifference(todayData, yesterdayData)
+
   const dataCard = [
     {
       title: 'turnover slot',

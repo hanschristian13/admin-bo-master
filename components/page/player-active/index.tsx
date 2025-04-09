@@ -4,11 +4,8 @@ import React from 'react'
 import SearchInput from '@/components/form/search-input'
 import { DataTable } from '@/components/data-table'
 import { Card } from '@/components/ui/card'
-
 import { formatNumberWithCommas } from '@/lib/format-number'
-
 import { ColumnsPlayerActive, PlayerActiveType } from '@/components/page/player-active/column'
-
 import { iResponsePlayerActiveOverveiw } from '@/service/report'
 import FilterSelectDate from '@/components/filter/filter-select-time'
 import FilterDateRange from '@/components/filter/filter-date-range'
@@ -42,13 +39,12 @@ const Page = ({
   return (
     <div className="w-full">
       <div className="mb-9 flex justify-between">
-        <SearchInput param="q" placeholder="Seacrh Superagent" />
+        <SearchInput param="q" placeholder="Search Superagent" />
         <div className="flex items-center space-x-2.5">
           <FilterDateRange />
           <FilterSelectDate />
         </div>
       </div>
-
       <h5 className="mb-4 text-sm font-medium text-neutral-400 capitalize">report summary</h5>
       <div className="flex flex-col gap-5 md:flex md:flex-row md:items-start">
         <div className="flex-none space-y-5">
@@ -59,9 +55,9 @@ const Page = ({
               <h5 className="capitalize">{item.title}</h5>
               <div className="space-y-0.5">
                 <span className="text-sm font-semibold text-neutral-400 capitalize">
-                  {item.title !== 'active player' && 'Rp'}
-                  {formatNumberWithCommas(item?.amount ?? 0)}
-                  {item.title === 'active player' && ' player'}
+                  {item.title !== 'active player' ? 
+                    `Rp ${formatNumberWithCommas(item?.amount ?? 0)}` : 
+                    `${item?.amount ?? 0} player`}
                 </span>
               </div>
             </Card>
@@ -82,5 +78,4 @@ const Page = ({
 }
 
 Page.displayName = 'PagePlayerActive'
-
 export default Page

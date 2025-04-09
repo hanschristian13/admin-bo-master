@@ -22,6 +22,7 @@ const page = async ({ searchParams }: PageProps): Promise<JSX.Element> => {
 
   const startDate = date?.[0] ?? defaultStartAndEndDateReport?.startDate
   const endDate = date?.[1] ?? defaultStartAndEndDateReport?.endDate
+
   const summary = await getPlayerActive({
     start_date: startDate,
     end_date: endDate,

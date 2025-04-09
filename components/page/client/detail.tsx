@@ -12,7 +12,6 @@ import { timeFormat } from '@/lib/utils'
 
 const Page: FC<{ data: ApiResponse<unknown> }> = ({ data }) => {
   const { pagination, onPaginationChange } = useHandlePagination()
-
   const { getUrlParams } = useGetUpdateParams()
   const date = getUrlParams('id')
   return (

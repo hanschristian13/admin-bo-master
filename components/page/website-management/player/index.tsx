@@ -12,7 +12,7 @@ const Page = ({ list }: any) => {
     <div className="w-full space-y-4">
       <div className="flex justify-between">
         <div className="flex items-center space-x-2.5">
-          <SearchInput param="q" placeholder="Seacrh Username or name..." />
+          <SearchInput param="q" placeholder="Search Username or name..." />
           <FilterDealerId />
         </div>
       </div>

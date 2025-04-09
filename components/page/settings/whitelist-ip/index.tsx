@@ -31,7 +31,7 @@ const Page = () => {
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <SearchInput param="" placeholder="Seacrh IP..." />
+        <SearchInput param="" placeholder="Search IP..." />
         <Button onClick={handleAddExpenses} variant="default">
           <Plus />
           {'Add IP'}

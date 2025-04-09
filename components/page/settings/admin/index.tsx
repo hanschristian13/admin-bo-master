@@ -9,7 +9,7 @@ const page = () => {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col md:flex-row items-center justify-between gap-4 w-full">
-        <SearchInput param="q" placeholder="Seacrh Admin..." />
+        <SearchInput param="q" placeholder="Search Admin..." />
         <div className="flex items-center gap-2.5">
           <RolesOverview />
           <CreateAdmin />

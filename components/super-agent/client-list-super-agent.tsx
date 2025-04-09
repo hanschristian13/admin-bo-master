@@ -34,7 +34,7 @@ const ClientListSuperAgent: React.FC<ClientListSuperAgentProps> = ({ data, total
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center gap-x-2.5">
-        <SearchInput param="q" placeholder="Seacrh super agent..." />
+        <SearchInput param="q" placeholder="Search super agent..." />
         <Button
           variant="default"
           onClick={() => {

@@ -24,7 +24,7 @@ const Page = () => {
     <div className="space-y-6">
       <ButtonBack url="/player" />
       <div className="flex justify-between items-center gap-x-2.5">
-        <SearchInput param="" placeholder="Seacrh..." />
+        <SearchInput param="" placeholder="Search..." />
       </div>
       <div className="grid auto-rows-min gap-4 xl:grid-cols-3 2xl:grid-cols-4">
         <Card className="w-full h-fit">

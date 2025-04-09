@@ -7,18 +7,22 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { useGetUpdateParams } from '@/hooks'
+
 const SelectForFilter = ({
   keys,
   placeholder,
-  option
+  option,
+  defaultValue
 }: {
   keys: string
   placeholder: string
   option: { value: string; label: string | number }[]
+  defaultValue?: string
 }) => {
   const { getValue, setSearchParams } = useGetUpdateParams()
 
-  const value = getValue(keys)
+  const value = getValue(keys) || defaultValue
+  
   return (
     <Select
       value={option?.find(x => x?.value === value)?.value ?? undefined}
