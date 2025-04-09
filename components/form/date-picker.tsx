@@ -18,6 +18,7 @@ export function DatePickerWithRange({
   value: DateRange | undefined
   onChange: (value: DateRange | undefined) => void
 }) {
+  console.log(value)
   return (
     <div className={cn('grid gap-2', className)}>
       <Popover>
@@ -46,9 +47,16 @@ export function DatePickerWithRange({
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="end">
           <Calendar
+            disabled={
+              value?.from
+                ? {
+                    before: value.from,
+                    after: new Date(value.from.getTime() + 31 * 24 * 60 * 60 * 1000)
+                  }
+                : undefined
+            }
             initialFocus
             mode="range"
-            max={31}
             defaultMonth={value?.from}
             selected={value}
             onSelect={onChange}
