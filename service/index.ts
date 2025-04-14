@@ -57,12 +57,10 @@ class Request {
       })
 
       if (!response.ok) {
-        if (response.status === 401 && endpoint !== 'users/tokens') {
-          this.status = 401
-        }
-
-        const message = await response.text()
-        return JSON.parse(message) as ApiResponse<T>
+        const errorResponse = await response.json()
+        const errorMessage = this.getErrorMessage(errorResponse)
+        console.log(errorMessage + ' ll')
+        throw new Error(`Request failed with status ${response.status}: ${errorMessage.join(', ')}`)
       }
 
       return (await response.json()) as ApiResponse<T>
@@ -70,7 +68,8 @@ class Request {
       if (isRedirectError(error)) {
         throw error
       }
-      return error as ApiResponse<T>
+
+      throw error
     } finally {
       if (this.status === 401) {
         this.status = 0
