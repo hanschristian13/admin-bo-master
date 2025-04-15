@@ -44,7 +44,7 @@ export const ColumnsPlayerPendingTransaction: ColumnDef<PlayerPendingTransaction
           onClick={() => column.toggleSorting(sortType === "asc")}
           className="has-[>svg]:px-0"
         >
-          Date
+          Datetime
           <ButtonSort
             sortType={sortType}
           />
@@ -52,7 +52,7 @@ export const ColumnsPlayerPendingTransaction: ColumnDef<PlayerPendingTransaction
       );
     },
     cell: ({ row }) => (
-      <div className="capitalize whitespace-nowrap text-center" > {format(row.getValue("bet_date"), 'LLL dd, y')} </div>
+      <div className="capitalize whitespace-nowrap text-center" > {format(row.getValue("bet_date"), 'LLL dd, y, HH:mm:ss')} </div>
     ),
     footer: () => (
       <div className="text-neutral-300 text-left">Total</div>

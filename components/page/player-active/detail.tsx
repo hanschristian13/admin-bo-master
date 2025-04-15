@@ -18,7 +18,6 @@ const Page = ({ data }: { data: ApiResponse<unknown> }) => {
   const { pagination, onPaginationChange } = useHandlePagination()
   const { getUrlParams } = useGetUpdateParams()
   const date = getUrlParams('id')
-  console.log(data?.total_items)
   return (
     <div className="w-full">
       <div className="mb-9 flex items-center justify-between">
@@ -30,7 +29,10 @@ const Page = ({ data }: { data: ApiResponse<unknown> }) => {
         </div>
         <div className="flex items-center space-x-2.5">
           <SearchInput param="q" placeholder="Search Username" />
-          <FilterDealerId />
+          <FilterDealerId 
+            pageData={data?.data as PlayerActiveDetailType[]} 
+            dealerIdField="dealer_id" 
+          />
         </div>
       </div>
       <div className="grid w-full">

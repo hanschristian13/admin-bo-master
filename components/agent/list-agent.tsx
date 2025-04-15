@@ -71,7 +71,7 @@ const ListAgent = ({
       }
     }
   }, [transactionAgent])
-  console.log({ data })
+
   return (
     <div className="xl:col-span-2 2xl:col-span-3 flex flex-col gap-y-5">
       <div className="w-full grid md:grid-cols-2 auto-rows-min gap-4 xl:grid-cols-2 2xl:grid-cols-3">

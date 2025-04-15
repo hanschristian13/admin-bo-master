@@ -19,7 +19,6 @@ export function DatePickerWithRange({
   value: DateRange | undefined
   onChange: (value: DateRange | undefined) => void
 }) {
-  console.log(value)
   return (
     <div className={cn('grid gap-2', className)}>
       <Popover>

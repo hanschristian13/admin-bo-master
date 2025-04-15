@@ -17,7 +17,7 @@ const Page = ({ data }: PageProps) => {
   return (
     <div className="w-full ">
       <div className="mb-9 flex justify-between">
-        <SearchInput param="q" placeholder="Search Superagent" />
+        <SearchInput param="q" placeholder="Search Super Agent" />
         <div className="flex items-center space-x-2.5">
           <FilterDateRange />
           <FilterSelectDate />

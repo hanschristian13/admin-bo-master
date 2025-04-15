@@ -23,9 +23,9 @@ const Page = () => {
   return (
     <div className="space-y-6">
       <ButtonBack url="/player" />
-      <div className="flex justify-between items-center gap-x-2.5">
+      {/* <div className="flex justify-between items-center gap-x-2.5">
         <SearchInput param="" placeholder="Search..." />
-      </div>
+      </div> */}
       <div className="grid auto-rows-min gap-4 xl:grid-cols-3 2xl:grid-cols-4">
         <Card className="w-full h-fit">
           <CardContent className="flex flex-col items-center pt-6 pb-5 space-y-5 relative">

@@ -24,7 +24,6 @@ const page = async ({ searchParams, params }: PageProps): Promise<JSX.Element> =
     parent_id || ''
   )
 
-  console.log(data)
   return <PageClientSharedDetail data={data} />
 }
 

@@ -20,8 +20,6 @@ const Page = ({ data, detail }: any) => {
       initPageSize: 5
     })
 
-  console.log(detail)
-
   return (
     <div className="w-full space-y-4">
       <ButtonBack url="/invoice" />

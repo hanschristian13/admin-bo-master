@@ -36,7 +36,7 @@ const ListSuperAgent = ({ data }: any) => {
           <div className="flex flex-col gap-y-0.5">
             <h5 className="capitalize">{item.parent_id ?? item?.parent_id}</h5>
             <div className="text-sm font-semibold text-neutral-400 space-y-0.5">
-              <span className=" text-neutral-300 capitalize">Rp</span>
+              <span className=" text-neutral-300 capitalize">Rp </span>
               {formatNumberWithCommas(item.turnover ?? item?.parent_id)}
             </div>
           </div>

@@ -11,7 +11,6 @@ interface Summary {
 }
 
 const Page = ({ summary, gameSummary }: { summary: Summary[]; gameSummary: any }) => {
-  console.log(gameSummary)
   return (
     <div className="space-y-6">
       <div className="grid auto-rows-min gap-4 md:grid-cols-3">

@@ -78,7 +78,7 @@ export const ColumnsClient: ColumnDef<ClientType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0 justify-end">
-          New Register Player
+          New Player
           <ButtonSort sortType={sortType} />
         </Button>
       )
@@ -157,7 +157,7 @@ export const ColumnsClient: ColumnDef<ClientType>[] = [
       const win = row.getValue('win_player') as number
       return (
         <div className="block w-full text-right font-medium">
-          <span className="text-neutral-400">{formatNumberWithCommas(win)}</span>
+          <span className="text-neutral-400">Rp{formatNumberWithCommas(win)}</span>
         </div>
       )
     },
@@ -284,7 +284,7 @@ export const ColumnsClientDetail: ColumnDef<ClientType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0 justify-end">
-          Active Player
+          New Player
           <ButtonSort sortType={sortType} />
         </Button>
       )
@@ -365,7 +365,7 @@ export const ColumnsClientDetail: ColumnDef<ClientType>[] = [
       const win = row.getValue('win_player') as number
       return (
         <div className="block w-full text-right font-medium">
-          <span className="text-neutral-400">{formatNumberWithCommas(win)}</span>
+          <span className="text-neutral-400">Rp{formatNumberWithCommas(win)}</span>
         </div>
       )
     },
