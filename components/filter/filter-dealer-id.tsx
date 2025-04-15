@@ -1,9 +1,9 @@
 'use client'
-import { getAgentList } from '@/service/report'
-import React, { useEffect } from 'react'
+import React from 'react'
 import SelectForFilter from './select-for-filter'
-import { DataSuperAgentType, SuperAgentType } from '@/types/super-agent'
+import { useDealerList } from '@/hooks/useDealerList'
 
+<<<<<<< HEAD
 interface FilterDealerIdProps {
   // Optional pageData prop - if provided, will filter options to only show relevant dealers
   pageData?: any[];
@@ -68,6 +68,12 @@ const FilterDealerId: React.FC<FilterDealerIdProps> = ({
       required={!showAllOption} // Make selection required when there's no "All" option
     />
   )
+=======
+const FilterDealerId = () => {
+  const { data } = useDealerList()
+
+  return <SelectForFilter placeholder="Filter Agent" keys="dealer_id" option={data} />
+>>>>>>> 83c7f698bd1fbc27fe0a1ea4c02353304aaf90dc
 }
 
 export default FilterDealerId
