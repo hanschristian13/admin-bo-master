@@ -33,17 +33,22 @@ const PlayerBar = ({
     return previous === 0 ? 0 : ((current - previous) / Math.abs(previous)) * 100;
   };
 
-  // For distribution between new and active players
-  const getDistributionPercentage = (value: number, total: number): number => {
-    // If total is zero, avoid division by zero
-    if (total === 0) return 0;
-    return (value / total) * 100;
-  };
-
-  // Calculate percentages of total players
-  const totalPlayers = safeNewRegister + safeActive;
-  const newRegisterPercent = getDistributionPercentage(safeNewRegister, totalPlayers);
-  const activePlayerPercent = getDistributionPercentage(safeActive, totalPlayers);
+  // Calculate total players with a minimum value of 1 to prevent division by zero
+  const totalPlayers = Math.max(safeNewRegister + safeActive, 1);
+  
+  // Calculate percentages with a minimum of 1% to ensure visibility
+  let newRegisterPercent = (safeNewRegister / totalPlayers) * 100;
+  let activePlayerPercent = (safeActive / totalPlayers) * 100;
+  
+  // Ensure bars have a minimum width for visibility when there are players
+  if (safeNewRegister > 0 && newRegisterPercent < 1) newRegisterPercent = 1;
+  if (safeActive > 0 && activePlayerPercent < 1) activePlayerPercent = 1;
+  
+  // If both are zero, give them equal visual space
+  if (safeNewRegister === 0 && safeActive === 0) {
+    newRegisterPercent = 50;
+    activePlayerPercent = 50;
+  }
 
   // Calculate percentage changes vs yesterday
   const newRegisterChange = getPercentageChange(safeNewRegister, safeYesterdayNewRegister);
@@ -53,14 +58,14 @@ const PlayerBar = ({
     <div className='bg-neutral-100 flex space-x-[6px] rounded-md p-[6px] w-full mb-[112px]'>
       <ProgressBar
         title='new register member'
-        progress={newRegisterPercent || 0}
+        progress={newRegisterPercent}
         style='orange'
         numberOfPlayer={safeNewRegister}
         progressTodayVsYesterday={newRegisterChange}
       />
       <ProgressBar
         title='active player'
-        progress={activePlayerPercent || 0}
+        progress={activePlayerPercent}
         style='green'
         numberOfPlayer={safeActive}
         detailPosition='center'

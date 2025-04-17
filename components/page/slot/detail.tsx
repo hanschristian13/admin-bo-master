@@ -23,8 +23,8 @@ const Page: FC<{ data: ApiResponse<unknown> }> = ({ data }) => {
           </Button>
         </div>
         <FilterDealerId 
-            pageData={data?.data as SlotDetailType[]} 
-            dealerIdField="dealer_id" 
+            // pageData={data?.data as SlotDetailType[]} 
+            // dealerIdField="dealer_id" 
           />
       </div>
       <div className="grid">

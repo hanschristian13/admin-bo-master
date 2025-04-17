@@ -14,7 +14,9 @@ const Page = ({ list }: any) => {
         <div className="flex items-center space-x-2.5">
           <SearchInput param="q" placeholder="Search Username or name..." />
           {/* Use FilterDealerId without the "All" option */}
-          <FilterDealerId showAllOption={false} />
+          <FilterDealerId 
+            // showAllOption={false} 
+          />
         </div>
       </div>
       <div className="grid gap-4 auto-rows-min lg:grid-cols-3">

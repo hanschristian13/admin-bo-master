@@ -25,8 +25,8 @@ const Page = ({ data }: { data: ApiResponse<unknown> }) => {
         </div>
         {/* Pass the current page data to FilterDealerId */}
         <FilterDealerId 
-            pageData={data?.data as ClientSharedDetailType[]} 
-            dealerIdField="dealer_id" 
+            // pageData={data?.data as ClientSharedDetailType[]} 
+            // dealerIdField="dealer_id" 
           />
       </div>
       <div className="grid w-full">

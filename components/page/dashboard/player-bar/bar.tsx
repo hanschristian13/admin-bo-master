@@ -18,14 +18,18 @@ const ProgressBar = ({
   detailPosition?: "left" | "center",
   progressTodayVsYesterday: number
 }) => {
+  // Ensure progress is at least 1% for visibility (if there are players)
+  // This prevents bars from disappearing completely when they have a very small percentage
+  const displayProgress = numberOfPlayer > 0 ? Math.max(progress, 1) : progress;
+  
   return (
     <div
-      className={cn("container-progress-bar-player",
+      className={cn("container-progress-bar-player relative min-w-[100px]",
         style === "orange" && "bg-orange-950",
         style === "green" && "bg-green-950"
       )}
       style={{
-        width: `${progress}%`,
+        width: `${displayProgress}%`,
       }}
     >
       <div className={cn('detail-progress-bar-player absolute z-[1] top-[26px] p-3 space-y-[16px] w-fit',

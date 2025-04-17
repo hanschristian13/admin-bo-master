@@ -26,8 +26,8 @@ const Page: FC<{ data: ApiResponse<unknown> }> = ({ data }) => {
         <div className="flex items-center">
           {/* Pass the current page data to FilterDealerId */}
           <FilterDealerId 
-            pageData={data?.data as ClientType[]} 
-            dealerIdField="dealer_id" 
+            // pageData={data?.data as ClientType[]} 
+            // dealerIdField="dealer_id" 
           />
         </div>
       </div>
