@@ -59,7 +59,7 @@ const FormGenerateInvoice: React.FC<FormGenerateInvoiceProps> = ({
 
   // const today = new Date();
   // const threeMonthsAgo = new Date(today.getFullYear(), today.getMonth() - 6, 1);
-  const { post, error, isLoading } = usePost(postGenerateInvoice)
+  const { post } = usePost(postGenerateInvoice)
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),

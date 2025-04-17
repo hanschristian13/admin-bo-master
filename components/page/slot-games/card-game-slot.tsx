@@ -26,7 +26,7 @@ const CardGameSlot: React.FC<any> = ({ data, number }) => {
   const handleSwitchChange = () => {
     setIsAlertDialogOpen(true)
   }
-  const [state, action] = useActionState(changeGameSatatus, data?.game_detail)
+  const [state] = useActionState(changeGameSatatus, data?.game_detail)
 
   const handleAlertDialogClose = () => {
     setIsAlertDialogOpen(false)

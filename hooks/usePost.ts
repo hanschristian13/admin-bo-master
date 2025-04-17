@@ -18,7 +18,6 @@ export function usePost<TParams, TResult>(postFn: (params: TParams) => Promise<T
       const res = await postFn(params)
       setData(res)
       callbacks?.onSuccess?.(res)
-      console.log('Response:', res)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       const message = err.response?.data?.message || err.message || 'Something went wrong'

@@ -28,8 +28,6 @@ const page = async () => {
     game_detail: listGame?.data?.find(y => y?.game_name === x?.game_name)
   }))
 
-  console.log(listGame)
-
   const todayData = sum?.find(x => timeFormat(x?.date)?.isSame(new Date())) as iDailyUserDashboard
   const yesterdayData = sum?.find(x =>
     timeFormat(x?.date)?.isBefore(new Date())

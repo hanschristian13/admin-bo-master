@@ -14,4 +14,5 @@ export interface Admin {
   username: string
   role: string
   dealer: string
+  dealer_id: string
 }

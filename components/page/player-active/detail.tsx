@@ -18,7 +18,6 @@ const Page = ({ data }: { data: ApiResponse<unknown> }) => {
   const { pagination, onPaginationChange } = useHandlePagination()
   const { getUrlParams } = useGetUpdateParams()
   const date = getUrlParams('id')
-  console.log(data?.total_items)
   return (
     <div className="w-full">
       <div className="mb-9 flex items-center justify-between">

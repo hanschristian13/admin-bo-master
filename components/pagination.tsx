@@ -22,7 +22,7 @@ export default function PaginationCustomize({
 }: PaginationProps) {
   const { getValue, setSearchParams } = useGetUpdateParams()
 
-  const currentPage = parseInt(getValue('page') ?? 1)
+  const currentPage = parseInt(getValue('page')) || 1
 
   const { pages, showLeftEllipsis, showRightEllipsis } = usePagination({
     currentPage,

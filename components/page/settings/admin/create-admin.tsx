@@ -10,82 +10,162 @@ import {
   AlertDialogPortal,
   AlertDialogFooter,
   AlertDialogCancel
-} from "@/components/ui/alert-dialog"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+} from '@/components/ui/alert-dialog'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import AlertDialogHeaderTemplate from '@/components/alert-dialog-header-template'
 import BadgeStatus from '@/components/badge-status'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 import { toast } from 'sonner'
 import { Label } from '@/components/ui/label'
 import { Plus } from 'lucide-react'
+import useRoles from '@/hooks/useRoles'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
+import { useDealerList } from '@/hooks/useDealerList'
+import { usePost } from '@/hooks/usePost'
+import { postCreateNewStaff } from '@/service/setting'
+import { useRouter } from 'next/navigation'
 
 const FormSchema = z
   .object({
     username: z.string().min(2, {
-      message: "Username must be at least 2 characters.",
+      message: 'Username must be at least 2 characters.'
     }),
-    password: z.string({ required_error: 'Please fill in this field.' }),
+    dealer: z.string().min(4, {
+      message: 'need select dealer.'
+    }),
+    password: z
+      .string({ required_error: 'Please fill in this field.' })
+      .min(6, { message: 'Password must be at least 6 characters' }),
     password_confirmation: z.string({ required_error: 'Please fill in this field.' }),
     role: z.string({ required_error: 'Please select role.' })
   })
-  .refine((data) => data.password === data.password_confirmation, {
+  .refine(data => data.password === data.password_confirmation, {
     message: "Your passwords don't match",
-    path: ['confirmPassword'],
+    path: ['password_confirmation']
   })
 
 const CreateAdmin: React.FC = () => {
-  const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
-  const id = useId();
+  const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false)
+  const id = useId()
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       username: '',
       password: '',
       password_confirmation: '',
-      role: ''
+      role: '',
+      dealer: ''
     }
   })
-
+  const { data: dealer } = useDealerList()
+  const { post } = usePost(postCreateNewStaff)
+  const router = useRouter()
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast("You submitted the following values:", {
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-      action: {
-        label: "Undo",
-        onClick: () => console.log("Undo"),
+    post(
+      {
+        dealer_id: data?.dealer,
+        username: data?.username,
+        role: data?.role,
+        password: data?.password,
+        repeatPassword: data?.password_confirmation
       },
-    })
+      {
+        onSuccess: () => {
+          toast('You submitted the following values:', {
+            description: (
+              <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+                <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+              </pre>
+            ),
+            action: {
+              label: 'Undo',
+              onClick: () => console.log('Undo')
+            }
+          })
+          router?.refresh()
+          setIsAlertDialogOpen(false)
+        },
+        onError: x => toast.error(x)
+      }
+    )
   }
+
+  const dealer_id = form.watch('dealer')
+  const { data: roles } = useRoles(dealer_id)
+
   return (
     <React.Fragment>
       <Button
-        className='text-neutral-50'
+        className="text-neutral-50"
         onClick={() => setIsAlertDialogOpen(true)}
-        variant='default'>
+        variant="default">
         <Plus />
         Create User
       </Button>
-      <AlertDialog
-        open={isAlertDialogOpen}
-        onOpenChange={setIsAlertDialogOpen}>
+      <AlertDialog open={isAlertDialogOpen} onOpenChange={setIsAlertDialogOpen}>
         <AlertDialogPortal>
           <Form {...form}>
-            <form className='space-y-6' onSubmit={form.handleSubmit(onSubmit)}>
-              <AlertDialogTitle ></AlertDialogTitle>
-              <AlertDialogContent className='flex gap-0 flex-col p-0 overflow-hidden'>
+            <div>
+              <AlertDialogTitle></AlertDialogTitle>
+              <AlertDialogContent className="flex gap-0 flex-col p-0 overflow-hidden">
                 <AlertDialogHeaderTemplate
                   setDialogOpen={setIsAlertDialogOpen}
-                  title='Create User'
-                  subtitle='This method allows to create new maintenances.'
+                  title="Create User"
+                  subtitle="This method allows to create new maintenances."
                 />
-                <div className='p-4 border-b border-neutral-250 space-y-3'>
+                <div className="p-4 border-b border-neutral-250 space-y-3  overflow-auto">
+                  <FormField
+                    control={form.control}
+                    name="dealer"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Dealer</FormLabel>
+
+                        <Select
+                          value={field?.value}
+                          onValueChange={field?.onChange}
+                          name="dealer"
+                          defaultValue={'id'}
+                          aria-label="dealer">
+                          <SelectTrigger
+                            id="dealer"
+                            className="w-full whitespace-nowrap capitalize">
+                            <SelectValue placeholder="Select dealer" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {dealer.map(item => (
+                              <SelectItem
+                                key={item?.value}
+                                value={item?.value}
+                                className="capitalize">
+                                <div></div>
+                                <span>{item.label}</span>
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                   <FormField
                     control={form.control}
                     name="username"
@@ -93,7 +173,7 @@ const CreateAdmin: React.FC = () => {
                       <FormItem>
                         <FormLabel>Username</FormLabel>
                         <FormControl>
-                          <Input type='text' placeholder="Enter username..." {...field} />
+                          <Input type="text" placeholder="Enter username..." {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -106,7 +186,7 @@ const CreateAdmin: React.FC = () => {
                       <FormItem>
                         <FormLabel>Password</FormLabel>
                         <FormControl>
-                          <Input type='password' placeholder="Enter password..." {...field} />
+                          <Input type="password" placeholder="Enter password..." {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -119,14 +199,14 @@ const CreateAdmin: React.FC = () => {
                       <FormItem>
                         <FormLabel>Repeat Password</FormLabel>
                         <FormControl>
-                          <Input type='password' placeholder="Re-enter password..." {...field} />
+                          <Input type="password" placeholder="Re-enter password..." {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-                <div className='space-y-3 p-4'>
+                <div className="space-y-3 p-4 max-h-[350px] overflow-auto">
                   <FormField
                     control={form.control}
                     name="role"
@@ -136,22 +216,20 @@ const CreateAdmin: React.FC = () => {
                           <RadioGroup
                             onValueChange={field.onChange}
                             defaultValue={field.value}
-                            className="flex flex-col space-y-1"
-                          >
-                            {['master', 'super-agent', 'agent'].map((item) => (
+                            className="flex flex-col space-y-1">
+                            {roles?.map((item, index) => (
                               <Label
-                                key={item}
-                                htmlFor={`${id}-${item}`}
-                                className='p-4 flex items-center justify-between gap-4 border border-neutral-250 rounded-lg cursor-pointer has-data-[state=checked]:border-neutral-400'>
-                                <div
-                                  className='flex items-center gap-x-4'>
-                                  <div className='relative rounded-lg border border-neutral-250 size-16 overflow-hidden'>
+                                key={index}
+                                htmlFor={`${id}-${item?.role}`}
+                                className="p-4 flex items-center justify-between gap-4 border border-neutral-250 rounded-lg cursor-pointer has-data-[state=checked]:border-neutral-400">
+                                <div className="flex items-center gap-x-4">
+                                  <div className="relative rounded-lg border border-neutral-250 size-16 overflow-hidden">
                                     <Image
-                                      alt=''
-                                      src={`/assets/images/bg-roles-${item}.webp`}
+                                      alt=""
+                                      src={`/assets/images/bg-roles-super-agent.webp`}
                                       quality={100}
                                       fill
-                                      sizes='100vw'
+                                      sizes="100vw"
                                       style={{
                                         objectFit: 'cover',
                                         objectPosition: 'bottom right'
@@ -159,12 +237,13 @@ const CreateAdmin: React.FC = () => {
                                       unoptimized
                                     />
                                   </div>
-                                  <BadgeStatus title={item === 'super-agent' ? 'super agent' : item} styleDotStatus={item === 'master' ? 'green' : item === 'super-agent' ? 'orange' : 'blue'} />
+                                  <BadgeStatus title={item?.role} styleDotStatus="orange" />
                                 </div>
                                 <RadioGroupItem
-                                  value={item}
-                                  id={`${id}-${item}`}
-                                  aria-describedby={`${id}-${item}-description`} />
+                                  value={item?.role}
+                                  id={`${id}-${item?.role}`}
+                                  aria-describedby={`${id}-${item}-description`}
+                                />
                               </Label>
                             ))}
                           </RadioGroup>
@@ -173,14 +252,16 @@ const CreateAdmin: React.FC = () => {
                     )}
                   />
                 </div>
-                <AlertDialogFooter className='w-full px-5 py-4 border-t border-neutral-200'>
-                  <AlertDialogCancel className='w-full' onClick={() => setIsAlertDialogOpen(false)}>Cancel</AlertDialogCancel>
-                  <Button type="submit" className="w-full">
+                <AlertDialogFooter className="w-full px-5 py-4 border-t border-neutral-200">
+                  <AlertDialogCancel className="w-full" onClick={() => setIsAlertDialogOpen(false)}>
+                    Cancel
+                  </AlertDialogCancel>
+                  <Button className="w-full" onClick={form?.handleSubmit(onSubmit)}>
                     Create
                   </Button>
                 </AlertDialogFooter>
               </AlertDialogContent>
-            </form>
+            </div>
           </Form>
         </AlertDialogPortal>
       </AlertDialog>

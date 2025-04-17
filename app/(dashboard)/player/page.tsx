@@ -25,7 +25,6 @@ const page = async ({ searchParams }: PageProps): Promise<JSX.Element> => {
       })
     : null
 
-  console.log(list)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return <PageWebsiteManagementPlayer list={list as any} />
 }
