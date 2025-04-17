@@ -59,7 +59,6 @@ class Request {
       if (!response.ok) {
         const errorResponse = await response.json()
         const errorMessage = this.getErrorMessage(errorResponse)
-        console.log(errorMessage + ' ll')
         throw new Error(`Request failed with status ${response.status}: ${errorMessage.join(', ')}`)
       }
 

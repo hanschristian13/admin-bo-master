@@ -55,9 +55,9 @@ const Page = ({
               <h5 className="capitalize">{item.title}</h5>
               <div className="space-y-0.5">
                 <span className="text-sm font-semibold text-neutral-400 capitalize">
-                  {item.title !== 'active player' ? 
-                    `Rp ${formatNumberWithCommas(item?.amount ?? 0)}` : 
-                    `${item?.amount ?? 0} player`}
+                  {item.title !== 'active player'
+                    ? `Rp ${formatNumberWithCommas(item?.amount ?? 0)}`
+                    : `${item?.amount ?? 0} player`}
                 </span>
               </div>
             </Card>
