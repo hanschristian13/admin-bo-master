@@ -105,11 +105,12 @@ export function debounce<T extends (...args: any[]) => void>(
 }
 
 export function calculatePercentageChange(dataToday: number, dataYesterday: number): number {
+  // Handle zero yesterday value
   if (dataYesterday === 0) {
-    return dataToday === 0 ? 0 : Infinity
+    return dataToday === 0 ? 0 : 100 // Return 100% increase instead of Infinity
   }
 
   const change: number = dataToday - dataYesterday
-  const percentageChange: number = (change / dataYesterday) * 100
+  const percentageChange: number = (change / Math.abs(dataYesterday)) * 100
   return percentageChange
 }

@@ -32,21 +32,29 @@ const page = async () => {
   const yesterdayData = sum?.find(x =>
     timeFormat(x?.date)?.isBefore(new Date())
   ) as iDailyUserDashboard
+
+  console.log("dashboard todayData.turnover "+todayData.turnover)
+  console.log("dashboard yesterdayData.turnover "+yesterdayData.turnover)
+  console.log("dashboard todayData.win_player "+todayData.win_player)
+  console.log("dashboard yesterdayData.win_player "+yesterdayData.win_player)
+  console.log("dashboard todayData.profit "+todayData.profit)
+  console.log("dashboard yesterdayData.profit "+yesterdayData.profit)
+
   const dataProfit = [
     {
       title: 'turnover slot',
       amount: todayData?.turnover ?? 0,
-      percen: calculatePercentageChange(todayData?.turnover, yesterdayData?.turnover)
+      percen: calculatePercentageChange(todayData?.turnover ?? 0, yesterdayData?.turnover ?? 0)
+    },
+    {
+      title: 'win player slot',
+      amount: todayData?.win_player ?? 0,
+      percen: calculatePercentageChange(todayData?.win_player ?? 0, yesterdayData?.win_player ?? 0)
     },
     {
       title: 'profit slot',
       amount: todayData?.profit ?? 0,
-      percen: calculatePercentageChange(todayData?.profit, yesterdayData?.profit)
-    },
-    {
-      title: 'win slot',
-      amount: todayData?.win_player,
-      percen: calculatePercentageChange(todayData?.win_player, yesterdayData?.win_player)
+      percen: calculatePercentageChange(todayData?.profit ?? 0, yesterdayData?.profit ?? 0)
     }
   ]
 

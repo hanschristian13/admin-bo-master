@@ -20,11 +20,11 @@ export interface ProfitType {
 // profit => profit
 
 export const ColumnsProfit: ColumnDef<ProfitType>[] = [
-  {
-    accessorKey: 'no',
-    header: () => <div className="text-center">No</div>,
-    cell: ({ row }) => <div className="text-center">{row.index + 1}</div>
-  },
+  // {
+  //   accessorKey: 'no',
+  //   header: () => <div className="text-center">No</div>,
+  //   cell: ({ row }) => <div className="text-center">{row.index + 1}</div>
+  // },
   {
     accessorKey: 'date',
     header: ({ column }) => {
@@ -42,9 +42,9 @@ export const ColumnsProfit: ColumnDef<ProfitType>[] = [
         {format(row.getValue('date'), 'LLL dd, y')}{' '}
       </div>
     ),
-    footer: () => {
-      return <div className="text-left text-neutral-300">Total</div>
-    }
+    // footer: () => {
+    //   return <div className="text-left text-neutral-300">Total</div>
+    // }
   },
   {
     accessorKey: 'agent_profit',
@@ -71,20 +71,20 @@ export const ColumnsProfit: ColumnDef<ProfitType>[] = [
         </div>
       )
     },
-    footer: ({ table }) => {
-      const total = table.getRowModel().rows.reduce((sum, row) => {
-        const price = Number(row.getValue('agent_profit'))
-        return isNaN(price) ? sum : sum + price
-      }, 0)
-      return (
-        <div className="block w-full text-right font-medium">
-          <span className="text-neutral-300">Rp</span>
-          <span className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
-          </span>
-        </div>
-      )
-    }
+    // footer: ({ table }) => {
+    //   const total = table.getRowModel().rows.reduce((sum, row) => {
+    //     const price = Number(row.getValue('agent_profit'))
+    //     return isNaN(price) ? sum : sum + price
+    //   }, 0)
+    //   return (
+    //     <div className="block w-full text-right font-medium">
+    //       <span className="text-neutral-300">Rp</span>
+    //       <span className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
+    //         {formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+    //       </span>
+    //     </div>
+    //   )
+    // }
   },
   {
     accessorKey: 'company_profit',
@@ -111,20 +111,20 @@ export const ColumnsProfit: ColumnDef<ProfitType>[] = [
         </div>
       )
     },
-    footer: ({ table }) => {
-      const total = table.getRowModel().rows.reduce((sum, row) => {
-        const price = Number(row.getValue('company_profit'))
-        return isNaN(price) ? sum : sum + price
-      }, 0)
-      return (
-        <div className="block w-full text-right font-medium">
-          <span className="text-neutral-300">Rp</span>
-          <span className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
-          </span>
-        </div>
-      )
-    }
+    // footer: ({ table }) => {
+    //   const total = table.getRowModel().rows.reduce((sum, row) => {
+    //     const price = Number(row.getValue('company_profit'))
+    //     return isNaN(price) ? sum : sum + price
+    //   }, 0)
+    //   return (
+    //     <div className="block w-full text-right font-medium">
+    //       <span className="text-neutral-300">Rp</span>
+    //       <span className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
+    //         {formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+    //       </span>
+    //     </div>
+    //   )
+    // }
   },
   {
     accessorKey: 'master_agent_profit',
@@ -152,22 +152,22 @@ export const ColumnsProfit: ColumnDef<ProfitType>[] = [
         </div>
       )
     },
-    footer: ({ table }) => {
-      const total = table.getRowModel().rows.reduce((sum, row) => {
-        const dataMap = row.getValue('master_agent_profit') as number
-        const dataMcp = row?.original?.master_company_profit
+    // footer: ({ table }) => {
+    //   const total = table.getRowModel().rows.reduce((sum, row) => {
+    //     const dataMap = row.getValue('master_agent_profit') as number
+    //     const dataMcp = row?.original?.master_company_profit
 
-        return sum + (dataMap + dataMcp)
-      }, 0)
-      return (
-        <div className="block w-full text-right font-medium">
-          <span className="text-neutral-300">Rp</span>
-          <span className="text-neutral-400">
-            {formatNumberWithCommas(total > 0 ? total : total * -1)}
-          </span>
-        </div>
-      )
-    }
+    //     return sum + (dataMap + dataMcp)
+    //   }, 0)
+    //   return (
+    //     <div className="block w-full text-right font-medium">
+    //       <span className="text-neutral-300">Rp</span>
+    //       <span className="text-neutral-400">
+    //         {formatNumberWithCommas(total > 0 ? total : total * -1)}
+    //       </span>
+    //     </div>
+    //   )
+    // }
   },
   {
     accessorKey: 'profit',
@@ -194,19 +194,19 @@ export const ColumnsProfit: ColumnDef<ProfitType>[] = [
         </div>
       )
     },
-    footer: ({ table }) => {
-      const total = table.getRowModel().rows.reduce((sum, row) => {
-        const price = Number(row.getValue('profit'))
-        return isNaN(price) ? sum : sum + price
-      }, 0)
-      return (
-        <div className="block w-full text-right font-medium">
-          <span className="text-neutral-300">Rp</span>
-          <span className="text-neutral-400">
-            {formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
-          </span>
-        </div>
-      )
-    }
+    // footer: ({ table }) => {
+    //   const total = table.getRowModel().rows.reduce((sum, row) => {
+    //     const price = Number(row.getValue('profit'))
+    //     return isNaN(price) ? sum : sum + price
+    //   }, 0)
+    //   return (
+    //     <div className="block w-full text-right font-medium">
+    //       <span className="text-neutral-300">Rp</span>
+    //       <span className="text-neutral-400">
+    //         {formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+    //       </span>
+    //     </div>
+    //   )
+    // }
   }
 ]

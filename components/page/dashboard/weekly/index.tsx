@@ -13,35 +13,45 @@ const DashboardWeekly = async () => {
     end_date: timeFormat().format()
   })) as { data: iDailyUserDashboard[] }
 
-  function getPercentageChange(prev: number, curr: number): number {
+  function getPercentageChange(curr: number, prev: number): number {
+    // Switch the parameters - we want to calculate (current - previous) / previous
     if (prev === 0) return 0
     const change = ((curr - prev) / Math.abs(prev)) * 100
     return change
   }
 
-  const finalData = data?.map((current, index, arr) => {
-    if (index === 0) return { ...current, percentage_difference: null } // Tidak menghitung elemen pertama
+  // Sort the data by date in ascending order (oldest first)
+  const sortedData = [...data].sort((a, b) => 
+    new Date(a.date).getTime() - new Date(b.date).getTime()
+  )
+
+  // Calculate percentage differences based on chronological order
+  const finalData = sortedData.map((current, index, arr) => {
+    if (index === 0) return { ...current, percentage_difference: null } // First element has no previous
 
     const previous = arr[index - 1]
-
+    
     return {
       ...current,
       percentage_difference: {
         new_register_player: getPercentageChange(
-          previous.new_register_player,
-          current.new_register_player
+          current.new_register_player,
+          previous.new_register_player
         ),
-        active_player: getPercentageChange(previous.active_player, current.active_player),
-        turnover: getPercentageChange(previous.turnover, current.turnover),
-        win_player: getPercentageChange(previous.win_player, current.win_player),
-        profit: getPercentageChange(previous.profit, current.profit)
+        active_player: getPercentageChange(current.active_player, previous.active_player),
+        turnover: getPercentageChange(current.turnover, previous.turnover),
+        win_player: getPercentageChange(current.win_player, previous.win_player),
+        profit: getPercentageChange(current.profit, previous.profit)
       }
     }
   })
-  finalData?.pop()
+
+  // Reverse the array to display most recent first, but keep the correct percentage calculations
+  const displayData = [...finalData].reverse()
+  
   return (
     <div className="space-y-5">
-      {finalData?.map((item, index) => (
+      {displayData.map((item, index) => (
         <div key={item.date + index} className="flex items-center">
           <Card className="relative flex items-center px-[10px] h-[28px] space-x-[6px] text-neutral-400 whitespace-nowrap rounded-md">
             <CalendarDays className="size-4" />
@@ -52,14 +62,14 @@ const DashboardWeekly = async () => {
             <div className="flex flex-col px-5 py-4">
               <h5 className="text-sm font-medium text-neutral-300 capitalize">Turnover Slot</h5>
               <div className="flex space-x-2">
-                <span>Rp{formatNumber(item?.turnover)}</span>
+                <span>Rp {formatNumber(item?.turnover)}</span>
                 <ProgressStatus progress={item?.percentage_difference?.turnover ?? 0} />
               </div>
             </div>
             <div className="flex flex-col px-5 py-4">
               <h5 className="text-sm font-medium text-neutral-300 capitalize">Profit Slot</h5>
               <div className="flex space-x-2">
-                <span>Rp{formatNumber(item?.profit)}</span>
+                <span>Rp {formatNumber(item?.profit)}</span>
                 <ProgressStatus progress={item?.percentage_difference?.profit ?? 0} />
               </div>
             </div>

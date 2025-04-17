@@ -28,6 +28,11 @@ export interface SlotDetailType {
 
 export const ColumnsSlot: ColumnDef<SlotType>[] = [
   {
+    accessorKey: 'no',
+    header: () => <div className="text-keft">No</div>,
+    cell: ({ row }) => <div className="text-left">{row.index + 1}</div>
+  },
+  {
     accessorKey: 'date',
     header: ({ column }) => {
       const sortType = column.getIsSorted()
@@ -67,19 +72,19 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
         {formatNumberWithCommas(row.getValue('total_player'), 0)} Player
       </div>
     ),
-    footer: ({ table }) => {
-      const total = table.getRowModel().rows.reduce((sum, row) => {
-        const price = Number(row.getValue('total_player'))
-        return isNaN(price) ? sum : sum + price
-      }, 0)
-      return (
-        <div className="block w-full text-right font-medium">
-          <span className="text-neutral-400">
-            {formatNumberWithCommas(total ? total : 0, 0)} Player
-          </span>
-        </div>
-      )
-    }
+    // footer: ({ table }) => {
+    //   const total = table.getRowModel().rows.reduce((sum, row) => {
+    //     const price = Number(row.getValue('total_player'))
+    //     return isNaN(price) ? sum : sum + price
+    //   }, 0)
+    //   return (
+    //     <div className="block w-full text-right font-medium">
+    //       <span className="text-neutral-400">
+    //         {formatNumberWithCommas(total ? total : 0, 0)} Player
+    //       </span>
+    //     </div>
+    //   )
+    // }
   },
   {
     accessorKey: 'total_client',
@@ -90,7 +95,7 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0 w-full justify-end">
-          Total Client
+          Total Agent
           <ButtonSort sortType={sortType} />
         </Button>
       )
@@ -98,20 +103,19 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
     cell: ({ row }) => (
       <div className="text-right">{formatNumberWithCommas(row.getValue('total_client'), 0)}</div>
     ),
-    footer: ({ table }) => {
-      const total = table.getRowModel().rows.reduce((sum, row) => {
-        const price = Number(row.getValue('total_client'))
-        return isNaN(price) ? sum : sum + price
-      }, 0)
-      return (
-        <div className="block w-full text-right font-medium">
-          <span className="text-neutral-300">Rp</span>
-          <span className="text-neutral-400">
-            {formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
-          </span>
-        </div>
-      )
-    }
+    // footer: ({ table }) => {
+    //   const total = table.getRowModel().rows.reduce((sum, row) => {
+    //     const price = Number(row.getValue('total_client'))
+    //     return isNaN(price) ? sum : sum + price
+    //   }, 0)
+    //   return (
+    //     <div className="block w-full text-right font-medium">
+    //       <span className="text-neutral-400">
+    //         {formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+    //       </span>
+    //     </div>
+    //   )
+    // }
   },
   {
     accessorKey: 'turnover',
@@ -249,7 +253,7 @@ export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0 w-full">
-          Super Agent
+          Agent
           <ButtonSort sortType={sortType} />
         </Button>
       )
@@ -295,7 +299,7 @@ export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0 w-full justify-center">
-          Game
+          Game Type
           <ButtonSort sortType={sortType} />
         </Button>
       )
@@ -304,6 +308,28 @@ export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
       return (
         <div className="mx-auto capitalize flex gap-x-1.5 items-center h-7">
           {row.getValue('game_type')}
+        </div>
+      )
+    }
+  },
+  {
+    accessorKey: 'game_name',
+    header: ({ column }) => {
+      const sortType = column.getIsSorted()
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(sortType === 'asc')}
+          className="has-[>svg]:px-0 w-full justify-center">
+          Game Name
+          <ButtonSort sortType={sortType} />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="mx-auto capitalize flex gap-x-1.5 items-center h-7">
+          {row.getValue('game_name')}
         </div>
       )
     }

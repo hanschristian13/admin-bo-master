@@ -258,7 +258,7 @@ export async function updateAgent(prevState: PrevStateType, formData: FormData) 
 
     const url = `dealers/superadmin/agents/${id}`
     const res = (await Request.put(url, validatedFields.data)) as ResDetailSuperAgentType
-    console.log('rawData :', rawData)
+
     if (res?.data) {
       const { revalidateTag } = await import('next/cache')
       revalidateTag(tagListSuperAgent)

@@ -4,8 +4,8 @@ import { formatNumberWithCommas } from '@/lib/format-number'
 import { cn } from '@/lib/utils'
 import ButtonSort from '@/components/data-table/button-sort'
 import { format } from 'date-fns'
-
 import { ButtonPageToDetailWithParent } from '../slot'
+import InitialAvatar from '@/components/initial-avatar'
 
 export interface ClientSharedType {
   parent_id: string
@@ -26,6 +26,11 @@ export interface ClientSharedDetailType {
 }
 
 export const ColumnsClientShared: ColumnDef<ClientSharedType>[] = [
+  {
+    accessorKey: 'no',
+    header: () => <div className="text-left">No</div>,
+    cell: ({ row }) => <div className="text-left">{row.index + 1}</div>
+  },
   {
     accessorKey: 'date',
     header: ({ column }) => {
@@ -152,7 +157,7 @@ export const ColumnsClientShared: ColumnDef<ClientSharedType>[] = [
     },
     footer: ({ table }) => {
       const total = table.getRowModel().rows.reduce((sum, row) => {
-        const price = Number(row.getValue('master_shared'))
+        const price = Number(row.getValue('super_agent_shared'))
         return isNaN(price) ? sum : sum + price
       }, 0)
       return (
@@ -190,7 +195,7 @@ export const ColumnsClientShared: ColumnDef<ClientSharedType>[] = [
     },
     footer: ({ table }) => {
       const total = table.getRowModel().rows.reduce((sum, row) => {
-        const price = Number(row.getValue('master_shared'))
+        const price = Number(row.getValue('agent_shared'))
         return isNaN(price) ? sum : sum + price
       }, 0)
       return (
@@ -217,7 +222,7 @@ export const ColumnsClientSharedDetail: ColumnDef<ClientSharedDetailType>[] = [
     cell: ({ row }) => <div className="text-left">{row.index + 1}</div>
   },
   {
-    accessorKey: 'date',
+    accessorKey: 'dealer_id',
     header: ({ column }) => {
       const sortType = column.getIsSorted()
       return (
@@ -225,17 +230,19 @@ export const ColumnsClientSharedDetail: ColumnDef<ClientSharedDetailType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0">
-          Date
+          Agent
           <ButtonSort sortType={sortType} />
         </Button>
       )
     },
-    cell: ({ row }) => (
-      <div className="capitalize whitespace-nowrap text-left">
-        {' '}
-        {format(row.getValue('date'), 'LLL dd, y')}{' '}
-      </div>
-    ),
+    cell: ({ row }) => {
+      return (
+        <div className="mx-auto capitalize flex gap-x-1.5 items-center h-7">
+          <InitialAvatar name={row.getValue('dealer_id')} />
+          {row.getValue('dealer_id')}
+        </div>
+      )
+    },
     footer: () => {
       return <div className="text-left text-neutral-300">Total</div>
     }
@@ -315,7 +322,7 @@ export const ColumnsClientSharedDetail: ColumnDef<ClientSharedDetailType>[] = [
     }
   },
   {
-    accessorKey: 'superagent_shared',
+    accessorKey: 'super_agent_shared',
     header: ({ column }) => {
       const sortType = column.getIsSorted()
       return (
@@ -323,7 +330,7 @@ export const ColumnsClientSharedDetail: ColumnDef<ClientSharedDetailType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0 flex ml-auto">
-          Superagent Shared
+          Super Agent Shared
           <ButtonSort sortType={sortType} />
         </Button>
       )
@@ -332,13 +339,13 @@ export const ColumnsClientSharedDetail: ColumnDef<ClientSharedDetailType>[] = [
       return (
         <div className="block text-right font-medium">
           <span className="text-neutral-300">Rp</span>
-          {formatNumberWithCommas(row.getValue('superagent_shared'), 0)}
+          {formatNumberWithCommas(row.getValue('super_agent_shared'), 0)}
         </div>
       )
     },
     footer: ({ table }) => {
       const total = table.getRowModel().rows.reduce((sum, row) => {
-        const price = Number(row.getValue('superagent_shared'))
+        const price = Number(row.getValue('super_agent_shared'))
         return isNaN(price) ? sum : sum + price
       }, 0)
       return (
@@ -352,7 +359,7 @@ export const ColumnsClientSharedDetail: ColumnDef<ClientSharedDetailType>[] = [
     }
   },
   {
-    accessorKey: 'client_shared',
+    accessorKey: 'agent_shared',
     header: ({ column }) => {
       const sortType = column.getIsSorted()
       return (
@@ -360,13 +367,13 @@ export const ColumnsClientSharedDetail: ColumnDef<ClientSharedDetailType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0 flex ml-auto">
-          Client Shared
+          Agent Shared
           <ButtonSort sortType={sortType} />
         </Button>
       )
     },
     cell: ({ row }) => {
-      const data = row.getValue('client_shared') as number
+      const data = row.getValue('agent_shared') as number
       return (
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
@@ -378,7 +385,7 @@ export const ColumnsClientSharedDetail: ColumnDef<ClientSharedDetailType>[] = [
     },
     footer: ({ table }) => {
       const total = table.getRowModel().rows.reduce((sum, row) => {
-        const price = Number(row.getValue('client_shared'))
+        const price = Number(row.getValue('agent_shared'))
         return isNaN(price) ? sum : sum + price
       }, 0)
       return (
