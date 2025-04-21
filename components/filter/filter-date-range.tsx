@@ -1,12 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import React, { useEffect, useState } from 'react'
 import { DatePickerWithRange } from '../form/date-picker'
 import { timeFormat } from '@/lib/utils'
-import { DateRange } from 'react-day-picker'
 import { useGetUpdateParams } from '@/hooks'
 import { useDebounce } from '@/hooks/useDebounce'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formatRange = (dateRange: string) => {
   if (!dateRange) return undefined
   const [startDate, endDate] = dateRange.split('|').map(date => new Date(date))
@@ -17,30 +16,22 @@ const formatRange = (dateRange: string) => {
 }
 
 const FilterDateRange = () => {
-  // Initialize with today's date
-  const today = new Date()
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: today,
-    to: today
-  })
-
   const { setSearchParams, getValue } = useGetUpdateParams()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const value = getValue('date')
+  const [date, setDate] = useState<any>({})
+
   const debouncedDate = useDebounce(date, 800)
 
-  // useEffect(() => {
-  //   // Only update from URL if there's a value
-  //   if (value) {
-  //     setDate(formatRange(value))
-  //   } else if (!value && date?.from) {
-  //     // If no URL value but we have a default date, update the URL
-  //     setSearchParams({
-  //       date: `${timeFormat(date.from).format()}|${timeFormat(date.to).format()}`,
-  //       page: 1
-  //     })
-  //   }
-  // }, [value])
+  useEffect(() => {
+    if (value) {
+      setDate(formatRange(value))
+    } else {
+      setDate({
+        from: new Date(),
+        to: new Date()
+      })
+    }
+  }, [value])
 
   useEffect(() => {
     if (debouncedDate?.from) {
@@ -51,8 +42,7 @@ const FilterDateRange = () => {
         page: 1
       })
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedDate])
+  }, [debouncedDate, setSearchParams])
 
   return <DatePickerWithRange onChange={setDate} value={date} />
 }
