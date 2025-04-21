@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { DatePickerWithRange } from '../form/date-picker'
-import { timeFormat } from '@/lib/utils'
+import { debounce, timeFormat } from '@/lib/utils'
 import { useGetUpdateParams } from '@/hooks'
-import { useDebounce } from '@/hooks/useDebounce'
 
 const formatRange = (dateRange: string) => {
   if (!dateRange) return undefined
@@ -20,8 +19,6 @@ const FilterDateRange = () => {
   const value = getValue('date')
   const [date, setDate] = useState<any>({})
 
-  const debouncedDate = useDebounce(date, 800)
-
   useEffect(() => {
     if (value) {
       setDate(formatRange(value))
@@ -33,18 +30,28 @@ const FilterDateRange = () => {
     }
   }, [value])
 
-  useEffect(() => {
-    if (debouncedDate?.from) {
-      setSearchParams({
-        date: `${timeFormat(debouncedDate?.from).format()}|${timeFormat(
-          debouncedDate?.to
-        )?.format()}`,
-        page: 1
-      })
-    }
-  }, [debouncedDate, setSearchParams])
+  const debouncedDateRange = useMemo(
+    () =>
+      debounce((x: any) => {
+        if (x?.from) {
+          setSearchParams({
+            date: `${timeFormat(x?.from).format()}|${timeFormat(x?.to)?.format()}`,
+            page: 1
+          })
+        }
+      }, 2000),
+    []
+  )
 
-  return <DatePickerWithRange onChange={setDate} value={date} />
+  const handleDateChange = useCallback(
+    (date: any) => {
+      debouncedDateRange(date)
+      setDate(date)
+    },
+    [debouncedDateRange]
+  )
+
+  return <DatePickerWithRange onChange={handleDateChange} value={date} />
 }
 
 export default FilterDateRange
