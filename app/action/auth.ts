@@ -2,9 +2,10 @@
 import { redirect } from 'next/navigation'
 import Request from '@/service'
 import { AuthState, LoginFormSchema } from '@/lib/definitions'
-import { createSessionToken, getCookie, getSessionToken, setCookie } from './libs'
+import { createSessionToken, getCookie, getSessionToken, getWebRole, setCookie } from './libs'
 
 export async function login(_: AuthState, formData: FormData) {
+  const webRole = await getWebRole()
   const validatedFields = LoginFormSchema.safeParse({
     username: formData.get('username'),
     password: formData.get('password')
@@ -27,7 +28,7 @@ export async function login(_: AuthState, formData: FormData) {
       await setCookie('parentId', roles.data._id!)
     }
 
-    return redirect('/')
+    return redirect(webRole === 'label' ? '/' : '/player-active')
   }
   if (res?.errors) {
     return { message: res.errors._error }

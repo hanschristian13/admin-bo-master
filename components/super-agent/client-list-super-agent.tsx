@@ -12,7 +12,11 @@ import { ClientListSuperAgentProps, SuperAgentType, SuperAgentTypeV2 } from '@/t
 import NoData from '@/components/no-data'
 import PaginationCustomize from '@/components/pagination'
 
-const ClientListSuperAgent: React.FC<ClientListSuperAgentProps> = ({ data, total_page }) => {
+const ClientListSuperAgent: React.FC<ClientListSuperAgentProps> = ({
+  data,
+  total_page,
+  webRole
+}) => {
   const id = useId()
   const router = useRouter()
 
@@ -35,21 +39,24 @@ const ClientListSuperAgent: React.FC<ClientListSuperAgentProps> = ({ data, total
     <div className="space-y-6">
       <div className="flex justify-between items-center gap-x-2.5">
         <SearchInput param="q" placeholder="Search Super Agent" />
-        <Button
-          variant="default"
-          onClick={() => {
-            sethandleData(undefined)
-            setIsAlertDialogOpen(true)
-          }}>
-          <Plus />
-          Create Super Agent
-        </Button>
+        {webRole === 'label' && (
+          <Button
+            variant="default"
+            onClick={() => {
+              sethandleData(undefined)
+              setIsAlertDialogOpen(true)
+            }}>
+            <Plus />
+            Create Super Agent
+          </Button>
+        )}
       </div>
       <div className="space-y-5">
         {data && data?.length > 0 ? (
           <div className="grid auto-rows-min gap-4 md:grid-cols-2 xl:grid-cols-3">
             {data?.map(item => (
               <CardSuperAgent
+                withCreateButton={webRole === 'label'}
                 key={id + item._id}
                 name={item._id}
                 code={item.short_code}
