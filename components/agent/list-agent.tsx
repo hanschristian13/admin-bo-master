@@ -28,12 +28,14 @@ import PaginationCustomize from '@/components/pagination'
 const ListAgent = ({
   data,
   superAgentId,
-  transactionAgent
+  transactionAgent,
+  webRole
 }: {
   // data: SuperAgentType[] | undefined,
   data: DataSuperAgentType | null
   superAgentId: string
   transactionAgent: resAgentTransaction | null | undefined
+  webRole?: string
 }) => {
   const router = useRouter()
   const status = 'active'
@@ -77,6 +79,7 @@ const ListAgent = ({
         {data &&
           data?.data?.map(item => (
             <CardAgent
+              withEditButton={webRole === 'label'}
               key={item?._id}
               name={item?._id}
               code={item?.short_code}

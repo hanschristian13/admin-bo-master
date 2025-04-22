@@ -1,3 +1,4 @@
+'use server'
 import { cookies } from 'next/headers'
 import 'server-only'
 export async function createSessionToken(token: string) {
@@ -20,5 +21,19 @@ export async function setCookie(key: string, value: string) {
 
 export async function getCookie(key: string) {
   const value = (await cookies()).get(key)?.value
+  return value
+}
+
+export async function setConfigCookie(value: string) {
+  ;(await cookies()).set('config', value)
+}
+
+export async function getWebRole() {
+  const value = (await cookies()).get('WEB_ROLE')?.value
+  return value
+}
+
+export async function getParentID() {
+  const value = (await cookies()).get('parentId')?.value
   return value
 }

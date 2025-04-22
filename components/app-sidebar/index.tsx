@@ -1,6 +1,7 @@
-"use client"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+'use client'
 
-import * as React from "react"
+import * as React from 'react'
 import {
   IconHome,
   IconReport,
@@ -10,117 +11,117 @@ import {
   IconPlayer,
   IconInvoice,
   IconSettings
-} from "@/components/icon"
-import { NavMain } from "@/components/app-sidebar/nav-main"
-import { NavGrouping } from "@/components/app-sidebar/nav-grouping"
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarRail,
-} from "@/components/ui/sidebar"
-import ContainerLogo from "../container-logo"
-import DateTimeDisplay from "../data-time-display"
-import { Separator } from "../ui/separator"
+} from '@/components/icon'
+import { NavMain } from '@/components/app-sidebar/nav-main'
+import { NavGrouping } from '@/components/app-sidebar/nav-grouping'
+import { Sidebar, SidebarContent, SidebarRail } from '@/components/ui/sidebar'
+import ContainerLogo from '../container-logo'
+import DateTimeDisplay from '../data-time-display'
+import { Separator } from '../ui/separator'
 
-const data = {
-  navDashboard: {
-    title: undefined,
-    items: [
-      {
-        name: "dashboard",
-        url: "/",
-        icon: <IconHome />
-      }
-    ]
-  },
-  navMain: [
-    {
-      title: "Report",
-      url: "#",
-      icon: <IconReport />,
-      isActive: true,
+export function AppSidebar({ webRole, ...props }: any) {
+  const data: any = {
+    navDashboard: {
+      title: undefined,
       items: [
         {
-          title: "Player Active",
-          url: "/player-active",
-        },
-        {
-          title: "Clients",
-          url: "/clients",
-        },
-        {
-          title: "Slot",
-          url: "/slot",
-        },
-        {
-          title: "Profit Report",
-          url: "/profit",
-        },
-        {
-          title: "Client Shared",
-          url: "/client-shared",
-        },
-      ],
+          name: 'dashboard',
+          url: '/',
+          icon: <IconHome />
+        }
+      ]
     },
-  ],
-  navSuperAgent: {
-    title: undefined,
-    items: [
+    navMain: [
       {
-        name: "super agent",
-        url: "/super-agent",
-        icon: <IconSuperAgent />
+        title: 'Report',
+        url: '#',
+        icon: <IconReport />,
+        isActive: true,
+        items: [
+          {
+            title: 'Player Active',
+            url: '/player-active'
+          },
+          {
+            title: 'Clients',
+            url: '/clients'
+          },
+          {
+            title: 'Slot',
+            url: '/slot'
+          },
+          {
+            title: 'Profit Report',
+            url: '/profit'
+          },
+          {
+            title: 'Client Shared',
+            url: '/client-shared'
+          }
+        ]
       }
-    ]
-  },
-  gameManagement: {
-    title: "game management",
-    items: [
-      {
-        name: "slot games",
-        url: "/slot-games",
-        icon: <IconSlotGames />,
-      }
-    ]
-  },
-  playersManagement: {
-    title: "players management",
-    items: [
-      {
-        name: "player pending transaction",
-        url: "/player-pending-transaction",
-        icon: <IconPendingTransaction />,
-      }
-    ]
-  },
-  websiteManagement: {
-    title: "website management",
-    items: [
-      {
-        name: "player",
-        url: "/player",
-        icon: <IconPlayer />
-      },
-      {
-        name: "invoice",
-        url: "/invoice",
-        icon: <IconInvoice />
-      }
-    ]
-  },
-  navSetting: {
-    title: undefined,
-    items: [
-      {
-        name: "settings",
-        url: "/settings",
-        icon: <IconSettings />
-      }
-    ]
+    ],
+    navSuperAgent: {
+      title: undefined,
+      items: [
+        {
+          name: 'super agent',
+          url: '/super-agent',
+          icon: <IconSuperAgent />
+        }
+      ]
+    },
+    gameManagement: {
+      title: 'game management',
+      items: [
+        {
+          name: 'slot games',
+          url: '/slot-games',
+          icon: <IconSlotGames />
+        }
+      ]
+    },
+    playersManagement: {
+      title: 'players management',
+      items: [
+        {
+          name: 'player pending transaction',
+          url: '/player-pending-transaction',
+          icon: <IconPendingTransaction />
+        }
+      ]
+    },
+    websiteManagement: {
+      title: 'website management',
+      items: [
+        ...(webRole === 'label'
+          ? [
+              {
+                name: 'player',
+                url: '/player',
+                icon: <IconPlayer />
+              }
+            ]
+          : []),
+        {
+          name: 'invoice',
+          url: '/invoice',
+          icon: <IconInvoice />
+        }
+      ]
+    },
+    navSetting: {
+      title: undefined,
+      items: [
+        {
+          name: 'settings',
+          url: '/settings',
+          icon: <IconSettings />
+        }
+      ]
+    }
   }
-}
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <div
@@ -133,14 +134,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <DateTimeDisplay />
         </div>
         <SidebarContent>
-          <NavGrouping data={data.navDashboard} />
+          {webRole === 'label' && <NavGrouping data={data.navDashboard} />}
+
           <NavMain items={data.navMain} />
           <NavGrouping data={data.navSuperAgent} />
-          <NavGrouping data={data.gameManagement} />
-          <NavGrouping data={data.playersManagement} />
+          {webRole === 'label' && <NavGrouping data={data.gameManagement} />}
+          {webRole === 'label' && <NavGrouping data={data.playersManagement} />}
+
           <NavGrouping data={data.websiteManagement} />
           <Separator orientation="horizontal" />
-          <NavGrouping data={data.navSetting} />
+          {webRole === 'label' && <NavGrouping data={data.navSetting} />}
         </SidebarContent>
       </div>
       <SidebarRail />

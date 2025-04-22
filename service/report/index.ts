@@ -35,3 +35,5 @@ export const getAgentList = (params?: iQueryPayload) =>
   Request.get('/dealers/superadmin/agents', { ...params })
 export const getOverviewTransactionByParent = (params: iQueryPayload) =>
   Request.get('analytics/superadmin/overview-transactions-by-parent', { ...params })
+export const getProfitReportAsAgent = (params: iQueryPayload, parent: string) =>
+  Request.get(`dealers/admin/invoice/report/profit/${parent}`, { ...params })
