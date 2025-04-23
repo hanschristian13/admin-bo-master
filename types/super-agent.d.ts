@@ -138,7 +138,6 @@ interface ClientListSuperAgentProps {
   data: SuperAgentType[] | undefined
   total_page: number
   total_items: number
-  webRole: string
 }
 
 interface AgentType {

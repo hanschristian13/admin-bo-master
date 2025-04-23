@@ -7,7 +7,7 @@ async function Layout({ children }: { children: React.ReactNode }) {
   const web_role = await getCookie('WEB_ROLE')
 
   return (
-    <SidebarProvider>
+    <SidebarProvider webRole={web_role!}>
       <AppSidebar webRole={web_role} />
       <SidebarInset>
         <LayoutHeader />

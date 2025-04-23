@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useId, useState } from 'react'
+import React, { useContext, useId, useState } from 'react'
 import CardSuperAgent from '@/components/super-agent/card-super-agent'
 import { AlertDialog, AlertDialogContent, AlertDialogPortal } from '@/components/ui/alert-dialog'
 import FormSuperAgent from '@/components/form/super-agent'
@@ -11,15 +11,12 @@ import { Plus } from 'lucide-react'
 import { ClientListSuperAgentProps, SuperAgentType, SuperAgentTypeV2 } from '@/types/super-agent'
 import NoData from '@/components/no-data'
 import PaginationCustomize from '@/components/pagination'
+import { SidebarContext } from '../ui/sidebar'
 
-const ClientListSuperAgent: React.FC<ClientListSuperAgentProps> = ({
-  data,
-  total_page,
-  webRole
-}) => {
+const ClientListSuperAgent: React.FC<ClientListSuperAgentProps> = ({ data, total_page }) => {
   const id = useId()
   const router = useRouter()
-
+  const { webRole } = useContext(SidebarContext)
   const [isAlertDialogOpen, setIsAlertDialogOpen] = useState<boolean>()
   const [handleData, sethandleData] = useState<SuperAgentTypeV2 | undefined>()
   const handleEdit = (e: React.MouseEvent<HTMLButtonElement>, data: SuperAgentType) => {
@@ -37,9 +34,10 @@ const ClientListSuperAgent: React.FC<ClientListSuperAgentProps> = ({
   }
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center gap-x-2.5">
-        <SearchInput param="q" placeholder="Search Super Agent" />
-        {webRole === 'label' && (
+      {webRole === 'label' && (
+        <div className="flex justify-between items-center gap-x-2.5">
+          <SearchInput param="q" placeholder="Search Super Agent" />
+
           <Button
             variant="default"
             onClick={() => {
@@ -49,14 +47,16 @@ const ClientListSuperAgent: React.FC<ClientListSuperAgentProps> = ({
             <Plus />
             Create Super Agent
           </Button>
-        )}
-      </div>
+        </div>
+      )}
+
       <div className="space-y-5">
         {data && data?.length > 0 ? (
           <div className="grid auto-rows-min gap-4 md:grid-cols-2 xl:grid-cols-3">
             {data?.map(item => (
               <CardSuperAgent
                 withCreateButton={webRole === 'label'}
+                withTotalAgent={webRole === 'label'}
                 key={id + item._id}
                 name={item._id}
                 code={item.short_code}
@@ -64,7 +64,9 @@ const ClientListSuperAgent: React.FC<ClientListSuperAgentProps> = ({
                 total_agent={item?.subdealer_id?.length}
                 onClickEdit={e => handleEdit(e, item)}
                 onClickCard={() => {
-                  router.push(`/super-agent/?superAgentId=${item._id.toLocaleLowerCase()}`)
+                  if (webRole === 'label') {
+                    router.push(`/super-agent/?superAgentId=${item._id.toLocaleLowerCase()}`)
+                  }
                 }}
               />
             ))}

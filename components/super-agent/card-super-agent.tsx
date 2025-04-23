@@ -17,6 +17,7 @@ interface CardSuperAgent {
   onClickEdit: (event: React.MouseEvent<HTMLButtonElement>) => void
   onClickCard: (event: React.MouseEvent<HTMLDivElement>) => void
   withCreateButton?: boolean
+  withTotalAgent?: boolean
 }
 
 const CardSuperAgent: React.FC<CardSuperAgent> = ({
@@ -26,7 +27,8 @@ const CardSuperAgent: React.FC<CardSuperAgent> = ({
   total_agent,
   onClickEdit,
   onClickCard,
-  withCreateButton = true
+  withCreateButton = true,
+  withTotalAgent = true
 }) => {
   return (
     <Card
@@ -61,10 +63,12 @@ const CardSuperAgent: React.FC<CardSuperAgent> = ({
             <span>{status ? 'active' : 'inactive'}</span>
           </Card>
         </div>
-        <div className="flex flex-col space-y-2">
-          <span className="text-sm font-medium">Total Agent</span>
-          <Card className="w-fit px-3 py-1 rounded-md text-xs font-semibold">{total_agent}</Card>
-        </div>
+        {withTotalAgent && (
+          <div className="flex flex-col space-y-2">
+            <span className="text-sm font-medium">Total Agent</span>
+            <Card className="w-fit px-3 py-1 rounded-md text-xs font-semibold">{total_agent}</Card>
+          </div>
+        )}
       </div>
     </Card>
   )
