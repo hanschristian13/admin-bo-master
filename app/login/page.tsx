@@ -6,7 +6,6 @@ import BadgeStatus from '@/components/badge-status'
 
 const PageLogin = async () => {
   const webRole = await getWebRole()
-  console.log(webRole)
   return (
     <div className="p-6 max-h-screen min-h-screen flex justify-center items-center">
       <div className="relative p-6 w-full h-[calc(100vh-48px)] flex justify-center items-center rounded-[48px] overflow-hidden">
