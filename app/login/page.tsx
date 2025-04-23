@@ -1,8 +1,11 @@
 import React from 'react'
 import Image from 'next/image'
 import FormLogin from '@/components/form/login'
+import { getWebRole } from '../action/libs'
+import BadgeStatus from '@/components/badge-status'
 
-const PageLogin = () => {
+const PageLogin = async () => {
+  const webRole = await getWebRole()
   return (
     <div className="p-6 max-h-screen min-h-screen flex justify-center items-center">
       <div className="relative p-6 w-full h-[calc(100vh-48px)] flex justify-center items-center rounded-[48px] overflow-hidden">
@@ -48,6 +51,7 @@ const PageLogin = () => {
                 <div>
                   <div className="text-lg font-semibold capitalize">welcome back</div>
                   <div className="text-[13px]">Enter your username and password to log in</div>
+                  {webRole && <BadgeStatus title={webRole!} styleDotStatus="green" />}
                 </div>
               </div>
               <FormLogin />
