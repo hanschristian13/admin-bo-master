@@ -2,17 +2,8 @@
 'use client'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { DatePickerWithRange } from '../form/date-picker'
-import { debounce, timeFormat } from '@/lib/utils'
+import { debounce, formatCommonDateParams, timeFormat } from '@/lib/utils'
 import { useGetUpdateParams } from '@/hooks'
-
-const formatRange = (dateRange: string) => {
-  if (!dateRange) return undefined
-  const [startDate, endDate] = dateRange.split('|').map(date => new Date(date))
-  return {
-    from: startDate ? timeFormat(startDate)?.toDate() : undefined,
-    to: endDate ? timeFormat(endDate)?.toDate() : undefined
-  }
-}
 
 const FilterDateRange = () => {
   const { setSearchParams, getValue } = useGetUpdateParams()
@@ -21,7 +12,7 @@ const FilterDateRange = () => {
 
   useEffect(() => {
     if (value) {
-      setDate(formatRange(value))
+      setDate(formatCommonDateParams(value))
     } else {
       setDate({
         from: new Date(),

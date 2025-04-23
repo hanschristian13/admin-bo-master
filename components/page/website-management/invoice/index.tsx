@@ -25,17 +25,15 @@ import {
 } from '@/components/ui/alert-dialog'
 import { RefreshCcw } from 'lucide-react'
 import MonthPicker from '@/components/form/month-picker'
-import { filterByAgent } from '@/mock/agent'
+
 import FormAddExpenses from './form-add-expenses'
 import FormGenerateInvoice from './form-generate-invoice'
-import { useHandlePagination } from '@/hooks'
+import { useGetUpdateParams, useHandlePagination } from '@/hooks'
 import { ApiResponse } from '@/service'
+import { formatCommonDateParams, timeFormat } from '@/lib/utils'
 
-interface FilterState {
-  date: Date
-  agent: string
-  paid: string
-}
+import FilterDealerId from '@/components/filter/filter-dealer-id'
+
 const Page = ({ data }: { data: ApiResponse<InvoiceType[]> }) => {
   const [selectedRows, setSelectedRows] = useState<InvoiceType[]>([])
   const [isAlertDialogMarkAsPainOpen, setIsAlertDialogMarkAsPaidOpen] = useState(false)
@@ -61,28 +59,11 @@ const Page = ({ data }: { data: ApiResponse<InvoiceType[]> }) => {
 
   const { pagination, onPaginationChange } = useHandlePagination()
 
-  const [filter, setFilter] = useState<FilterState>({
-    date: new Date(),
-    agent: '',
-    paid: ''
-  })
-  const handleFilterChange = (properties: string, newValue: string | Date) => {
-    if (properties === 'date') {
-      if (newValue instanceof Date) {
-        setFilter({
-          ...filter,
-          date: newValue
-        })
-      } else {
-        console.error('Expected a Date object for property "date"')
-      }
-    } else {
-      setFilter({
-        ...filter,
-        [properties]: newValue
-      })
-    }
-  }
+  const { setSearchParams, getValue } = useGetUpdateParams()
+
+  const date = getValue('date')
+
+  const { from } = formatCommonDateParams(date) || { from: new Date() }
 
   return (
     <div className="flex flex-col space-y-6 w-full relative">
@@ -90,12 +71,22 @@ const Page = ({ data }: { data: ApiResponse<InvoiceType[]> }) => {
         <div className="flex items-center space-x-2.5">
           <MonthPicker
             className="w-min"
-            onMonthSelect={val => handleFilterChange('date', val)}
-            selectedMonth={filter.date}
+            onMonthSelect={val =>
+              setSearchParams({
+                date: `${timeFormat(val).format()}|${timeFormat(val)?.format()}`,
+                page: 1
+              })
+            }
+            selectedMonth={timeFormat(from).toDate() || timeFormat(new Date()).format()}
           />
           <Select
-            value={filter.paid}
-            onValueChange={val => handleFilterChange('paid', val)}
+            value={getValue('status')}
+            onValueChange={val =>
+              setSearchParams({
+                status: val,
+                page: 1
+              })
+            }
             aria-label="Results per Page">
             <SelectTrigger id="filter Paid" className="w-fit whitespace-nowrap capitalize">
               <SelectValue placeholder="Filter Paid" />
@@ -108,21 +99,9 @@ const Page = ({ data }: { data: ApiResponse<InvoiceType[]> }) => {
               ))}
             </SelectContent>
           </Select>
-          <Select
-            value={filter.agent}
-            onValueChange={val => handleFilterChange('agent', val)}
-            aria-label="Results per Page">
-            <SelectTrigger id="filter date" className="w-fit whitespace-nowrap capitalize">
-              <SelectValue placeholder="Filter Date" />
-            </SelectTrigger>
-            <SelectContent>
-              {filterByAgent.map(item => (
-                <SelectItem key={item.value} value={item.value.toString()} className="capitalize">
-                  {item.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <FilterDealerId
+          // showAllOption={false}
+          />
         </div>
 
         <div className="flex items-center space-x-2.5">
