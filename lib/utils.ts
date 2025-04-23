@@ -114,3 +114,12 @@ export function calculatePercentageChange(dataToday: number, dataYesterday: numb
   const percentageChange: number = (change / Math.abs(dataYesterday)) * 100
   return percentageChange
 }
+
+export const formatCommonDateParams = (dateRange: string) => {
+  if (!dateRange) return undefined
+  const [startDate, endDate] = dateRange.split('|').map(date => new Date(date))
+  return {
+    from: startDate ? timeFormat(startDate)?.toDate() : undefined,
+    to: endDate ? timeFormat(endDate)?.toDate() : undefined
+  }
+}
