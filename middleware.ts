@@ -6,6 +6,7 @@ const ERROR_FALLBACK = '/logout'
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? ''
 export async function middleware(req: NextRequest) {
   const token = req.cookies.get('token')?.value
+  const webRole = req.cookies.get('WEB_ROLE')?.value
   const ispathLogin = req.nextUrl.pathname.startsWith('/login')
   if (req.nextUrl.pathname.startsWith(ERROR_FALLBACK)) {
     await destroySessionToken()
@@ -32,7 +33,8 @@ export async function middleware(req: NextRequest) {
 
       return response
     }
-    return NextResponse.redirect(new URL('/', req.url))
+    if (webRole === 'label') return NextResponse.redirect(new URL('/', req.url))
+    return NextResponse.redirect(new URL('/player-active', req.url))
   } else {
     if (!token) {
       return NextResponse.redirect(new URL('/login', req.url))
