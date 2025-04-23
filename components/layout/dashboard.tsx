@@ -6,8 +6,6 @@ import { getCookie } from '@/app/action/libs'
 async function Layout({ children }: { children: React.ReactNode }) {
   const web_role = await getCookie('WEB_ROLE')
 
-  console.log('web_role', web_role)
-
   return (
     <SidebarProvider>
       <AppSidebar webRole={web_role} />

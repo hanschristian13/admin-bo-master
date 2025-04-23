@@ -23,7 +23,7 @@ const frameworks = [
   }
 ]
 
-export function ComboboxUserMenu() {
+export function ComboboxUserMenu({ username = 'User' }: { username: string }) {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState('')
 
@@ -38,9 +38,11 @@ export function ComboboxUserMenu() {
           aria-expanded={open}
           className="w-fit h-6 justify-between hover:no-underline cursor-pointer">
           <Avatar>
-            <AvatarFallback className="bg-orange-100 text-orange-950 text-sm">CY</AvatarFallback>
+            <AvatarFallback className="bg-orange-100 text-orange-950 text-sm">
+              {username.slice(0, 1).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
-          {'USER'}
+          {username}
           <IconArrowDown className="text-base" />
         </Button>
       </PopoverTrigger>
