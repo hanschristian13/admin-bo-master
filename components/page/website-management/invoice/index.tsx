@@ -37,8 +37,47 @@ import { putInvoice } from '@/service/invoice'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 
+function getActionStates(data: { status: string }[]) {
+  const statuses = [...new Set(data.map(item => item.status.toLowerCase()))]
+
+  const isPending = statuses.includes('pending')
+  const isUnpaid = statuses.includes('unpaid')
+  const isPaid = statuses.includes('paid')
+
+  const multipleStatusesSelected = statuses.length > 1
+
+  const actions = {
+    markAsPaid: false,
+    publish: false,
+    addExpenses: false,
+    generate: true
+  }
+
+  if (multipleStatusesSelected) {
+    actions.markAsPaid = false
+    actions.publish = false
+    actions.addExpenses = false
+    actions.generate = true
+  } else if (isPending) {
+    actions.markAsPaid = false
+    actions.publish = true
+    actions.addExpenses = true
+    actions.generate = true
+  } else if (isUnpaid) {
+    actions.markAsPaid = true
+    actions.publish = false
+    actions.addExpenses = false
+    actions.generate = true
+  } else if (isPaid) {
+    actions.markAsPaid = false
+    actions.publish = false
+    actions.addExpenses = false
+    actions.generate = true
+  }
+
+  return actions
+}
 const Page = ({ data }: { data: ApiResponse<InvoiceType[]> }) => {
-  console.log(data)
   const [selectedRows, setSelectedRows] = useState<InvoiceType[]>([])
 
   const [isAlertDialogAddExpensesOpen, setIsAlertDialogAddExpensesOpen] = useState(false)
@@ -67,7 +106,14 @@ const Page = ({ data }: { data: ApiResponse<InvoiceType[]> }) => {
         onSuccess: () => {
           toast.success(`Invoice has been ${modalAction === 'published' ? 'published' : 'paid'}`)
           setModalAction(false)
-          router.refresh()
+          setSelectedRows(prevRows =>
+            prevRows.map(row =>
+              selectedId.some(selected => selected._id === row._id)
+                ? { ...row, status: modalAction === 'publish' ? 'unpaid' : 'paid' }
+                : row
+            )
+          )
+          router.replace('/invoice')
         },
         onError: e => toast.error(e)
       }
@@ -76,6 +122,7 @@ const Page = ({ data }: { data: ApiResponse<InvoiceType[]> }) => {
     console.log(selectedId, 'selectedId')
   }
 
+  const buttonAction = getActionStates(selectedRows)
   return (
     <div className="flex flex-col space-y-6 w-full relative">
       <div className="flex justify-between">
@@ -118,13 +165,22 @@ const Page = ({ data }: { data: ApiResponse<InvoiceType[]> }) => {
         <div className="flex items-center space-x-2.5">
           {selectedRows.length > 0 && (
             <>
-              <Button variant="outline" onClick={handleAddExpenses}>
+              <Button
+                disabled={!buttonAction.addExpenses}
+                variant="outline"
+                onClick={handleAddExpenses}>
                 Add Expenses
               </Button>
-              <Button variant="default" onClick={() => setModalAction('publish')}>
+              <Button
+                disabled={!buttonAction.publish}
+                variant="default"
+                onClick={() => setModalAction('publish')}>
                 Publish
               </Button>
-              <Button variant="default" onClick={() => setModalAction('mark-as-paid')}>
+              <Button
+                disabled={!buttonAction.markAsPaid}
+                variant="default"
+                onClick={() => setModalAction('mark-as-paid')}>
                 Mark As Paid
               </Button>
             </>
