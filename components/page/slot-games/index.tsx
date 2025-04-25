@@ -25,7 +25,7 @@ const Page = ({ summary, gameSummary }: { summary: Summary[]; gameSummary: any }
       </div>
       <div className="grid auto-rows-min gap-4 md:grid-cols-3">
         {gameSummary.map((item: any, index: number) => (
-          <CardGameSlot number={index + 1} key={item.game_name} data={item} />
+          <CardGameSlot number={index + 1} key={item.game_name + index} data={item} />
         ))}
       </div>
       {/* <PaginationCustomize totalPages={2} paginationItemsToDisplay={12} /> */}
