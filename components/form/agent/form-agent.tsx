@@ -107,9 +107,9 @@ const CreateClient: React.FC<FormAgentProps> = ({ data, superAgentId, agentId })
       <form action={formAction} className="space-y-6">
         <Input type="hidden" name="id" value={agentId} />
         <Input type="hidden" name="type" value="agent" />
+        <Input type="hidden" name="parent_id" value={superAgentId} />
         {modeEdit ? (
           <React.Fragment>
-            <Input type="hidden" name="parent_id" value={superAgentId} />
             <Input type="hidden" name="agent_name" value={values?.agent_name} />
             <Input type="hidden" name="short_code" value={values?.agent_name} />
           </React.Fragment>

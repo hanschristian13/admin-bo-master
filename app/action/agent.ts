@@ -91,52 +91,51 @@ export type State =
 const tagListSuperAgent = 'dealers/superadmin/agents'
 
 export async function createAgent(prevState: PrevStateType, formData: FormData) {
-  try {
-    const rawData = {
-      type: (formData.get('type') as string) || '',
-      parent_id: (formData.get('parent_id') as string) || '',
-      active: Boolean(formData.get('active')),
-      agent_name: (formData.get('agent_name') as string) || '',
-      brand_name: (formData.get('agent_name') as string) || '',
-      short_code: (formData.get('short_code') as string) || '',
-      language: (formData.get('language') as string) || '',
-      currency: formData.get('currency')?.toString().toUpperCase() || '',
-      host: (('https://' + formData.get('host')) as string) || '',
-      company_percentage: Number(formData.get('company_percentage')) || 0,
-      master_agent_percentage: Number(formData.get('master_agent_percentage')) || 0,
-      master_company_percentage: Number(formData.get('master_company_percentage')) || 0,
-      agent_pic: [
-        {
-          pic_name: (formData.get('agent_pic_finance_name') as string) || '',
-          pic_email: (formData.get('agent_pic_finance_email') as string) || '',
-          pic_telegram: (formData.get('agent_pic_finance_telegram') as string) || '',
-          pic_type: 'finance'
+  const rawData = {
+    type: (formData.get('type') as string) || '',
+    parent_id: (formData.get('parent_id') as string) || '',
+    active: Boolean(formData.get('active')),
+    agent_name: (formData.get('agent_name') as string) || '',
+    brand_name: (formData.get('agent_name') as string) || '',
+    short_code: (formData.get('short_code') as string) || '',
+    language: (formData.get('language') as string) || '',
+    currency: formData.get('currency')?.toString().toUpperCase() || '',
+    host: (('https://' + formData.get('host')) as string) || '',
+    company_percentage: Number(formData.get('company_percentage')) || 0,
+    master_agent_percentage: Number(formData.get('master_agent_percentage')) || 0,
+    master_company_percentage: Number(formData.get('master_company_percentage')) || 0,
+    agent_pic: [
+      {
+        pic_name: (formData.get('agent_pic_finance_name') as string) || '',
+        pic_email: (formData.get('agent_pic_finance_email') as string) || '',
+        pic_telegram: (formData.get('agent_pic_finance_telegram') as string) || '',
+        pic_type: 'finance'
+      },
+      {
+        pic_name: (formData.get('agent_pic_technical_name') as string) || '',
+        pic_email: (formData.get('agent_pic_technical_email') as string) || '',
+        pic_telegram: (formData.get('agent_pic_technical_telegram') as string) || '',
+        pic_type: 'technical'
+      }
+    ],
+    client_environments: [
+      {
+        config: {
+          title: 'agent',
+          web_role: 'agent'
         },
-        {
-          pic_name: (formData.get('agent_pic_technical_name') as string) || '',
-          pic_email: (formData.get('agent_pic_technical_email') as string) || '',
-          pic_telegram: (formData.get('agent_pic_technical_telegram') as string) || '',
-          pic_type: 'technical'
-        }
-      ],
-      client_environments: [
-        {
-          config: {
-            title: 'agent',
-            web_role: 'agent'
-          },
-          api_endpoint: (('https://' + formData.get('api_endpoint')) as string) || '',
-          lobby_url: (('https://' + formData.get('lobby_url')) as string) || '',
-          domains: [
-            {
-              domain: formData.get('host')?.toString() || ''
-            }
-          ]
-        }
-      ]
-    }
-
-    const values = { ...rawData }
+        api_endpoint: (('https://' + formData.get('api_endpoint')) as string) || '',
+        lobby_url: (('https://' + formData.get('lobby_url')) as string) || '',
+        domains: [
+          {
+            domain: formData.get('host')?.toString() || ''
+          }
+        ]
+      }
+    ]
+  }
+  const values = { ...rawData }
+  try {
     const validatedFields = schema.safeParse(values)
 
     if (!validatedFields.success) {
@@ -184,7 +183,8 @@ export async function createAgent(prevState: PrevStateType, formData: FormData) 
   } catch (errors) {
     return {
       success: false,
-      message: `Failed to create data super agent, ${errors}`
+      message: `Failed to create data super agent, ${errors}`,
+      values
     }
   }
 }
