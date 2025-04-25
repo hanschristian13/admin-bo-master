@@ -16,13 +16,14 @@ export type AuthState =
 export interface iQueryPayload {
   start_date?: string
   end_date?: string
-  limit?: string
+  limit?: string | number
   page?: string
   parent_id?: string
   dealer_id?: string
   q?: string
   game_type?: string
   group?: string
+  username?: string
 }
 
 export interface iDailyUserDashboard {

@@ -1,16 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import dynamic from 'next/dynamic'
 import SettingAdmin from '@/components/page/settings/admin'
 import { getCookie } from '@/app/action/libs'
 import { getWhitelistIp } from '@/service/setting'
+import { getSearchParams } from '@/constant'
 
 const SetingWhitelistIp = dynamic(() => import('@/components/page/settings/whitelist-ip'))
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const page = async ({ currentSearchParams }: any) => {
   const parent_id = await getCookie('parentId')
-  const ip = await getWhitelistIp(parent_id!)
+  const allIps = (await getWhitelistIp(parent_id!)) as any
+
+  const { q } = getSearchParams(currentSearchParams)
+  const ip = allIps?.data?.filter((item: string) => item.includes(q || ''))
   return (
     <div className="">
       <Tabs defaultValue="admin" className="gap-4">
