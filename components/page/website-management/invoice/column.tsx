@@ -21,6 +21,10 @@ export interface InvoiceType {
   inv_super_agent: number
   categories: any
   total: number
+  total_profit_company: number
+  total_profit_master_agent: number
+  total_profit_master_company: number
+  total_profit_agent: number
 }
 export interface OtherExpensesType {
   note: string
@@ -49,11 +53,11 @@ export const Columnsinvoice: ColumnDef<InvoiceType>[] = [
     enableSorting: false,
     enableHiding: false
   },
-  {
-    accessorKey: 'id',
-    header: () => <div className="text-left">ID</div>,
-    cell: ({ row }) => <div className="text-left max-w-36 truncate">{row.getValue('id')}</div>
-  },
+  // {
+  //   accessorKey: '_id',
+  //   header: () => <div className="text-left">ID</div>,
+  //   cell: ({ row }) => <div className="text-left max-w-36 truncate">{row.getValue('_id')}</div>
+  // },
   {
     accessorKey: 'parent_id',
     header: ({ column }) => {
@@ -149,7 +153,7 @@ export const Columnsinvoice: ColumnDef<InvoiceType>[] = [
         case 'paid':
           handleDotStatus = <BadgeStatus title={handleStatus} styleDotStatus="green" />
           break
-        case 'adjusted':
+        case 'unpaid':
           handleDotStatus = <BadgeStatus title={handleStatus} styleDotStatus="blue" />
           break
         default:
@@ -167,7 +171,7 @@ export const Columnsinvoice: ColumnDef<InvoiceType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0 flex ml-auto">
-          Client
+          Agent
           <ButtonSort sortType={sortType} />
         </Button>
       )
@@ -211,11 +215,42 @@ export const Columnsinvoice: ColumnDef<InvoiceType>[] = [
     }
   },
   {
+    accessorKey: 'master_company_profit',
+    header: ({ column }) => {
+      const sortType = column.getIsSorted()
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(sortType === 'asc')}
+          className="has-[>svg]:px-0 flex ml-auto">
+          Master
+          <ButtonSort sortType={sortType} />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      const data = row.getValue('master_company_profit') as number
+      return (
+        <div className="block w-full text-right font-medium">
+          <span className="text-neutral-300">Rp</span>
+          <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
+            {formatNumberWithCommas(data > 0 ? data : data * -1)}
+          </span>
+        </div>
+      )
+    }
+  },
+  {
     accessorKey: '_id',
     id: 'detailId',
     header: () => <div className="w-24"></div>,
     cell: ({ row }) => {
-      return <ButtonDetail path="/invoice" id={row.getValue('detailId')} />
+      return (
+        <ButtonDetail
+          path={`/invoice`}
+          id={`${row.getValue('detailId')}?date=${row?.original?.end_date}`}
+        />
+      )
     }
   }
 ]
@@ -260,7 +295,7 @@ export const ColumnsSummaryInvoice: ColumnDef<InvoiceType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0">
-          Dealer
+          Agent
           <ButtonSort sortType={sortType} />
         </Button>
       )
@@ -328,21 +363,22 @@ export const ColumnsCategoryDetail: ColumnDef<InvoiceType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0">
-          Super Agent
+          Master Shared
           <ButtonSort sortType={sortType} />
         </Button>
       )
     },
-    cell: ({ row }) => (
-      <div className="capitalize whitespace-nowrap">
-        <div className="flex items-center space-x-3">
-          <InitialAvatar name={row.getValue('parent_id')} />
-          <div className="flex flex-col text-sm font-medium">
-            <span>{row.getValue('parent_id')}</span>
-          </div>
+    cell: ({ row }) => {
+      const data = row?.original?.total_profit_company
+      return (
+        <div className="block w-full text-right font-medium">
+          <span className="text-neutral-300">Rp</span>
+          <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
+            {formatNumberWithCommas(data > 0 ? data : data * -1)}
+          </span>
         </div>
-      </div>
-    )
+      )
+    }
   },
   {
     accessorKey: 'agent_id',
@@ -353,21 +389,23 @@ export const ColumnsCategoryDetail: ColumnDef<InvoiceType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0">
-          Super Agent
+          Super Agent Shared
           <ButtonSort sortType={sortType} />
         </Button>
       )
     },
-    cell: ({ row }) => (
-      <div className="capitalize whitespace-nowrap">
-        <div className="flex items-center space-x-3">
-          <InitialAvatar name={row.getValue('agent_id')} />
-          <div className="flex flex-col text-sm font-medium">
-            <span>{row.getValue('agent_id')}</span>
-          </div>
+    cell: ({ row }) => {
+      const data =
+        row?.original?.total_profit_master_agent + row?.original?.total_profit_master_company
+      return (
+        <div className="block w-full text-right font-medium">
+          <span className="text-neutral-300">Rp</span>
+          <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
+            {formatNumberWithCommas(data > 0 ? data : data * -1)}
+          </span>
         </div>
-      </div>
-    )
+      )
+    }
   },
   {
     accessorKey: 'total',
@@ -378,13 +416,13 @@ export const ColumnsCategoryDetail: ColumnDef<InvoiceType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0 flex ml-auto">
-          Total
+          Agent Shared
           <ButtonSort sortType={sortType} />
         </Button>
       )
     },
     cell: ({ row }) => {
-      const data = row.getValue('total') as number
+      const data = row?.original?.total_profit_agent
       return (
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
@@ -418,7 +456,7 @@ export const ColumnsOtherExpenses: ColumnDef<OtherExpensesType>[] = [
       )
     },
     cell: ({ row }) => {
-      const data = row.getValue('value') as number
+      const data = parseInt(row.getValue('value')) as number
       return (
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>

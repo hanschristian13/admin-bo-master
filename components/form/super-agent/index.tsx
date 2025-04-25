@@ -24,6 +24,7 @@ interface FormSuperAgentProps {
 }
 
 const FormSuperAgent: React.FC<FormSuperAgentProps> = ({ setIsAlertDialogOpen, data }) => {
+  const isTypeUpdate = typeof data === 'object'
   const initialInput = data || {
     agent_name: '',
     email: '',
@@ -76,11 +77,11 @@ const FormSuperAgent: React.FC<FormSuperAgentProps> = ({ setIsAlertDialogOpen, d
           />
           <div className="flex flex-col justify-center">
             <span className="text-base font-semibold text-neutral-400">
-              {data?.short_code !== '' ? 'Update ' : 'Create new '} super agent
+              {isTypeUpdate ? 'Update ' : 'Create new '} super agent
             </span>
             <p className="text-sm font-normal text-neutral-300">
               This method allows to{' '}
-              {data?.short_code !== '' ? 'update data super agent' : 'create new super agent'}
+              {isTypeUpdate ? 'update data super agent' : 'create new super agent'}
             </p>
           </div>
         </div>
@@ -107,6 +108,7 @@ const FormSuperAgent: React.FC<FormSuperAgentProps> = ({ setIsAlertDialogOpen, d
               <Input
                 id="agent_name"
                 name="agent_name"
+                disabled={isTypeUpdate}
                 placeholder="Enter name..."
                 defaultValue={values?.agent_name}
                 className={state.validationErrors?.agent_name ? 'border-red-950' : ''}
@@ -128,6 +130,7 @@ const FormSuperAgent: React.FC<FormSuperAgentProps> = ({ setIsAlertDialogOpen, d
               <Input
                 id="short_code"
                 name="short_code"
+                disabled={isTypeUpdate}
                 placeholder="Enter code..."
                 defaultValue={values?.short_code}
                 className={state.validationErrors?.short_code ? 'border-red-950' : ''}
@@ -168,7 +171,6 @@ const FormSuperAgent: React.FC<FormSuperAgentProps> = ({ setIsAlertDialogOpen, d
               id="phone_number"
               name="phone_number"
               placeholder="Enter phone_number..."
-              defaultValue={values?.phone_number}
               className={state.validationErrors?.phone_number ? 'border-red-950' : ''}
             />
             {state.validationErrors?.phone_number && (

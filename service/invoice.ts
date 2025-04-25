@@ -11,3 +11,8 @@ export const postGenerateInvoice = (params: {
   year: number
   dealers_id?: string[]
 }) => Request.post<any>('dealers/superadmin/invoice', params)
+
+export const putInvoiceAddOtherExpense = ({ invoices_id, other_expenses }: any) =>
+  Request.put<any>('dealers/superadmin/invoice/add-other-expense', { invoices_id, other_expenses })
+export const putInvoice = (payload: { invoices: any; status: any }) =>
+  Request.put<any>('dealers/superadmin/invoice', payload)
