@@ -13,7 +13,7 @@ import FilterDealerId from '@/components/filter/filter-dealer-id'
 const page = async ({ currentSearchParams }: any): Promise<JSX.Element> => {
   const { page, q, dealer_id } = getSearchParams(currentSearchParams)
 
-  const data = await getListSuperAgentUsers({ page, q, dealer_id })
+  const data = await getListSuperAgentUsers({ page, username: q, dealer_id, limit: 12 })
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col md:flex-row items-center justify-between gap-4 w-full">
