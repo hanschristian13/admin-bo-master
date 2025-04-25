@@ -55,11 +55,11 @@ const Page = ({ data, parent_id }: any) => {
       }
     )
   }
-  const finalData = list?.length > 0 ? list : data?.data
+  const finalData = list?.length > 0 ? list : data
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <SearchInput param="" placeholder="Search IP..." />
+        <SearchInput param="q" placeholder="Search IP..." />
         <Button onClick={handleAddExpenses} variant="default">
           <Plus />
           {'Add IP'}
