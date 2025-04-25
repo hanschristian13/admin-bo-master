@@ -3,14 +3,21 @@
 import Request from '@/service'
 import { SuperAgentTypeV2 } from '@/types/super-agent'
 import { z } from 'zod'
-
 const schema = z.object({
-  agent_name: z.string().min(3, 'Agent Name must be at least 2 characters'),
-  short_code: z.string().min(3, 'Short Code must be at least 2 characters'),
+  agent_name: z.string().min(3, { message: 'Agent Name must be at least 3 characters' }),
+  short_code: z.string().min(3, { message: 'Short Code must be at least 3 characters' }),
   type: z.string(),
-  email: z.string().email({ message: 'Email must be a valid email address' }),
-  phone_number: z.string().regex(/^\d+$/, { message: 'Phone number must contain only digits' }),
-  active: z.boolean({ message: 'Active must be a boolean (true or false)' })
+  email: z
+    .string()
+    .email({ message: 'Email must be a valid email address' })
+    .or(z.literal(''))
+    .optional(),
+  phone_number: z
+    .string()
+    .regex(/^\d+$/, { message: 'Phone number must contain only digits' })
+    .or(z.literal(''))
+    .optional(),
+  active: z.boolean()
 })
 
 type SuperAgent = z.infer<typeof schema>
@@ -49,6 +56,7 @@ export async function createSuperAgent(prevState: PrevStateType, formData: FormD
       type: (formData.get('type') as string) || '',
       active: Boolean(formData.get('active'))
     }
+
     const values = { ...rawData }
     const validatedFields = schema.safeParse(values)
 
@@ -102,6 +110,7 @@ export async function updateSuperAgent(prevState: PrevStateType, formData: FormD
       active: Boolean(formData.get('active'))
     }
     const values = { ...rawData }
+
     const validatedFields = schema.safeParse(values)
 
     if (!validatedFields.success) {
