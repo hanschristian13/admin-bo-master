@@ -158,10 +158,11 @@ export async function createAgent(prevState: PrevStateType, formData: FormData) 
       }
     }
 
-    const res = (await Request.post(
-      'dealers/superadmin/agents',
-      validatedFields.data
-    )) as ResDetailSuperAgentType
+    const res = (await Request.post('dealers/superadmin/agents', {
+      ...validatedFields.data,
+      commission_type: 'accumulation',
+      language: [validatedFields?.data?.language]
+    })) as ResDetailSuperAgentType
 
     if (res?.data) {
       const { revalidateTag } = await import('next/cache')
@@ -257,7 +258,11 @@ export async function updateAgent(prevState: PrevStateType, formData: FormData) 
     }
 
     const url = `dealers/superadmin/agents/${id}`
-    const res = (await Request.put(url, validatedFields.data)) as ResDetailSuperAgentType
+    const res = (await Request.put(url, {
+      ...validatedFields.data,
+      commission_type: 'accumulation',
+      language: [validatedFields?.data?.language]
+    })) as ResDetailSuperAgentType
 
     if (res?.data) {
       const { revalidateTag } = await import('next/cache')

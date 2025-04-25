@@ -215,7 +215,7 @@ const CreateClient: React.FC<FormAgentProps> = ({ data, superAgentId, agentId })
                 </Label>
                 <Select
                   name="language"
-                  defaultValue={values?.language.toLowerCase() || 'id'}
+                  defaultValue={values?.language?.[0]?.toLowerCase() || 'id'}
                   aria-label="language">
                   <SelectTrigger id="language" className="w-full whitespace-nowrap capitalize">
                     <SelectValue placeholder="Select Language wkwkwk" />
