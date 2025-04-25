@@ -16,7 +16,6 @@ import { Button } from '@/components/ui/button'
 
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogFooter,
@@ -33,28 +32,21 @@ import { ApiResponse } from '@/service'
 import { formatCommonDateParams, timeFormat } from '@/lib/utils'
 
 import FilterDealerId from '@/components/filter/filter-dealer-id'
+import { usePost } from '@/hooks/usePost'
+import { putInvoice } from '@/service/invoice'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 const Page = ({ data }: { data: ApiResponse<InvoiceType[]> }) => {
+  console.log(data)
   const [selectedRows, setSelectedRows] = useState<InvoiceType[]>([])
-  const [isAlertDialogMarkAsPainOpen, setIsAlertDialogMarkAsPaidOpen] = useState(false)
+
   const [isAlertDialogAddExpensesOpen, setIsAlertDialogAddExpensesOpen] = useState(false)
   const [isAlertDialogGenerateInvoiceOpen, setIsAlertDialogGenerateInvoiceOpen] = useState(false)
-
+  const [modalAction, setModalAction] = useState<any>(null)
+  const router = useRouter()
   const handleAddExpenses = () => {
     setIsAlertDialogAddExpensesOpen(true)
-  }
-
-  const handleMarkAsPaid = () => {
-    setIsAlertDialogMarkAsPaidOpen(true)
-  }
-
-  const handleAlertDialogConfirm = () => {
-    // action here
-    setIsAlertDialogMarkAsPaidOpen(false)
-  }
-
-  const handleAlertDialogClose = () => {
-    setIsAlertDialogMarkAsPaidOpen(false)
   }
 
   const { pagination, onPaginationChange } = useHandlePagination()
@@ -64,6 +56,25 @@ const Page = ({ data }: { data: ApiResponse<InvoiceType[]> }) => {
   const date = getValue('date')
 
   const { from } = formatCommonDateParams(date) || { from: new Date() }
+
+  const { post } = usePost(putInvoice)
+
+  const handlePublishInvoice = () => {
+    const selectedId = selectedRows.map((item: any) => ({ _id: item?._id }))
+    post(
+      { invoices: selectedId, status: modalAction === 'publish' ? 'unpaid' : 'paid' },
+      {
+        onSuccess: () => {
+          toast.success(`Invoice has been ${modalAction === 'published' ? 'published' : 'paid'}`)
+          setModalAction(false)
+          router.refresh()
+        },
+        onError: e => toast.error(e)
+      }
+    )
+
+    console.log(selectedId, 'selectedId')
+  }
 
   return (
     <div className="flex flex-col space-y-6 w-full relative">
@@ -110,10 +121,10 @@ const Page = ({ data }: { data: ApiResponse<InvoiceType[]> }) => {
               <Button variant="outline" onClick={handleAddExpenses}>
                 Add Expenses
               </Button>
-              <Button variant="default" onClick={handleMarkAsPaid}>
+              <Button variant="default" onClick={() => setModalAction('publish')}>
                 Publish
               </Button>
-              <Button variant="default" onClick={handleMarkAsPaid}>
+              <Button variant="default" onClick={() => setModalAction('mark-as-paid')}>
                 Mark As Paid
               </Button>
             </>
@@ -160,9 +171,8 @@ const Page = ({ data }: { data: ApiResponse<InvoiceType[]> }) => {
               </AlertDialogContent>
             </AlertDialogPortal>
           </AlertDialog>
-          <AlertDialog
-            open={isAlertDialogMarkAsPainOpen}
-            onOpenChange={setIsAlertDialogMarkAsPaidOpen}>
+
+          <AlertDialog open={!!modalAction} onOpenChange={setModalAction}>
             <AlertDialogPortal>
               <AlertDialogTitle></AlertDialogTitle>
               <AlertDialogContent className="flex flex-col p-0 overflow-hidden">
@@ -170,16 +180,17 @@ const Page = ({ data }: { data: ApiResponse<InvoiceType[]> }) => {
                   <div className="size-10 rounded-lg bg-green-200"></div>
                   <h5 className="mt-4 text-base font-semibold text-neutral-400">Are you sure?</h5>
                   <div className="text-center">
-                    You&apos;re about to Mark As Paid. Do you want to continue?
+                    You&apos;re about to Mark As{' '}
+                    {modalAction === 'mark-as-paid' ? 'Paid' : 'Publish'}. Do you want to continue?
                   </div>
                 </div>
                 <AlertDialogFooter className="w-full px-5 py-4 border-t border-neutral-200 bg-neutral-100">
-                  <AlertDialogCancel className="w-full" onClick={handleAlertDialogClose}>
+                  <AlertDialogCancel className="w-full" onClick={() => setModalAction(null)}>
                     Cancel
                   </AlertDialogCancel>
-                  <AlertDialogAction className="w-full" onClick={handleAlertDialogConfirm}>
+                  <Button className="w-full" onClick={handlePublishInvoice}>
                     Continue
-                  </AlertDialogAction>
+                  </Button>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialogPortal>

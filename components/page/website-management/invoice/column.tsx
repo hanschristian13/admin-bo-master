@@ -149,7 +149,7 @@ export const Columnsinvoice: ColumnDef<InvoiceType>[] = [
         case 'paid':
           handleDotStatus = <BadgeStatus title={handleStatus} styleDotStatus="green" />
           break
-        case 'adjusted':
+        case 'unpaid':
           handleDotStatus = <BadgeStatus title={handleStatus} styleDotStatus="blue" />
           break
         default:
@@ -418,7 +418,7 @@ export const ColumnsOtherExpenses: ColumnDef<OtherExpensesType>[] = [
       )
     },
     cell: ({ row }) => {
-      const data = row.getValue('value') as number
+      const data = parseInt(row.getValue('value')) as number
       return (
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
