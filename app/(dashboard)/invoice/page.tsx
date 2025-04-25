@@ -12,10 +12,9 @@ export const metadata: Metadata = {
 }
 
 const page = async ({ searchParams }: PageProps): Promise<JSX.Element> => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const currentSearchParams = await searchParams
   const { startDate, status, dealer_id } = getSearchParams(currentSearchParams)
-  console.log('🚀 ~ file: page.tsx:20 ~ page ~ startDate')
+
   const data = await getInvoice({
     start_date: timeFormat(startDate).startOf('months').format('yyyy-MM-dd'),
     ...(status && {
