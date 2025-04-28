@@ -110,8 +110,8 @@ export async function updateSuperAgent(prevState: PrevStateType, formData: FormD
       active: Boolean(formData.get('active'))
     }
     const values = { ...rawData }
-
-    const validatedFields = schema.safeParse(values)
+    const schemaWithoutRequiredFields = schema.omit({ agent_name: true, short_code: true })
+    const validatedFields = schemaWithoutRequiredFields.safeParse(values)
 
     if (!validatedFields.success) {
       return {

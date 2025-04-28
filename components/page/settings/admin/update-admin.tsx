@@ -37,16 +37,25 @@ import { putUserAdmin } from '@/service/setting'
 const FormSchema = z
   .object({
     password: z
-      .string({ required_error: 'Please fill in this field.' })
-      .min(6, { message: 'Password must be at least 6 characters' }),
+      .string()
+      .min(6, { message: 'Password must be at least 6 characters' })
+      .optional()
+      .or(z.literal('')), // Allow empty string as "optional"
     password_confirmation: z.string({ required_error: 'Please fill in this field.' }),
     role: z.string({ required_error: 'Please select role.' })
   })
-  .refine(data => data.password === data.password_confirmation, {
-    message: "Your passwords don't match",
-    path: ['password_confirmation']
-  })
-
+  .refine(
+    data => {
+      if (data.password && data.password.length >= 1) {
+        return data.password === data.password_confirmation
+      }
+      return true
+    },
+    {
+      message: "Your passwords don't match",
+      path: ['password_confirmation']
+    }
+  )
 const UpdateAdmin: React.FC = () => {
   const router = useRouter()
   const searchParams = useSearchParams()

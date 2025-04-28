@@ -41,7 +41,8 @@ const FormSuperAgent: React.FC<FormSuperAgentProps> = ({ setIsAlertDialogOpen, d
       message: '',
       values: initialInput
     }
-  )
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ) as any
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleAlertDialogClose = () => {
