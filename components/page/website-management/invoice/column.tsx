@@ -11,6 +11,7 @@ import ButtonDetail from '@/components/button-detail'
 import { ButtonAddQueryParams } from '../../slot'
 
 export interface InvoiceType {
+  other_expense: any
   _id: string
   game_type: string
   parent_id: string
@@ -241,6 +242,70 @@ export const Columnsinvoice: ColumnDef<InvoiceType>[] = [
     }
   },
   {
+    accessorKey: 'other_expense',
+    header: ({ column }) => {
+      const sortType = column.getIsSorted()
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(sortType === 'asc')}
+          className="has-[>svg]:px-0 flex ml-auto">
+          Other Expense
+          <ButtonSort sortType={sortType} />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      const data = Object.values(row.getValue('other_expense') || {}).reduce(
+        (sum, value) => sum + parseInt(value) || 0,
+        0
+      )
+      return (
+        <div className="block w-full text-right font-medium">
+          <span className="text-neutral-300">Rp</span>
+          <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
+            {formatNumberWithCommas(data > 0 ? data : data * -1)}
+          </span>
+        </div>
+      )
+    }
+  },
+  {
+    id: 'totals',
+    header: ({ column }) => {
+      const sortType = column.getIsSorted()
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(sortType === 'asc')}
+          className="has-[>svg]:px-0 flex ml-auto">
+          Total
+          <ButtonSort sortType={sortType} />
+        </Button>
+      )
+    },
+    cell: ({ row: { original } }: any) => {
+      const os = Object.values(original?.other_expense || {}).reduce(
+        (sum: any, value: any) => sum + parseInt(value) || 0,
+        0
+      ) as any
+
+      const agent = original?.agent_profit || 0
+      const superagent = original?.company_profit || 0
+      const master = original?.master_company_profit || 0
+      const data = os + agent + superagent + master
+
+      return (
+        <div className="block w-full text-right font-medium">
+          <span className="text-neutral-300">Rp</span>
+          <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
+            {formatNumberWithCommas(data > 0 ? data : data * -1)}
+          </span>
+        </div>
+      )
+    }
+  },
+  {
     accessorKey: '_id',
     id: 'detailId',
     header: () => <div className="w-24"></div>,
@@ -378,6 +443,17 @@ export const ColumnsCategoryDetail: ColumnDef<InvoiceType>[] = [
           </span>
         </div>
       )
+    },
+    footer: ({ table }) => {
+      const total = table.getRowModel().rows.reduce((sum, row) => {
+        const price = row?.original?.total_profit_company
+        return isNaN(price) ? sum : sum + price
+      }, 0)
+      return (
+        <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
+          Rp{formatNumberWithCommas(total > 0 ? total : total * -1)}
+        </div>
+      )
     }
   },
   {
@@ -405,10 +481,22 @@ export const ColumnsCategoryDetail: ColumnDef<InvoiceType>[] = [
           </span>
         </div>
       )
+    },
+    footer: ({ table }) => {
+      const total = table.getRowModel().rows.reduce((sum, row) => {
+        const price =
+          row?.original?.total_profit_master_agent + row?.original?.total_profit_master_company
+        return isNaN(price) ? sum : sum + price
+      }, 0)
+      return (
+        <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
+          Rp{formatNumberWithCommas(total > 0 ? total : total * -1)}
+        </div>
+      )
     }
   },
   {
-    accessorKey: 'total',
+    id: 'agent_shared',
     header: ({ column }) => {
       const sortType = column.getIsSorted()
       return (
@@ -429,6 +517,63 @@ export const ColumnsCategoryDetail: ColumnDef<InvoiceType>[] = [
           <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
             {formatNumberWithCommas(data > 0 ? data : data * -1)}
           </span>
+        </div>
+      )
+    },
+    footer: ({ table }) => {
+      const total = table.getRowModel().rows.reduce((sum, row) => {
+        const price =
+          row?.original?.total_profit_master_agent + row?.original?.total_profit_master_company
+        return isNaN(price) ? sum : sum + price
+      }, 0)
+      return (
+        <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
+          Rp{formatNumberWithCommas(total > 0 ? total : total * -1)}
+        </div>
+      )
+    }
+  },
+  {
+    id: 'total',
+    header: ({ column }) => {
+      const sortType = column.getIsSorted()
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(sortType === 'asc')}
+          className="has-[>svg]:px-0 flex ml-auto">
+          Total
+          <ButtonSort sortType={sortType} />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      const pa = row?.original?.total_profit_agent || 0
+      const ms = row?.original?.total_profit_company || 0
+      const sas =
+        row?.original?.total_profit_master_agent + row?.original?.total_profit_master_company
+      const data = pa + ms + sas
+      return (
+        <div className="block w-full text-right font-medium">
+          <span className="text-neutral-300">Rp</span>
+          <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
+            {formatNumberWithCommas(data > 0 ? data : data * -1)}
+          </span>
+        </div>
+      )
+    },
+    footer: ({ table }) => {
+      const total = table.getRowModel().rows.reduce((sum, row) => {
+        const pa = row?.original?.total_profit_agent || 0
+        const ms = row?.original?.total_profit_company || 0
+        const sas =
+          row?.original?.total_profit_master_agent + row?.original?.total_profit_master_company
+        const data = pa + ms + sas
+        return isNaN(data) ? sum : sum + data
+      }, 0)
+      return (
+        <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
+          Rp{formatNumberWithCommas(total > 0 ? total : total * -1)}
         </div>
       )
     }
