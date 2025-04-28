@@ -53,11 +53,11 @@ export const Columnsinvoice: ColumnDef<InvoiceType>[] = [
     enableSorting: false,
     enableHiding: false
   },
-  {
-    accessorKey: 'id',
-    header: () => <div className="text-left">ID</div>,
-    cell: ({ row }) => <div className="text-left max-w-36 truncate">{row.getValue('id')}</div>
-  },
+  // {
+  //   accessorKey: '_id',
+  //   header: () => <div className="text-left">ID</div>,
+  //   cell: ({ row }) => <div className="text-left max-w-36 truncate">{row.getValue('_id')}</div>
+  // },
   {
     accessorKey: 'parent_id',
     header: ({ column }) => {
@@ -171,7 +171,7 @@ export const Columnsinvoice: ColumnDef<InvoiceType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0 flex ml-auto">
-          Client
+          Agent
           <ButtonSort sortType={sortType} />
         </Button>
       )
@@ -204,6 +204,32 @@ export const Columnsinvoice: ColumnDef<InvoiceType>[] = [
     },
     cell: ({ row }) => {
       const data = row.getValue('company_profit') as number
+      return (
+        <div className="block w-full text-right font-medium">
+          <span className="text-neutral-300">Rp</span>
+          <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
+            {formatNumberWithCommas(data > 0 ? data : data * -1)}
+          </span>
+        </div>
+      )
+    }
+  },
+  {
+    accessorKey: 'master_company_profit',
+    header: ({ column }) => {
+      const sortType = column.getIsSorted()
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(sortType === 'asc')}
+          className="has-[>svg]:px-0 flex ml-auto">
+          Master
+          <ButtonSort sortType={sortType} />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      const data = row.getValue('master_company_profit') as number
       return (
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>

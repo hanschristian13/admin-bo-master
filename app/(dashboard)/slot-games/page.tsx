@@ -17,28 +17,25 @@ const page = async () => {
   const listGame = await getListGame()
 
   const dailyTransaction = (await getDailyGameTransactions({
-    start_date,
+    start_date: timeFormat().format(),
     end_date
   })) as { data: iResponseGetOverviewDailyTransaction[] }
 
   const sum = response?.data as iDailyUserDashboard[]
 
-  const mergeDataDailyTransactionAndGameList = dailyTransaction?.data?.map(x => ({
-    ...x,
-    game_detail: listGame?.data?.find(y => y?.game_name === x?.game_name)
-  }))
+  const mergeDataDailyTransactionAndGameList = listGame?.data?.map(x => ({
+    game_detail: {...x},
+    game_name: x.game_name,
+    total_player: 0,
+    turnover: 0,
+    win: 0,
+    ...dailyTransaction?.data?.find(y => y?.game_name === x?.game_name)
+  })).sort((a, b) => b.turnover - a.turnover);
 
   const todayData = sum?.find(x => timeFormat(x?.date)?.isSame(new Date())) as iDailyUserDashboard
   const yesterdayData = sum?.find(x =>
     timeFormat(x?.date)?.isBefore(new Date())
   ) as iDailyUserDashboard
-
-  console.log("dashboard todayData.turnover "+todayData.turnover)
-  console.log("dashboard yesterdayData.turnover "+yesterdayData.turnover)
-  console.log("dashboard todayData.win_player "+todayData.win_player)
-  console.log("dashboard yesterdayData.win_player "+yesterdayData.win_player)
-  console.log("dashboard todayData.profit "+todayData.profit)
-  console.log("dashboard yesterdayData.profit "+yesterdayData.profit)
 
   const dataProfit = [
     {

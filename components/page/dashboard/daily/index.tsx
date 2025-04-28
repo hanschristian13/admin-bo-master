@@ -72,13 +72,6 @@ const DasboardDaily = async () => {
     }
   ]
 
-  console.log("slot todayData.turnover "+todayData.turnover)
-  console.log("slot yesterdayData.turnover "+yesterdayData.turnover)
-  console.log("slot todayData.win_player "+todayData.win_player)
-  console.log("slot yesterdayData.win_player "+yesterdayData.win_player)
-  console.log("slot todayData.profit "+todayData.profit)
-  console.log("slot yesterdayData.profit "+yesterdayData.profit)
-
   return (
     <React.Fragment>
       <div className="grid auto-rows-min gap-4 md:grid-cols-3">

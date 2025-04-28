@@ -95,7 +95,7 @@ export const ColumnsProfit: ColumnDef<ProfitType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="w-full flex !px-0">
-          Label Profit
+          Master Profit
           <ButtonSort sortType={sortType} />
         </Button>
       )
