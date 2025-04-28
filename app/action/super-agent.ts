@@ -4,8 +4,8 @@ import Request from '@/service'
 import { SuperAgentTypeV2 } from '@/types/super-agent'
 import { z } from 'zod'
 const schema = z.object({
-  agent_name: z.string().min(3, { message: 'Agent Name must be at least 3 characters' }),
-  short_code: z.string().min(3, { message: 'Short Code must be at least 3 characters' }),
+  agent_name: z.string().min(3, { message: 'Agent Name must be at least 3 characters' }).optional(),
+  short_code: z.string().min(3, { message: 'Short Code must be at least 3 characters' }).optional(),
   type: z.string(),
   email: z
     .string()
@@ -110,8 +110,8 @@ export async function updateSuperAgent(prevState: PrevStateType, formData: FormD
       active: Boolean(formData.get('active'))
     }
     const values = { ...rawData }
-
-    const validatedFields = schema.safeParse(values)
+    const schemaWithoutRequiredFields = schema.omit({ agent_name: true, short_code: true })
+    const validatedFields = schemaWithoutRequiredFields.safeParse(values)
 
     if (!validatedFields.success) {
       return {

@@ -71,7 +71,7 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
       <div className="text-right">
         {formatNumberWithCommas(row.getValue('total_player'), 0)} Player
       </div>
-    ),
+    )
     // footer: ({ table }) => {
     //   const total = table.getRowModel().rows.reduce((sum, row) => {
     //     const price = Number(row.getValue('total_player'))
@@ -102,7 +102,7 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
     },
     cell: ({ row }) => (
       <div className="text-right">{formatNumberWithCommas(row.getValue('total_client'), 0)}</div>
-    ),
+    )
     // footer: ({ table }) => {
     //   const total = table.getRowModel().rows.reduce((sum, row) => {
     //     const price = Number(row.getValue('total_client'))
@@ -243,6 +243,29 @@ export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
     accessorKey: 'no',
     header: () => <div className="text-keft">No</div>,
     cell: ({ row }) => <div className="text-left">{row.index + 1}</div>
+  },
+  {
+    accessorKey: 'parent_id',
+    header: ({ column }) => {
+      const sortType = column.getIsSorted()
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(sortType === 'asc')}
+          className="has-[>svg]:px-0 w-full">
+          Super agent
+          <ButtonSort sortType={sortType} />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="capitalize flex gap-x-1.5 items-center h-7">
+          <InitialAvatar name={row.getValue('parent_id')} />
+          {row.getValue('parent_id')}
+        </div>
+      )
+    }
   },
   {
     accessorKey: 'dealer_id',
