@@ -28,6 +28,7 @@ const Page: React.FC<PageProps> = async ({ ...props }) => {
   }
 
   const dataSuperAgent = await getSuperAgent(params)
+  console.log(dataSuperAgent)
 
   return (
     <React.Fragment>

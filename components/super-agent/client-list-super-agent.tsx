@@ -32,6 +32,7 @@ const ClientListSuperAgent: React.FC<ClientListSuperAgentProps> = ({ data, total
     })
     setIsAlertDialogOpen(true)
   }
+
   return (
     <div className="space-y-6">
       {webRole === 'label' && (

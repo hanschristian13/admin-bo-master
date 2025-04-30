@@ -253,7 +253,7 @@ export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0 w-full">
-          Super agent
+          Super Agent
           <ButtonSort sortType={sortType} />
         </Button>
       )

@@ -41,7 +41,6 @@ const ChartTurnoverAndProfit: React.FC<ChartTurnoverAndProfitProps> = ({ data })
           <CartesianGrid vertical={true} />
           <XAxis dataKey="month" tickLine={false} tickMargin={10} axisLine={false} />
           <YAxis
-            dataKey="turnover"
             tickFormatter={formatNumberWithSuffix}
             tickCount={8}
             domain={[0, (dataMax: number) => dataMax * 1.2]}

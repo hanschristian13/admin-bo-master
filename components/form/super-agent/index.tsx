@@ -51,10 +51,7 @@ const FormSuperAgent: React.FC<FormSuperAgentProps> = ({ setIsAlertDialogOpen, d
 
   useEffect(() => {
     if (state.success) {
-      toast.success(state.message)
       handleAlertDialogClose()
-    } else if (!state.success && state.message !== '') {
-      toast.warning(state.message)
     }
   }, [state, handleAlertDialogClose])
 
@@ -63,7 +60,13 @@ const FormSuperAgent: React.FC<FormSuperAgentProps> = ({ setIsAlertDialogOpen, d
   // const handleAlertDialogConfirm = () => {
   //   setIsAlertDialogOpen(false);
   // };
-
+  useEffect(() => {
+    if (state?.success) {
+      toast.success(state.message)
+    } else if (!state.success && state.message !== '') {
+      toast.warning(state.message)
+    }
+  }, [state])
   return (
     <form action={formAction}>
       <AlertDialogTitle className="flex items-start justify-between w-full px-4 py-5 border-b border-neutral-250">

@@ -41,7 +41,7 @@ const RolesOverview: React.FC = () => {
               subtitle="This method allows to create new maintenances."
             />
 
-            <div className="space-y-3 p-4">
+            <div className="space-y-3 p-4 max-h-[450px] overflow-auto">
               <FilterDealerId value={dealer} onChange={setDealer} isClient />
               {roles?.map((item, index) => (
                 <Card key={index} className="p-4 flex items-center justify-between gap-4">

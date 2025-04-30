@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   AlertDialogCancel,
   AlertDialogFooter,
@@ -65,7 +65,7 @@ const FormGenerateInvoice: React.FC<FormGenerateInvoiceProps> = ({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       agent: [],
-      month: data ? data.month : new Date()
+      month: data ? data.month : timeFormat().subtract(1, 'months').toDate()
       // monthrange: ({
       //   start: threeMonthsAgo,
       //   end: today
@@ -74,34 +74,35 @@ const FormGenerateInvoice: React.FC<FormGenerateInvoiceProps> = ({
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    post(
-      {
-        dealers_id: data.agent?.map(x => x?.value),
-        month: parseInt(timeFormat(data.month).format('MM')),
-        year: parseInt(timeFormat(data.month).format('yyyy'))
+    const payload = {
+      dealers_id: data.agent?.map(x => x?.value),
+      month: parseInt(timeFormat(data.month).format('MM')),
+      year: parseInt(timeFormat(data.month).format('yyyy'))
+    }
+
+    post(payload, {
+      onSuccess: () => {
+        toast('You submitted the following values:', {
+          description: (
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+              <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+            </pre>
+          ),
+          action: {
+            label: 'Undo',
+            onClick: () => console.log('Undo')
+          }
+        })
       },
-      {
-        onSuccess: () => {
-          toast('You submitted the following values:', {
-            description: (
-              <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-              </pre>
-            ),
-            action: {
-              label: 'Undo',
-              onClick: () => console.log('Undo')
-            }
-          })
-        },
-        onError: e => {
-          toast.error(e)
-        }
+      onError: e => {
+        toast.error(e)
       }
-    )
+    })
   }
 
   const { data: filterByAgent } = useDealerList()
+
+  const [isAllAgentSelected, setIsAllAgentSelected] = useState<boolean>(false)
 
   return (
     <Form {...form}>
@@ -140,6 +141,7 @@ const FormGenerateInvoice: React.FC<FormGenerateInvoiceProps> = ({
                 <FormLabel>Choose Month</FormLabel>
                 <FormControl>
                   <MonthPicker
+                    maxDate={timeFormat().subtract(1, 'months').startOf('months').toDate()}
                     onMonthSelect={newDate => form.setValue('month', newDate)}
                     selectedMonth={field.value}
                     align="start"
@@ -149,25 +151,41 @@ const FormGenerateInvoice: React.FC<FormGenerateInvoiceProps> = ({
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="agent"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Agent</FormLabel>
-                <FormControl>
-                  <MultipleSelector
-                    {...field}
-                    options={filterByAgent}
-                    defaultOptions={filterByAgent}
-                    placeholder="Select Agent"
-                    selectVariant="inline"
-                    emptyIndicator={
-                      <p className="text-center text-sm font-medium leading-10 text-red-950 dark:text-gray-400">
-                        no results found.
-                      </p>
-                    }
-                  />
+                <FormControl className="w-[80%]">
+                  <div className="flex w-full space-x-2 ">
+                    <MultipleSelector
+                      {...field}
+                      disabled={isAllAgentSelected}
+                      options={filterByAgent}
+                      defaultOptions={filterByAgent}
+                      placeholder="Select Agent"
+                      selectVariant="inline"
+                      className="flex-1"
+                      emptyIndicator={
+                        <p className="text-center text-sm font-medium leading-10 text-red-950 dark:text-gray-400">
+                          no results found.
+                        </p>
+                      }
+                    />
+                    <Button
+                      type="button"
+                      onClick={e => {
+                        e?.stopPropagation()
+                        if (!isAllAgentSelected) {
+                          form.setValue('agent', filterByAgent)
+                        }
+                        setIsAllAgentSelected(x => !x)
+                      }}>
+                      {!isAllAgentSelected ? 'Select' : 'Unselect'} All Agent
+                    </Button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>

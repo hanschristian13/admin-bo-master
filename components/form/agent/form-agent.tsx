@@ -93,11 +93,16 @@ const CreateClient: React.FC<FormAgentProps> = ({ data, superAgentId, agentId })
   useEffect(() => {
     if (state.success) {
       router.push(`/super-agent?superAgentId=${superAgentId}`)
-      toast.success(state.message)
     } else if (!state.success && state.message !== '') {
       toast.warning(state.message)
     }
   }, [state, router, superAgentId])
+
+  useEffect(() => {
+    if (state?.success) {
+      toast.success(state.message)
+    }
+  }, [state])
 
   const values = state.values || getAgentById
 
