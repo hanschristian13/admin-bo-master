@@ -30,11 +30,6 @@ export interface PlayerActiveDetailType {
 
 export const ColumnsPlayerActive: ColumnDef<PlayerActiveType>[] = [
   {
-    accessorKey: 'no',
-    header: () => <div className="text-center">No</div>,
-    cell: ({ row }) => <div className="text-center">{row.index + 1}</div>
-  },
-  {
     accessorKey: 'date',
     header: ({ column }) => {
       const sortType = column.getIsSorted()
@@ -162,11 +157,6 @@ export const ColumnsPlayerActive: ColumnDef<PlayerActiveType>[] = [
 ]
 
 export const ColumnsPlayerActiveDetail: ColumnDef<PlayerActiveDetailType>[] = [
-  {
-    accessorKey: 'no',
-    header: () => <div className="text-center">No</div>,
-    cell: ({ row }) => <div className="text-center">{row.index + 1}</div>
-  },
   {
     accessorKey: 'parent_id',
     header: ({ column }) => {

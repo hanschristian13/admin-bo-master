@@ -56,6 +56,7 @@ interface DataTableProps<T> {
   onPaginationChange?: (pagination: PaginationState) => void
   pagination?: PaginationState
   manualPagination?: boolean
+  withNumber?: boolean
 }
 
 export function DataTable<T>({
@@ -71,7 +72,8 @@ export function DataTable<T>({
   rowCount,
   onPaginationChange,
   pagination,
-  manualPagination = true
+  manualPagination = true,
+  withNumber = true
 }: DataTableProps<T>) {
   const [sorting, setSorting] = React.useState<SortingState>(initialSorting)
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(initialColumnFilters)
@@ -129,12 +131,16 @@ export function DataTable<T>({
     return <div className="w-full text-center py-4">Loading...</div>
   }
 
+  console.log(pagination)
+
   return (
     <Card className="w-full overflow-hidden rounded-md border-neutral-250 relative">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map(headerGroup => (
             <TableRow key={headerGroup.id}>
+              {withNumber && <TableHead>No</TableHead>}
+
               {headerGroup.headers.map(header => {
                 return (
                   <TableHead className="text-neutral-300" key={header.id}>
@@ -153,6 +159,14 @@ export function DataTable<T>({
               <TableRow
                 key={row.id}
                 className={`${row.getIsSelected() ? 'bg-neutral-250' : 'bg-inherit'}`}>
+                {withNumber && (
+                  <TableCell>
+                    {row?.index +
+                      1 +
+                      table.getState().pagination.pageIndex * table.getState()?.pagination.pageSize}
+                  </TableCell>
+                )}
+
                 {row.getVisibleCells().map(cell => (
                   <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -172,6 +186,8 @@ export function DataTable<T>({
           <TableFooter className="bg-neutral-150">
             {table.getFooterGroups().map(footerGroup => (
               <TableRow key={footerGroup.id} className="hover:bg-transparent">
+                {withNumber && <TableCell />}
+
                 {footerGroup.headers.map(footer => (
                   <TableCell key={footer.id} className="text-right">
                     {flexRender(footer.column.columnDef.footer, footer.getContext())}

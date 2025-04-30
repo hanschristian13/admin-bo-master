@@ -20,12 +20,6 @@ export interface ClientType {
 
 export const ColumnsClient: ColumnDef<ClientType>[] = [
   {
-    accessorKey: 'no',
-    header: () => <div className="text-left">No</div>,
-    cell: ({ row }) => <div className="text-left">{row.index + 1}</div>,
-    footer: () => <div className="text-neutral-300">Total</div>
-  },
-  {
     accessorKey: 'date',
     header: ({ column }) => {
       const sortType = column.getIsSorted()

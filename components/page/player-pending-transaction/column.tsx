@@ -26,11 +26,6 @@ export interface PlayerPendingTransaction {
 
 export const ColumnsPlayerPendingTransaction: ColumnDef<PlayerPendingTransactionType>[] = [
   {
-    accessorKey: 'no',
-    header: () => <div className="text-left">No</div>,
-    cell: ({ row }) => <div className="text-left">{row.index + 1}</div>
-  },
-  {
     accessorKey: 'bet_date',
     header: ({ column }) => {
       const sortType = column.getIsSorted()
