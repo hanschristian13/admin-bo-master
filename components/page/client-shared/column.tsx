@@ -27,11 +27,6 @@ export interface ClientSharedDetailType {
 
 export const ColumnsClientShared: ColumnDef<ClientSharedType>[] = [
   {
-    accessorKey: 'no',
-    header: () => <div className="text-left">No</div>,
-    cell: ({ row }) => <div className="text-left">{row.index + 1}</div>
-  },
-  {
     accessorKey: 'date',
     header: ({ column }) => {
       const sortType = column.getIsSorted()
@@ -216,11 +211,6 @@ export const ColumnsClientShared: ColumnDef<ClientSharedType>[] = [
 ]
 
 export const ColumnsClientSharedDetail: ColumnDef<ClientSharedDetailType>[] = [
-  {
-    accessorKey: 'no',
-    header: () => <div className="text-left">No</div>,
-    cell: ({ row }) => <div className="text-left">{row.index + 1}</div>
-  },
   {
     accessorKey: 'parent_id',
     header: ({ column }) => {

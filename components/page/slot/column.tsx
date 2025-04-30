@@ -28,11 +28,6 @@ export interface SlotDetailType {
 
 export const ColumnsSlot: ColumnDef<SlotType>[] = [
   {
-    accessorKey: 'no',
-    header: () => <div className="text-keft">No</div>,
-    cell: ({ row }) => <div className="text-left">{row.index + 1}</div>
-  },
-  {
     accessorKey: 'date',
     header: ({ column }) => {
       const sortType = column.getIsSorted()
@@ -239,11 +234,6 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
 ]
 
 export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
-  {
-    accessorKey: 'no',
-    header: () => <div className="text-keft">No</div>,
-    cell: ({ row }) => <div className="text-left">{row.index + 1}</div>
-  },
   {
     accessorKey: 'parent_id',
     header: ({ column }) => {

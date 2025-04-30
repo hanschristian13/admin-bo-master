@@ -16,11 +16,6 @@ export interface PlayerTransactionType {
 
 export const ColumnsPlayerTransaction: ColumnDef<PlayerTransactionType>[] = [
   {
-    accessorKey: 'no',
-    header: () => <div className="text-center">No</div>,
-    cell: ({ row }) => <div className="text-center">{row.index + 1}</div>
-  },
-  {
     accessorKey: 'created_at',
     header: ({ column }) => {
       const sortType = column.getIsSorted()
