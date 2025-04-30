@@ -62,11 +62,13 @@ const RolesOverview: React.FC = () => {
                     </div>
                     <BadgeStatus title={item?.role} styleDotStatus="orange" />
                   </div>
-                  <Link href={`settings/role/${item?.role}?dealer_id=${dealer}`}>
-                    <Button variant="outline" size="sm">
-                      <Pencil />
-                    </Button>
-                  </Link>
+                  {!['root', 'superadmin', 'supervisor']?.includes(item?.role) && (
+                    <Link href={`settings/role/${item?.role}?dealer_id=${dealer}`}>
+                      <Button variant="outline" size="sm">
+                        <Pencil />
+                      </Button>
+                    </Link>
+                  )}
                 </Card>
               ))}
             </div>
