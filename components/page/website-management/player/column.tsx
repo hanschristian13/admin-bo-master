@@ -96,7 +96,7 @@ export const ColumnsPlayerTransaction: ColumnDef<PlayerTransactionType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className="text-neutral-400">
-            {formatNumberWithCommas(total > 0 ? total : total * -1)}
+            {formatNumberWithCommas(total > 0 ? total : total)}
           </span>
         </div>
       )
@@ -122,7 +122,7 @@ export const ColumnsPlayerTransaction: ColumnDef<PlayerTransactionType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className="text-neutral-400">
-            {formatNumberWithCommas(dataWin > 0 ? dataWin : dataWin * -1)}
+            {formatNumberWithCommas(dataWin > 0 ? dataWin : dataWin)}
           </span>
         </div>
       )
@@ -136,7 +136,7 @@ export const ColumnsPlayerTransaction: ColumnDef<PlayerTransactionType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className="text-neutral-400">
-            {formatNumberWithCommas(total > 0 ? total : total * -1)}
+            {formatNumberWithCommas(total > 0 ? total : total)}
           </span>
         </div>
       )
@@ -162,7 +162,7 @@ export const ColumnsPlayerTransaction: ColumnDef<PlayerTransactionType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(data > 0 ? data : data * -1)}
+            {formatNumberWithCommas(data > 0 ? data : data)}
           </span>
         </div>
       )

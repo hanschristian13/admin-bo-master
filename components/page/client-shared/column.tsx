@@ -70,7 +70,7 @@ export const ColumnsClientShared: ColumnDef<ClientSharedType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(data > 0 ? data : data * -1, 0)}
+            {formatNumberWithCommas(data > 0 ? data : data, 0)}
           </span>
         </div>
       )
@@ -84,7 +84,7 @@ export const ColumnsClientShared: ColumnDef<ClientSharedType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+            {formatNumberWithCommas(total > 0 ? total : total, 0)}
           </span>
         </div>
       )
@@ -110,7 +110,7 @@ export const ColumnsClientShared: ColumnDef<ClientSharedType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className="text-neutral-400">
-            {formatNumberWithCommas(dataWin > 0 ? dataWin : dataWin * -1, 0)}
+            {formatNumberWithCommas(dataWin > 0 ? dataWin : dataWin, 0)}
           </span>
         </div>
       )
@@ -183,7 +183,7 @@ export const ColumnsClientShared: ColumnDef<ClientSharedType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(profit > 0 && 'text-green-950', profit < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(profit > 0 ? profit : profit * -1, 0)}
+            {formatNumberWithCommas(profit, 0)}
           </span>
         </div>
       )
@@ -195,7 +195,7 @@ export const ColumnsClientShared: ColumnDef<ClientSharedType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+          Rp{formatNumberWithCommas(total)}
         </div>
       )
     }
@@ -280,7 +280,7 @@ export const ColumnsClientSharedDetail: ColumnDef<ClientSharedDetailType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(data > 0 ? data : data * -1, 0)}
+            {formatNumberWithCommas(data > 0 ? data : data, 0)}
           </span>
         </div>
       )
@@ -292,7 +292,7 @@ export const ColumnsClientSharedDetail: ColumnDef<ClientSharedDetailType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+          Rp{formatNumberWithCommas(total > 0 ? total : total, 0)}
         </div>
       )
     }
@@ -328,7 +328,7 @@ export const ColumnsClientSharedDetail: ColumnDef<ClientSharedDetailType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className="text-neutral-400">
-            {formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+            {formatNumberWithCommas(total > 0 ? total : total, 0)}
           </span>
         </div>
       )
@@ -365,7 +365,7 @@ export const ColumnsClientSharedDetail: ColumnDef<ClientSharedDetailType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className="text-neutral-400">
-            {formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+            {formatNumberWithCommas(total > 0 ? total : total, 0)}
           </span>
         </div>
       )
@@ -391,7 +391,7 @@ export const ColumnsClientSharedDetail: ColumnDef<ClientSharedDetailType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(data > 0 ? data : data * -1, 0)}
+            {formatNumberWithCommas(data > 0 ? data : data, 0)}
           </span>
         </div>
       )
@@ -403,7 +403,7 @@ export const ColumnsClientSharedDetail: ColumnDef<ClientSharedDetailType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+          Rp{formatNumberWithCommas(total > 0 ? total : total, 0)}
         </div>
       )
     }

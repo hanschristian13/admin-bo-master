@@ -106,7 +106,7 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
     //   return (
     //     <div className="block w-full text-right font-medium">
     //       <span className="text-neutral-400">
-    //         {formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+    //         {formatNumberWithCommas(total > 0 ? total : total , 0)}
     //       </span>
     //     </div>
     //   )
@@ -143,7 +143,7 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className="text-neutral-400">
-            {formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+            {formatNumberWithCommas(total > 0 ? total : total, 0)}
           </span>
         </div>
       )
@@ -180,7 +180,7 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className="text-neutral-400">
-            {formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+            {formatNumberWithCommas(total > 0 ? total : total, 0)}
           </span>
         </div>
       )
@@ -206,7 +206,7 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(profit > 0 && 'text-green-950', profit < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(profit > 0 ? profit : profit * -1, 0)}
+            {formatNumberWithCommas(profit, 0)}
           </span>
         </div>
       )
@@ -218,7 +218,7 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+          Rp{formatNumberWithCommas(total, 0)}
         </div>
       )
     }
@@ -378,7 +378,7 @@ export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className="text-neutral-400">
-            {formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+            {formatNumberWithCommas(total > 0 ? total : total, 0)}
           </span>
         </div>
       )
@@ -413,7 +413,7 @@ export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
       }, 0)
       return (
         <div className="text-sm font-semibold text-neutral-400">
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+          Rp{formatNumberWithCommas(total > 0 ? total : total, 0)}
         </div>
       )
     }
@@ -438,7 +438,7 @@ export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(profit > 0 && 'text-green-950', profit < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(profit > 0 ? profit : profit * -1, 0)}
+            {formatNumberWithCommas(profit, 0)}
           </span>
         </div>
       )
@@ -450,7 +450,7 @@ export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+          Rp{formatNumberWithCommas(total)}
         </div>
       )
     }

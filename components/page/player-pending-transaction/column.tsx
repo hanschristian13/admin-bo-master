@@ -204,7 +204,7 @@ export const ColumnsPlayerPendingTransaction: ColumnDef<PlayerPendingTransaction
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className="text-neutral-400">
-            {formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+            {formatNumberWithCommas(total > 0 ? total : total, 0)}
           </span>
         </div>
       )
@@ -241,7 +241,7 @@ export const ColumnsPlayerPendingTransaction: ColumnDef<PlayerPendingTransaction
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+            {formatNumberWithCommas(total > 0 ? total : total, 0)}
           </span>
         </div>
       )
