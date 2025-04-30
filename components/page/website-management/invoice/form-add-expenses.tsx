@@ -63,17 +63,7 @@ const FormAddExpenses: React.FC<FormAddExpensesProps> = ({ setIsAlertDialogOpen,
     console.log(payload, 'payload')
     post(payload, {
       onSuccess: () => {
-        toast('You submitted the following values:', {
-          description: (
-            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-              <code className="text-white">{JSON.stringify(payload, null, 2)}</code>
-            </pre>
-          ),
-          action: {
-            label: 'Undo',
-            onClick: () => console.log('Undo')
-          }
-        })
+        toast.success('Expenses has been added!')
         handleAlertDialogClose()
       },
       onError: e => toast.error(e)

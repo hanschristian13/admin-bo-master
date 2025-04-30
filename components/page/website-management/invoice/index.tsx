@@ -118,8 +118,6 @@ const Page = ({ data }: { data: ApiResponse<InvoiceType[]> }) => {
         onError: e => toast.error(e)
       }
     )
-
-    console.log(selectedId, 'selectedId')
   }
 
   const buttonAction = getActionStates(selectedRows)

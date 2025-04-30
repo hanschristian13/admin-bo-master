@@ -18,9 +18,9 @@ const Page = ({ data, summary }: { data: any; summary: any }) => {
   const handleInitial = handleName.charAt(0)
   const lastLogin = '-'
 
-  const { pagination } = useHandlePagination()
+  const { pagination, onPaginationChange } = useHandlePagination()
 
-  console.log(summary?.data)
+  console.log(data)
   return (
     <div className="space-y-6">
       <ButtonBack url="/player" />
@@ -92,9 +92,11 @@ const Page = ({ data, summary }: { data: any; summary: any }) => {
         </Card>
         <div className="grid auto-rows-min xl:col-span-2 2xl:col-span-3">
           <DataTable
+            rowCount={data?.total_items || 0}
             pagination={pagination}
             data={data?.data || []}
             columns={ColumnsPlayerTransaction}
+            onPaginationChange={onPaginationChange}
           />
         </div>
       </div>

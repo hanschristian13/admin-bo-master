@@ -177,7 +177,7 @@ export async function createAgent(prevState: PrevStateType, formData: FormData) 
 
     return {
       success: true,
-      message: `Success to create SuperAgent ${values.agent_name}`,
+      message: `Success to create Super Agent ${values.agent_name}`,
       values
     }
   } catch (errors) {

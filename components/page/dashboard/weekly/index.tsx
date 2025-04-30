@@ -9,10 +9,11 @@ import { formatNumber } from '@/lib/format-number'
 
 const DashboardWeekly = async () => {
   const { data } = (await getOverviewDailyUser({
-    start_date: timeFormat().subtract(7, 'days').format(),
+    start_date: timeFormat().subtract(8, 'days').format(),
     end_date: timeFormat().format()
   })) as { data: iDailyUserDashboard[] }
 
+  console.log(data, 'data')
   function getPercentageChange(curr: number, prev: number): number {
     // Switch the parameters - we want to calculate (current - previous) / previous
     if (prev === 0) return 0
@@ -21,8 +22,8 @@ const DashboardWeekly = async () => {
   }
 
   // Sort the data by date in ascending order (oldest first)
-  const sortedData = [...data].sort((a, b) => 
-    new Date(a.date).getTime() - new Date(b.date).getTime()
+  const sortedData = [...data].sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
   )
 
   // Calculate percentage differences based on chronological order
@@ -30,7 +31,7 @@ const DashboardWeekly = async () => {
     if (index === 0) return { ...current, percentage_difference: null } // First element has no previous
 
     const previous = arr[index - 1]
-    
+
     return {
       ...current,
       percentage_difference: {
@@ -48,7 +49,8 @@ const DashboardWeekly = async () => {
 
   // Reverse the array to display most recent first, but keep the correct percentage calculations
   const displayData = [...finalData].reverse()
-  
+  displayData.pop()
+
   return (
     <div className="space-y-5">
       {displayData.map((item, index) => (

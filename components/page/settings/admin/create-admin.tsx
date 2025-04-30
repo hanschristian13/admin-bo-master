@@ -88,17 +88,7 @@ const CreateAdmin: React.FC = () => {
       },
       {
         onSuccess: () => {
-          toast('You submitted the following values:', {
-            description: (
-              <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-              </pre>
-            ),
-            action: {
-              label: 'Undo',
-              onClick: () => console.log('Undo')
-            }
-          })
+          toast.success('User has been create')
           router?.refresh()
           setIsAlertDialogOpen(false)
         },

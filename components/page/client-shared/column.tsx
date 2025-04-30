@@ -230,7 +230,7 @@ export const ColumnsClientSharedDetail: ColumnDef<ClientSharedDetailType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0">
-          Super agent
+          Super Agent
           <ButtonSort sortType={sortType} />
         </Button>
       )
