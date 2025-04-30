@@ -183,7 +183,7 @@ export const Columnsinvoice: ColumnDef<InvoiceType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(data > 0 ? data : data * -1)}
+            {formatNumberWithCommas(data > 0 ? data : data)}
           </span>
         </div>
       )
@@ -209,7 +209,7 @@ export const Columnsinvoice: ColumnDef<InvoiceType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(data > 0 ? data : data * -1)}
+            {formatNumberWithCommas(data > 0 ? data : data)}
           </span>
         </div>
       )
@@ -235,7 +235,7 @@ export const Columnsinvoice: ColumnDef<InvoiceType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(data > 0 ? data : data * -1)}
+            {formatNumberWithCommas(data > 0 ? data : data)}
           </span>
         </div>
       )
@@ -264,7 +264,7 @@ export const Columnsinvoice: ColumnDef<InvoiceType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(data > 0 ? data : data * -1)}
+            {formatNumberWithCommas(data > 0 ? data : data)}
           </span>
         </div>
       )
@@ -299,7 +299,7 @@ export const Columnsinvoice: ColumnDef<InvoiceType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(data > 0 ? data : data * -1)}
+            {formatNumberWithCommas(data > 0 ? data : data)}
           </span>
         </div>
       )
@@ -399,7 +399,7 @@ export const ColumnsSummaryInvoice: ColumnDef<InvoiceType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(data > 0 ? data : data * -1)}
+            {formatNumberWithCommas(data > 0 ? data : data)}
           </span>
         </div>
       )
@@ -439,7 +439,7 @@ export const ColumnsCategoryDetail: ColumnDef<InvoiceType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(data > 0 ? data : data * -1)}
+            {formatNumberWithCommas(data > 0 ? data : data)}
           </span>
         </div>
       )
@@ -451,7 +451,7 @@ export const ColumnsCategoryDetail: ColumnDef<InvoiceType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1)}
+          Rp{formatNumberWithCommas(total > 0 ? total : total)}
         </div>
       )
     }
@@ -477,7 +477,7 @@ export const ColumnsCategoryDetail: ColumnDef<InvoiceType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(data > 0 ? data : data * -1)}
+            {formatNumberWithCommas(data > 0 ? data : data)}
           </span>
         </div>
       )
@@ -490,7 +490,7 @@ export const ColumnsCategoryDetail: ColumnDef<InvoiceType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1)}
+          Rp{formatNumberWithCommas(total > 0 ? total : total)}
         </div>
       )
     }
@@ -515,7 +515,7 @@ export const ColumnsCategoryDetail: ColumnDef<InvoiceType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(data > 0 ? data : data * -1)}
+            {formatNumberWithCommas(data > 0 ? data : data)}
           </span>
         </div>
       )
@@ -528,7 +528,7 @@ export const ColumnsCategoryDetail: ColumnDef<InvoiceType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1)}
+          Rp{formatNumberWithCommas(total > 0 ? total : total)}
         </div>
       )
     }
@@ -557,7 +557,7 @@ export const ColumnsCategoryDetail: ColumnDef<InvoiceType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(data > 0 ? data : data * -1)}
+            {formatNumberWithCommas(data > 0 ? data : data)}
           </span>
         </div>
       )
@@ -573,7 +573,7 @@ export const ColumnsCategoryDetail: ColumnDef<InvoiceType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1)}
+          Rp{formatNumberWithCommas(total > 0 ? total : total)}
         </div>
       )
     }
@@ -606,7 +606,7 @@ export const ColumnsOtherExpenses: ColumnDef<OtherExpensesType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(data > 0 && 'text-green-950', data < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(data > 0 ? data : data * -1)}
+            {formatNumberWithCommas(data > 0 ? data : data)}
           </span>
         </div>
       )
@@ -618,7 +618,7 @@ export const ColumnsOtherExpenses: ColumnDef<OtherExpensesType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1)}
+          Rp{formatNumberWithCommas(total > 0 ? total : total)}
         </div>
       )
     }

@@ -10,6 +10,7 @@ import { timeFormat } from '@/lib/utils'
 const Page: FC<{ data: ApiResponse<unknown> }> = ({ data }) => {
   const { pagination, onPaginationChange } = useHandlePagination()
   const { value, setSearchParam } = useUpdateSearchParams('date')
+  console.log(data)
   return (
     <div className="w-full space-y-4">
       <div className="flex w-[152px]">

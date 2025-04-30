@@ -128,7 +128,7 @@ export const ColumnsClient: ColumnDef<ClientType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1)}
+          Rp{formatNumberWithCommas(total > 0 ? total : total)}
         </div>
       )
     }
@@ -162,7 +162,7 @@ export const ColumnsClient: ColumnDef<ClientType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1)}
+          Rp{formatNumberWithCommas(total > 0 ? total : total)}
         </div>
       )
     }
@@ -187,7 +187,7 @@ export const ColumnsClient: ColumnDef<ClientType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(profit > 0 && 'text-green-950', profit < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(profit > 0 ? profit : profit * -1)}
+            {formatNumberWithCommas(profit)}
           </span>
         </div>
       )
@@ -199,7 +199,7 @@ export const ColumnsClient: ColumnDef<ClientType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1)}
+          Rp{formatNumberWithCommas(total)}
         </div>
       )
     }
@@ -336,7 +336,7 @@ export const ColumnsClientDetail: ColumnDef<ClientType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1)}
+          Rp{formatNumberWithCommas(total)}
         </div>
       )
     }
@@ -370,7 +370,7 @@ export const ColumnsClientDetail: ColumnDef<ClientType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1)}
+          Rp{formatNumberWithCommas(total > 0 ? total : total)}
         </div>
       )
     }
@@ -395,7 +395,7 @@ export const ColumnsClientDetail: ColumnDef<ClientType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(profit > 0 && 'text-green-950', profit < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(profit > 0 ? profit : profit * -1)}
+            {formatNumberWithCommas(profit)}
           </span>
         </div>
       )
@@ -407,7 +407,7 @@ export const ColumnsClientDetail: ColumnDef<ClientType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1)}
+          Rp{formatNumberWithCommas(total > 0 ? total : total)}
         </div>
       )
     }
