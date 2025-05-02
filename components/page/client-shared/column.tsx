@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { ColumnDef } from '@tanstack/react-table'
 import { formatNumberWithCommas } from '@/lib/format-number'
-import { cn } from '@/lib/utils'
+import { cn, colorCurrency } from '@/lib/utils'
 import ButtonSort from '@/components/data-table/button-sort'
 import { format } from 'date-fns'
 import { ButtonPageToDetailWithParent } from '../slot'
@@ -107,11 +107,10 @@ export const ColumnsClientShared: ColumnDef<ClientSharedType>[] = [
     cell: ({ row }) => {
       const dataWin = row.getValue('master_shared') as number
       return (
-        <div className="block w-full text-right font-medium">
+        <div className={colorCurrency(dataWin, 'block w-full text-right font-medium')}>
           <span className="text-neutral-300">Rp</span>
-          <span className="text-neutral-400">
-            {formatNumberWithCommas(dataWin > 0 ? dataWin : dataWin, 0)}
-          </span>
+
+          {formatNumberWithCommas(dataWin > 0 ? dataWin : dataWin, 0)}
         </div>
       )
     },
@@ -121,7 +120,7 @@ export const ColumnsClientShared: ColumnDef<ClientSharedType>[] = [
         return isNaN(price) ? sum : sum + price
       }, 0)
       return (
-        <div className="block text-right font-medium">
+        <div className={colorCurrency(total, 'block w-full text-right font-medium')}>
           <span className="text-neutral-300">Rp</span>
           {formatNumberWithCommas(total, 0)}
         </div>
@@ -144,7 +143,11 @@ export const ColumnsClientShared: ColumnDef<ClientSharedType>[] = [
     },
     cell: ({ row }) => {
       return (
-        <div className="block text-right font-medium">
+        <div
+          className={colorCurrency(
+            row?.getValue('super_agent_shared'),
+            'block w-full text-right font-medium'
+          )}>
           <span className="text-neutral-300">Rp</span>
           {formatNumberWithCommas(row.getValue('super_agent_shared'), 0)}
         </div>
@@ -156,7 +159,7 @@ export const ColumnsClientShared: ColumnDef<ClientSharedType>[] = [
         return isNaN(price) ? sum : sum + price
       }, 0)
       return (
-        <div className="block text-right font-medium">
+        <div className={colorCurrency(total, 'block w-full text-right font-medium')}>
           <span className="text-neutral-300">Rp</span>
           {formatNumberWithCommas(total, 0)}
         </div>

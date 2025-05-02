@@ -38,7 +38,10 @@ export const ColumnsClient: ColumnDef<ClientType>[] = [
         {' '}
         {format(row.getValue('date'), 'LLL dd, y')}{' '}
       </div>
-    )
+    ),
+    footer: () => {
+      return <div className="text-left text-sm font-medium text-neutral-400">Total</div>
+    }
   },
   {
     accessorKey: 'parent_id',

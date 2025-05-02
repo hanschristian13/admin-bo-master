@@ -178,6 +178,9 @@ export const ColumnsPlayerActiveDetail: ColumnDef<PlayerActiveDetailType>[] = [
           {row.getValue('parent_id')}
         </div>
       )
+    },
+    footer: () => {
+      return <div className="text-left text-sm font-medium text-neutral-400">Total</div>
     }
   },
   {

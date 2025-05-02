@@ -123,3 +123,6 @@ export const formatCommonDateParams = (dateRange: string) => {
     to: endDate ? timeFormat(endDate)?.toDate() : undefined
   }
 }
+
+export const colorCurrency = (num: number, anotherClass?: string) =>
+  cn(num > 0 && 'text-green-950', num < 0 && 'text-red-950', anotherClass)

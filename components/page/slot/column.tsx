@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { ColumnDef } from '@tanstack/react-table'
 import { formatNumberWithCommas } from '@/lib/format-number'
-import { cn } from '@/lib/utils'
+import { cn, colorCurrency } from '@/lib/utils'
 import ButtonSort from '@/components/data-table/button-sort'
 import { format } from 'date-fns'
 import InitialAvatar from '@/components/initial-avatar'
@@ -46,7 +46,10 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
         {' '}
         {format(row.getValue('date'), 'LLL dd, y')}{' '}
       </div>
-    )
+    ),
+    footer: () => {
+      return <div className="text-left text-sm font-medium text-neutral-400">Total</div>
+    }
   },
   {
     accessorKey: 'total_player',
@@ -128,7 +131,7 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
     },
     cell: ({ row }) => {
       return (
-        <div className="block text-right font-medium">
+        <div className={colorCurrency(row.getValue('turnover'), 'block text-right font-medium')}>
           <span className="text-neutral-300">Rp</span>
           {formatNumberWithCommas(row.getValue('turnover'))}
         </div>
@@ -140,11 +143,10 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
         return isNaN(price) ? sum : sum + price
       }, 0)
       return (
-        <div className="block w-full text-right font-medium">
+        <div className={colorCurrency(total, 'block text-right font-medium')}>
           <span className="text-neutral-300">Rp</span>
-          <span className="text-neutral-400">
-            {formatNumberWithCommas(total > 0 ? total : total, 0)}
-          </span>
+
+          {formatNumberWithCommas(total > 0 ? total : total, 0)}
         </div>
       )
     }
@@ -165,7 +167,7 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
     },
     cell: ({ row }) => {
       return (
-        <div className="block text-right font-medium">
+        <div className={colorCurrency(row.getValue('win_player'), 'block text-right font-medium')}>
           <span className="text-neutral-300">Rp</span>
           {formatNumberWithCommas(row.getValue('win_player'))}
         </div>
@@ -177,11 +179,10 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
         return isNaN(price) ? sum : sum + price
       }, 0)
       return (
-        <div className="block w-full text-right font-medium">
+        <div className={colorCurrency(total, 'block w-full text-right font-medium')}>
           <span className="text-neutral-300">Rp</span>
-          <span className="text-neutral-400">
-            {formatNumberWithCommas(total > 0 ? total : total, 0)}
-          </span>
+
+          {formatNumberWithCommas(total > 0 ? total : total, 0)}
         </div>
       )
     }
@@ -233,6 +234,10 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
   }
 ]
 
+export const FooterRow = () => {
+  return <div className="text-left text-sm font-medium text-neutral-400">Total</div>
+}
+
 export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
   {
     accessorKey: 'parent_id',
@@ -255,7 +260,8 @@ export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
           {row.getValue('parent_id')}
         </div>
       )
-    }
+    },
+    footer: FooterRow
   },
   {
     accessorKey: 'dealer_id',
@@ -375,11 +381,10 @@ export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
         return isNaN(price) ? sum : sum + price
       }, 0)
       return (
-        <div className="block w-full text-right font-medium">
+        <div className={colorCurrency(total, 'block w-full text-right font-medium')}>
           <span className="text-neutral-300">Rp</span>
-          <span className="text-neutral-400">
-            {formatNumberWithCommas(total > 0 ? total : total, 0)}
-          </span>
+
+          {formatNumberWithCommas(total > 0 ? total : total, 0)}
         </div>
       )
     }
@@ -412,8 +417,10 @@ export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
         return isNaN(price) ? sum : sum + price
       }, 0)
       return (
-        <div className="text-sm font-semibold text-neutral-400">
-          Rp{formatNumberWithCommas(total > 0 ? total : total, 0)}
+        <div className={colorCurrency(total, 'block w-full text-right font-medium')}>
+          <span className="text-neutral-300">Rp</span>
+
+          {formatNumberWithCommas(total > 0 ? total : total, 0)}
         </div>
       )
     }

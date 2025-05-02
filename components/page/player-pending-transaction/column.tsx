@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { ColumnDef } from '@tanstack/react-table'
 import { formatNumberWithCommas } from '@/lib/format-number'
-import { cn } from '@/lib/utils'
+import { cn, colorCurrency } from '@/lib/utils'
 import ButtonSort from '@/components/data-table/button-sort'
 import { format } from 'date-fns'
 import BadgeStatus from '@/components/badge-status'
@@ -189,7 +189,7 @@ export const ColumnsPlayerPendingTransaction: ColumnDef<PlayerPendingTransaction
     },
     cell: ({ row }) => {
       return (
-        <div className="block text-right font-medium">
+        <div className={colorCurrency(row.getValue('bet'), 'block w-full text-right font-medium')}>
           <span className="text-neutral-300">Rp</span>
           {formatNumberWithCommas(row.getValue('bet') || 0, 0)}
         </div>
@@ -201,11 +201,9 @@ export const ColumnsPlayerPendingTransaction: ColumnDef<PlayerPendingTransaction
         return isNaN(price) ? sum : sum + price
       }, 0)
       return (
-        <div className="block w-full text-right font-medium">
+        <div className={colorCurrency(total, 'block w-full text-right font-medium')}>
           <span className="text-neutral-300">Rp</span>
-          <span className="text-neutral-400">
-            {formatNumberWithCommas(total > 0 ? total : total, 0)}
-          </span>
+          {formatNumberWithCommas(total > 0 ? total : total, 0)}
         </div>
       )
     }
@@ -226,7 +224,7 @@ export const ColumnsPlayerPendingTransaction: ColumnDef<PlayerPendingTransaction
     },
     cell: ({ row }) => {
       return (
-        <div className="block text-right font-medium">
+        <div className={colorCurrency(row?.getValue('win'), 'block w-full text-right font-medium')}>
           <span className="text-neutral-300">Rp</span>
           {formatNumberWithCommas(row.getValue('win'), 0)}
         </div>
