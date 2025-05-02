@@ -9,6 +9,7 @@ import InitialAvatar from '@/components/initial-avatar'
 import BadgeStatus from '@/components/badge-status'
 import ButtonDetail from '@/components/button-detail'
 import { ButtonAddQueryParams } from '../../slot'
+import { FooterRow } from '../../slot/column'
 
 export interface InvoiceType {
   other_expense: any
@@ -417,7 +418,8 @@ export const ColumnsCategoryDetail: ColumnDef<InvoiceType>[] = [
   {
     accessorKey: 'game_name',
     header: () => <div className="text-left">Game Name</div>,
-    cell: ({ row }) => <div className="text-left">{row.getValue('game_name')}</div>
+    cell: ({ row }) => <div className="text-left">{row.getValue('game_name')}</div>,
+    footer: FooterRow
   },
   {
     accessorKey: 'parent_id',
@@ -584,7 +586,8 @@ export const ColumnsOtherExpenses: ColumnDef<OtherExpensesType>[] = [
   {
     accessorKey: 'key',
     header: () => <div className="text-left">Note</div>,
-    cell: ({ row }) => <div className="text-left">{row.getValue('key')}</div>
+    cell: ({ row }) => <div className="text-left">{row.getValue('key')}</div>,
+    footer: FooterRow
   },
   {
     accessorKey: 'value',

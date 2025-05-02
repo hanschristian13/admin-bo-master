@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { ColumnDef } from '@tanstack/react-table'
 import { formatNumberWithCommas } from '@/lib/format-number'
-import { cn } from '@/lib/utils'
+import { cn, colorCurrency } from '@/lib/utils'
 import ButtonSort from '@/components/data-table/button-sort'
 import { format } from 'date-fns'
 
@@ -141,14 +141,14 @@ export const ColumnsProfit: ColumnDef<ProfitType>[] = [
       )
     },
     cell: ({ row }) => {
-      const dataMap = row.getValue('master_agent_profit')
+      const dataMap = row.getValue('master_agent_profit') as number
       const dataMcp = row?.original.master_company_profit
+      const total = dataMap + dataMcp
       return (
-        <div className="block w-full text-right font-medium">
+        <div className={colorCurrency(total, 'block w-full text-right font-medium')}>
           <span className="text-neutral-300">Rp</span>
-          <span className="text-neutral-400">
-            {formatNumberWithCommas((dataMap as number) + dataMcp)}
-          </span>
+
+          {formatNumberWithCommas((dataMap as number) + dataMcp)}
         </div>
       )
     }
@@ -186,11 +186,10 @@ export const ColumnsProfit: ColumnDef<ProfitType>[] = [
     cell: ({ row }) => {
       const data = row.getValue('profit') as number
       return (
-        <div className="block w-full text-right font-medium">
+        <div className={colorCurrency(data, 'block w-full text-right font-medium')}>
           <span className="text-neutral-300">Rp</span>
-          <span className="text-neutral-400">
-            {formatNumberWithCommas(data > 0 ? data : data, 0)}
-          </span>
+
+          {formatNumberWithCommas(data > 0 ? data : data, 0)}
         </div>
       )
     }
