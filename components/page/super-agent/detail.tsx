@@ -52,7 +52,7 @@ const Page: React.FC = ({}) => {
     <div className="space-y-6">
       <ButtonBack url="/super-agent" />
       <div className="flex justify-between items-center gap-x-2.5">
-        <SearchInput param="agentId" placeholder="Seacrh Agent..." />
+        <SearchInput param="agentId" placeholder="Search Agent..." />
         <Button variant="default" onClick={() => router.push(`/super-agent/${superAgentId}/new`)}>
           <Plus />
           Create agent

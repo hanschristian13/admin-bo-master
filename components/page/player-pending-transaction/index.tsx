@@ -16,7 +16,7 @@ const Page = ({ data }: { data: ApiResponse<unknown> }) => {
     <div className="w-full space-y-4">
       <div className="flex flex-col gap-2 md:flex-row justify-between">
         <div className="flex items-center jus space-x-2.5">
-          <SearchInput param="q" placeholder="Seacrh Username" />
+          <SearchInput param="q" placeholder="Search Username" />
           <FilterStatusBet />
         </div>
         <div className="flex items-center jus space-x-2.5">

@@ -6,5 +6,5 @@ export const statusBet = [
 export const statusPaid = [
   { value: 'pending', label: 'pending' },
   { value: 'paid', label: 'paid' },
-  { value: 'adjusted', label: 'adjusted' }
+  { value: 'unpaid', label: 'unpaid' }
 ]

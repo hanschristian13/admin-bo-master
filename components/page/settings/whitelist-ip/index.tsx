@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { whitelistIp } from '@/mock/settings'
 import { Copy, Globe, Plus, Trash } from 'lucide-react'
 import {
   AlertDialog,
@@ -15,23 +15,51 @@ import FormAddWhitelistIP from './form-add-whitelist-ip'
 import ContentConfirmation from '@/components/content-confirmation'
 import SearchInput from '@/components/form/search-input'
 import { copyToClipboard } from '@/lib/copy-to-clipboard'
+import { useWhitelist } from '@/hooks/useWhitelist'
+import { usePost } from '@/hooks/usePost'
+import { deleteWhitelistIp } from '@/service/setting'
+import { toast } from 'sonner'
 
-const Page = () => {
+const Page = ({ data, parent_id }: any) => {
   const [isAlertDialogAddWhitelistIPOpen, setIsAlertDialogAddWhitelistIPOpen] = useState(false)
   const [isAlertDialogDeleteIpOpen, setIsAlertDialogDeleteIpOpen] = useState(false)
   const [selectedip, setSelectedip] = useState<string>('')
   const handleAddExpenses = () => {
     setIsAlertDialogAddWhitelistIPOpen(true)
   }
-
   const handleClickDelete = (ip: string) => {
     setSelectedip(ip)
     setIsAlertDialogDeleteIpOpen(true)
   }
+  const { list, fetchWhitelist } = useWhitelist()
+
+  const { post } = usePost(deleteWhitelistIp)
+  const refetch = () => {
+    fetchWhitelist(parent_id)
+  }
+
+  const handleDeleteIp = (data: string) => {
+    post(
+      {
+        dealer_id: parent_id,
+        ip: data
+      },
+      {
+        onSuccess: () => {
+          toast.success('Success', {
+            description: <p>New Whitelist IP deleted</p>
+          })
+          refetch()
+          setIsAlertDialogDeleteIpOpen(false)
+        }
+      }
+    )
+  }
+  const finalData = list?.length > 0 ? list : data
   return (
     <div className="space-y-4">
       <div className="flex justify-between items-center">
-        <SearchInput param="" placeholder="Seacrh IP..." />
+        <SearchInput param="q" placeholder="Search IP..." />
         <Button onClick={handleAddExpenses} variant="default">
           <Plus />
           {'Add IP'}
@@ -42,13 +70,17 @@ const Page = () => {
           <AlertDialogPortal>
             <AlertDialogTitle></AlertDialogTitle>
             <AlertDialogContent className="flex flex-col p-0 overflow-hidden">
-              <FormAddWhitelistIP setIsAlertDialogOpen={setIsAlertDialogAddWhitelistIPOpen} />
+              <FormAddWhitelistIP
+                onSuccess={refetch}
+                parent_id={parent_id}
+                setIsAlertDialogOpen={setIsAlertDialogAddWhitelistIPOpen}
+              />
             </AlertDialogContent>
           </AlertDialogPortal>
         </AlertDialog>
       </div>
       <div className="grid gap-4 md:grid-cols-3">
-        {whitelistIp.map((item, index) => (
+        {finalData.map((item: any, index: any) => (
           <Card key={item} className="p-6 flex items-center justify-between">
             <div className="flex items-center gap-x-2">
               <Button variant="outline" size="sm">
@@ -79,6 +111,7 @@ const Page = () => {
           <AlertDialogTitle></AlertDialogTitle>
           <AlertDialogContent className="flex flex-col p-0 overflow-hidden">
             <ContentConfirmation
+              handleOnSubmit={handleDeleteIp}
               setIsAlertDialogOpen={setIsAlertDialogDeleteIpOpen}
               data={selectedip}
             />

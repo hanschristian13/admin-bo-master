@@ -14,7 +14,7 @@ import ChartHeader from './chart-header'
 
 const chartConfig = {
   new_register_player: {
-    label: 'New Player Regiter ',
+    label: 'New Player Register ',
     color: 'rgb(0,111,214)'
   }
 } satisfies ChartConfig

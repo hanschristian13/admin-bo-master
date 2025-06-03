@@ -11,7 +11,8 @@ import {
 import CardDashboardToday from '@/components/page/dashboard/card-dashboard-today'
 import { useHandlePaginationClient } from '@/hooks'
 
-const Page = ({ data, detail }: any) => {
+const Page = ({ data, detail, month }: any) => {
+  console.log(detail)
   const { onPaginationChange, pagination } = useHandlePaginationClient({ initPageSize: 5 })
   const { onPaginationChange: onChangePaginationDetail, pagination: paginationDetail } =
     useHandlePaginationClient({ initPageSize: 5 })
@@ -20,14 +21,12 @@ const Page = ({ data, detail }: any) => {
       initPageSize: 5
     })
 
-  console.log(detail)
-
   return (
     <div className="w-full space-y-4">
       <ButtonBack url="/invoice" />
       <div className="w-fit">
         <CardDashboardToday
-          title={'June Monthly Invoice Amount'}
+          title={`${month} Monthly Invoice Amount`}
           amount={data?.data?.total_invoice ?? 0}
         />
       </div>

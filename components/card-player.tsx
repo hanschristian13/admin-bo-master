@@ -21,7 +21,7 @@ const CardPlayer: React.FC<CardPlayerProps> = ({ data }) => {
       <div className="bg-neutral-100  border-t border-neutral-200 p-4 flex flex-col items-start justify-between gap-x-4 text-neutral-400">
         <div className="flex gap-x-2 items-center text-sm font-medium text-neutral-300">
           <DotStatus style="green" />
-          Last Login
+          Register Date
         </div>
         <div className="text-xs">{timeFormat(data?.registered_at).format('dd MMM, yyyy')}</div>
       </div>

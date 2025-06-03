@@ -22,7 +22,7 @@ const ClientDetailSuperAgent: React.FC<ClientDetailSuperAgentProps> = ({
       <div className='flex justify-between items-center gap-x-2.5'>
         <SearchInput
           param='agentId'
-          placeholder='Seacrh Agent...' />
+          placeholder='Search Agent...' />
         <Button
           variant='default'
           onClick={() => router.push(`/super-agent/${superAgentId}/new`)}

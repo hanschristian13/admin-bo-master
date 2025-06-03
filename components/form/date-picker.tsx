@@ -8,6 +8,7 @@ import { cn, timeFormat } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { toast } from 'sonner'
 
 export function DatePickerWithRange({
   className,
@@ -48,10 +49,25 @@ export function DatePickerWithRange({
           <Calendar
             initialFocus
             mode="range"
-            max={31}
             defaultMonth={value?.from}
             selected={value}
-            onSelect={onChange}
+            onSelect={selectedRange => {
+              if (
+                selectedRange?.from &&
+                selectedRange?.to &&
+                (selectedRange.to.getTime() - selectedRange.from.getTime()) /
+                  (1000 * 60 * 60 * 24) >
+                  31
+              ) {
+                toast.error('The selected range cannot exceed 31 days.')
+                onChange({
+                  from: selectedRange?.from,
+                  to: new Date(selectedRange.from.getTime() + 31 * 24 * 60 * 60 * 1000)
+                })
+              } else {
+                onChange(selectedRange)
+              }
+            }}
             numberOfMonths={2}
           />
         </PopoverContent>

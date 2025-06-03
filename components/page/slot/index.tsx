@@ -1,6 +1,6 @@
 'use client'
 
-import React, { FC } from 'react'
+import React, { FC, useContext } from 'react'
 import SearchInput from '@/components/form/search-input'
 import { DataTable } from '@/components/data-table'
 
@@ -12,6 +12,7 @@ import FilterSelectDate from '@/components/filter/filter-select-time'
 import { ApiResponse } from '@/service'
 import ButtonDetail from '@/components/button-detail'
 import { usePathname } from 'next/navigation'
+import { SidebarContext } from '@/components/ui/sidebar'
 
 export const ButtonPageToDetailWithParent = ({
   sub,
@@ -34,11 +35,12 @@ const Page: FC<{ superAgent: ApiResponse<unknown>; detail: ApiResponse<unknown> 
   detail
 }) => {
   const { pagination, onPaginationChange } = useHandlePagination()
+  const { webRole } = useContext(SidebarContext)
   return (
     <div className="w-full">
       <div className="mb-9 flex justify-between">
-        <SearchInput param="q" placeholder="Seacrh Superagent" />
-        <div className="flex items-center space-x-2.5">
+        {webRole === 'label' && <SearchInput param="q" placeholder="Search Super Agent" />}
+        <div className="flex items-center space-x-2.5 justify-end w-full">
           <FilterDateRange />
           <FilterSelectDate />
         </div>

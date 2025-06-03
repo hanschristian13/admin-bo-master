@@ -15,8 +15,8 @@ const page = async ({ searchParams }: PageProps): Promise<JSX.Element> => {
 
   const parentID = currentSearchParams?.parent_id
 
-  const { startDate, endDate, page, limit } = getSearchParams(currentSearchParams)
-  const data = await profitSharingSlotOverview({ start_date: startDate, end_date: endDate })
+  const { startDate, endDate, page, limit, q } = getSearchParams(currentSearchParams)
+  const data = await profitSharingSlotOverview({ start_date: startDate, end_date: endDate, q })
 
   const detail = parentID
     ? await profitSharingSlotDetail(
@@ -25,7 +25,8 @@ const page = async ({ searchParams }: PageProps): Promise<JSX.Element> => {
           end_date: endDate,
           group: 'all',
           page,
-          limit
+          limit,
+          q
         },
         parentID?.toString()
       )

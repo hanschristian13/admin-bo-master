@@ -9,27 +9,27 @@ import { useRouter } from 'next/navigation'
 
 interface Props {
   superAgentId: string
+  isLabel?: boolean
 }
 
-const WrapperSearchAndButton: React.FC<Props> = ({
-  superAgentId
-}) => {
+const WrapperSearchAndButton: React.FC<Props> = ({ superAgentId, isLabel = true }) => {
   const router = useRouter()
   return (
     <React.Fragment>
-      <ButtonBack url='/super-agent' />
-      <div className='flex justify-between items-center gap-x-2.5'>
-        <SearchInput
-          param='agentId'
-          placeholder='Seacrh Agent...' />
-        <Button
-          variant='default'
-          onClick={() => router.push(`/super-agent/?superAgentId=${superAgentId}&mode=create-agent`)}
-        >
-          <Plus />
-          Create agent
-        </Button>
-      </div>
+      <ButtonBack url="/super-agent" />
+      {isLabel && (
+        <div className="flex justify-between items-center gap-x-2.5">
+          <SearchInput param="agentId" placeholder="Search Agent..." />
+          <Button
+            variant="default"
+            onClick={() =>
+              router.push(`/super-agent/?superAgentId=${superAgentId}&mode=create-agent`)
+            }>
+            <Plus />
+            Create agent
+          </Button>
+        </div>
+      )}
     </React.Fragment>
   )
 }

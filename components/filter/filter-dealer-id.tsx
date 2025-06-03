@@ -1,23 +1,41 @@
 'use client'
-import { getAgentList } from '@/service/report'
-import React, { useEffect } from 'react'
+import React from 'react'
 import SelectForFilter from './select-for-filter'
-import { DataSuperAgentType, SuperAgentType } from '@/types/super-agent'
+import { useDealerList } from '@/hooks/useDealerList'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 
-const FilterDealerId = () => {
-  const [dealerList, setDealerList] = React.useState<{ label: string; value: string }[]>([])
+const FilterDealerId = ({
+  isClient = false,
+  value,
+  onChange
+}: {
+  isClient?: boolean
+  value?: string | undefined
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onChange?: any
+}) => {
+  const { data } = useDealerList()
 
-  const fetchDealerList = async () => {
-    const data = (await getAgentList()) as DataSuperAgentType
-    if (data?.data) {
-      setDealerList(data.data.map((x: SuperAgentType) => ({ label: x._id, value: x._id })))
-    }
-  }
-  useEffect(() => {
-    fetchDealerList()
-  }, [])
+  if (isClient)
+    return (
+      <Select
+        value={data?.find(x => x?.value === value)?.value ?? undefined}
+        onValueChange={onChange}
+        aria-label="Results per page">
+        <SelectTrigger className="w-full whitespace-nowrap capitalize">
+          <SelectValue placeholder={'Select Agent'} />
+        </SelectTrigger>
+        <SelectContent>
+          {data.map(item => (
+            <SelectItem key={item.value} value={item.value.toString()} className="capitalize">
+              {item.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    )
 
-  return <SelectForFilter placeholder="Filter Agent" keys="dealer_id" option={dealerList} />
+  return <SelectForFilter placeholder="Filter Agent" keys="dealer_id" option={data} />
 }
 
 export default FilterDealerId

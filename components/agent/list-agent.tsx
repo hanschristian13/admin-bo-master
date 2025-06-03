@@ -28,12 +28,14 @@ import PaginationCustomize from '@/components/pagination'
 const ListAgent = ({
   data,
   superAgentId,
-  transactionAgent
+  transactionAgent,
+  webRole
 }: {
   // data: SuperAgentType[] | undefined,
   data: DataSuperAgentType | null
   superAgentId: string
   transactionAgent: resAgentTransaction | null | undefined
+  webRole?: string
 }) => {
   const router = useRouter()
   const status = 'active'
@@ -71,13 +73,13 @@ const ListAgent = ({
       }
     }
   }, [transactionAgent])
-  console.log({ data })
   return (
     <div className="xl:col-span-2 2xl:col-span-3 flex flex-col gap-y-5">
       <div className="w-full grid md:grid-cols-2 auto-rows-min gap-4 xl:grid-cols-2 2xl:grid-cols-3">
         {data &&
           data?.data?.map(item => (
             <CardAgent
+              withEditButton={webRole === 'label'}
               key={item?._id}
               name={item?._id}
               code={item?.short_code}

@@ -1,4 +1,5 @@
 import { getCookieValue } from '@/app/action/auth'
+import { getCookie } from '@/app/action/libs'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import { redirect } from 'next/navigation'
 
@@ -29,9 +30,22 @@ class Request {
     cache: RequestCache = 'no-store'
   ): Promise<ApiResponse<T> | null> {
     const token = await getCookieValue()
+    const web_role = await getCookie('WEB_ROLE')
+    console.log('web_role', web_role)
+    if (web_role === 'label') {
+      if (endpoint.includes('/admin/')) {
+        endpoint = endpoint.replaceAll('/admin/', '/superadmin/')
+      }
+    } else {
+      if (endpoint.includes('/superadmin/')) {
+        endpoint = endpoint.replaceAll('/superadmin/', '/admin/')
+      }
+    }
 
+    console.log(endpoint)
     try {
       const url = new URL(`${this.BASE_URL}/${endpoint}`)
+      console.log(url)
       Object.entries(params).forEach(([key, value]) => {
         if (value !== undefined) {
           if (Array.isArray(value)) {
@@ -57,12 +71,9 @@ class Request {
       })
 
       if (!response.ok) {
-        if (response.status === 401 && endpoint !== 'users/tokens') {
-          this.status = 401
-        }
-
-        const message = await response.text()
-        return JSON.parse(message) as ApiResponse<T>
+        const errorResponse = await response?.json()
+        const errorMessage = this.getErrorMessage(errorResponse)
+        throw new Error(`Request failed with status ${response.status}: ${errorMessage.join(', ')}`)
       }
 
       return (await response.json()) as ApiResponse<T>
@@ -70,7 +81,8 @@ class Request {
       if (isRedirectError(error)) {
         throw error
       }
-      return error as ApiResponse<T>
+
+      throw error
     } finally {
       if (this.status === 401) {
         this.status = 0

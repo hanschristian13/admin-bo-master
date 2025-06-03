@@ -13,10 +13,11 @@ export const metadata: Metadata = {
 const page = async ({ searchParams }: PageProps): Promise<JSX.Element> => {
   const currentSearchParams = await searchParams
 
-  const { startDate, endDate, page, limit } = getSearchParams(currentSearchParams)
+  const { startDate, endDate, page, limit, q } = getSearchParams(currentSearchParams)
   const superAgent = await profitSharingSlotOverview({
     start_date: startDate,
-    end_date: endDate
+    end_date: endDate,
+    q
   })
 
   const detailData = currentSearchParams?.parent_id

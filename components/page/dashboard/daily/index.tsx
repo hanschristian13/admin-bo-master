@@ -8,50 +8,67 @@ import { timeFormat } from '@/lib/utils'
 import { iDailyUserDashboard } from '@/lib/definitions'
 
 function calculatePercentageDifference(
-  today?: iDailyUserDashboard,
-  yesterday?: iDailyUserDashboard
+  today: Partial<iDailyUserDashboard>, 
+  yesterday: Partial<iDailyUserDashboard>
 ) {
-  if (!today || !yesterday) return {}
+  // Safe percentage calculation that handles zero values
+  const calcPercent = (curr: number, prev: number) => {
+    if (prev === 0) return curr > 0 ? 100 : 0
+    return +((curr - prev) / Math.abs(prev) * 100).toFixed(2)
+  }
+
   return {
-    profit:
-      yesterday.profit !== 0
-        ? +(((today.profit - yesterday.profit) / yesterday.profit) * 100).toFixed(2)
-        : 0,
-    turnover:
-      yesterday.turnover !== 0
-        ? +(((today.turnover - yesterday.turnover) / yesterday.turnover) * 100).toFixed(2)
-        : 0,
-    win_player:
-      yesterday.win_player !== 0
-        ? +(((today.win_player - yesterday.win_player) / yesterday.win_player) * 100).toFixed(2)
-        : 0
+    profit: calcPercent(today?.profit || 0, yesterday?.profit || 0),
+    turnover: calcPercent(today?.turnover || 0, yesterday?.turnover || 0),
+    win_player: calcPercent(today?.win_player || 0, yesterday?.win_player || 0)
   }
 }
+
 const DasboardDaily = async () => {
   const today = timeFormat().format()
-  const { data } = (await getOverviewDailyUser({
+  const { data = [] } = (await getOverviewDailyUser({
     start_date: timeFormat().subtract(1, 'days').format(),
     end_date: today
   })) as { data: iDailyUserDashboard[] }
 
-  const todayData = data?.find(x => timeFormat(x?.date)?.isSame(new Date()))
-  const yesterdayData = data?.find(x => timeFormat(x?.date)?.isBefore(new Date()))
+  // Get current date and yesterday in format used for comparison - using lowercase yyyy for date-fns
+  const currentDate = timeFormat().format('yyyy-MM-dd')
+  const yesterdayDate = timeFormat().subtract(1, 'days').format('yyyy-MM-dd')
+
+  // Create empty default data with proper types
+  const emptyData: Partial<iDailyUserDashboard> = {
+    turnover: 0,
+    profit: 0,
+    win_player: 0,
+    new_register_player: 0,
+    active_player: 0
+  }
+
+  // Find today and yesterday data, defaulting to typed empty objects if not found
+  const todayData: Partial<iDailyUserDashboard> = 
+    data.find(x => timeFormat(x?.date).format('yyyy-MM-dd') === currentDate) || emptyData
+    
+  const yesterdayData: Partial<iDailyUserDashboard> = 
+    data.find(x => timeFormat(x?.date).format('yyyy-MM-dd') === yesterdayDate) || emptyData
+  
+  // Calculate percentage changes
   const percentage = calculatePercentageDifference(todayData, yesterdayData)
+
   const dataCard = [
     {
       title: 'turnover slot',
-      amount: todayData?.turnover,
-      Percent: percentage?.turnover ?? 0
+      amount: todayData.turnover || 0,
+      Percent: percentage.turnover
+    },
+    {
+      title: 'win player slot',
+      amount: todayData.win_player || 0,
+      Percent: percentage.win_player
     },
     {
       title: 'profit slot',
-      amount: todayData?.profit,
-      Percent: percentage?.profit ?? 0
-    },
-    {
-      title: 'win slot',
-      amount: todayData?.win_player,
-      Percent: percentage?.win_player ?? 0
+      amount: todayData.profit || 0,
+      Percent: percentage.profit
     }
   ]
 
@@ -62,16 +79,16 @@ const DasboardDaily = async () => {
           <CardDashboardToday
             key={item.title}
             title={item.title}
-            amount={item.amount!}
-            progress={item.Percent!}
+            amount={item.amount}
+            progress={item.Percent}
           />
         ))}
       </div>
       <PlayerBar
-        newRegisterPlayer={todayData?.new_register_player ?? 0}
-        activePlayer={todayData?.active_player ?? 0}
-        newlyRegisteredPlayerfromYesterday={yesterdayData?.new_register_player ?? 0}
-        newlyActivePlayerfromYesterday={yesterdayData?.active_player ?? 0}
+        newRegisterPlayer={todayData.new_register_player || 0}
+        activePlayer={todayData.active_player || 0}
+        newlyRegisteredPlayerfromYesterday={yesterdayData.new_register_player || 0}
+        newlyActivePlayerfromYesterday={yesterdayData.active_player || 0}
       />
       <Separator orientation="horizontal" />
       <TopGames />

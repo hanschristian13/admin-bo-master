@@ -1,6 +1,6 @@
 'use client'
 
-import React, { FC } from 'react'
+import React, { FC, useContext } from 'react'
 import SearchInput from '@/components/form/search-input'
 import { DataTable } from '@/components/data-table'
 
@@ -10,18 +10,19 @@ import FilterDateRange from '@/components/filter/filter-date-range'
 import FilterSelectDate from '@/components/filter/filter-select-time'
 import { useHandlePagination } from '@/hooks'
 import { ApiResponse } from '@/service'
+import { SidebarContext } from '@/components/ui/sidebar'
 
 const Page: FC<{ superAgentList: ApiResponse<unknown>; detail: ApiResponse<unknown> }> = ({
   superAgentList,
   detail
 }) => {
   const { pagination, onPaginationChange } = useHandlePagination()
-
+  const { webRole } = useContext(SidebarContext)
   return (
     <div className="w-full space-y-4">
       <div className="flex justify-between">
-        <SearchInput param="q" placeholder="Search Superagent" />
-        <div className="flex items-center space-x-2.5">
+        {webRole === 'label' && <SearchInput param="q" placeholder="Search Super Agent" />}
+        <div className="flex items-center space-x-2.5 w-full justify-end">
           <FilterDateRange />
           <FilterSelectDate />
         </div>

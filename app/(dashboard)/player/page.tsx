@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 const page = async ({ searchParams }: PageProps): Promise<JSX.Element> => {
   const currentSearchParams = await searchParams
-  const { startDate, endDate, page } = getSearchParams(currentSearchParams)
+  const { startDate, endDate, page, q } = getSearchParams(currentSearchParams)
 
   const dealerID = currentSearchParams?.dealer_id
 
@@ -21,11 +21,11 @@ const page = async ({ searchParams }: PageProps): Promise<JSX.Element> => {
         start_date: startDate,
         end_date: endDate,
         page,
-        limit: '12'
+        limit: '12',
+        q
       })
     : null
 
-  console.log(list)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return <PageWebsiteManagementPlayer list={list as any} />
 }

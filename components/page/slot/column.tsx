@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { ColumnDef } from '@tanstack/react-table'
 import { formatNumberWithCommas } from '@/lib/format-number'
-import { cn } from '@/lib/utils'
+import { cn, colorCurrency } from '@/lib/utils'
 import ButtonSort from '@/components/data-table/button-sort'
 import { format } from 'date-fns'
 import InitialAvatar from '@/components/initial-avatar'
@@ -46,7 +46,10 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
         {' '}
         {format(row.getValue('date'), 'LLL dd, y')}{' '}
       </div>
-    )
+    ),
+    footer: () => {
+      return <div className="text-left text-sm font-medium text-neutral-400">Total</div>
+    }
   },
   {
     accessorKey: 'total_player',
@@ -66,20 +69,20 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
       <div className="text-right">
         {formatNumberWithCommas(row.getValue('total_player'), 0)} Player
       </div>
-    ),
-    footer: ({ table }) => {
-      const total = table.getRowModel().rows.reduce((sum, row) => {
-        const price = Number(row.getValue('total_player'))
-        return isNaN(price) ? sum : sum + price
-      }, 0)
-      return (
-        <div className="block w-full text-right font-medium">
-          <span className="text-neutral-400">
-            {formatNumberWithCommas(total ? total : 0, 0)} Player
-          </span>
-        </div>
-      )
-    }
+    )
+    // footer: ({ table }) => {
+    //   const total = table.getRowModel().rows.reduce((sum, row) => {
+    //     const price = Number(row.getValue('total_player'))
+    //     return isNaN(price) ? sum : sum + price
+    //   }, 0)
+    //   return (
+    //     <div className="block w-full text-right font-medium">
+    //       <span className="text-neutral-400">
+    //         {formatNumberWithCommas(total ? total : 0, 0)} Player
+    //       </span>
+    //     </div>
+    //   )
+    // }
   },
   {
     accessorKey: 'total_client',
@@ -90,28 +93,27 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0 w-full justify-end">
-          Total Client
+          Total Agent
           <ButtonSort sortType={sortType} />
         </Button>
       )
     },
     cell: ({ row }) => (
       <div className="text-right">{formatNumberWithCommas(row.getValue('total_client'), 0)}</div>
-    ),
-    footer: ({ table }) => {
-      const total = table.getRowModel().rows.reduce((sum, row) => {
-        const price = Number(row.getValue('total_client'))
-        return isNaN(price) ? sum : sum + price
-      }, 0)
-      return (
-        <div className="block w-full text-right font-medium">
-          <span className="text-neutral-300">Rp</span>
-          <span className="text-neutral-400">
-            {formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
-          </span>
-        </div>
-      )
-    }
+    )
+    // footer: ({ table }) => {
+    //   const total = table.getRowModel().rows.reduce((sum, row) => {
+    //     const price = Number(row.getValue('total_client'))
+    //     return isNaN(price) ? sum : sum + price
+    //   }, 0)
+    //   return (
+    //     <div className="block w-full text-right font-medium">
+    //       <span className="text-neutral-400">
+    //         {formatNumberWithCommas(total > 0 ? total : total , 0)}
+    //       </span>
+    //     </div>
+    //   )
+    // }
   },
   {
     accessorKey: 'turnover',
@@ -129,7 +131,7 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
     },
     cell: ({ row }) => {
       return (
-        <div className="block text-right font-medium">
+        <div className={colorCurrency(row.getValue('turnover'), 'block text-right font-medium')}>
           <span className="text-neutral-300">Rp</span>
           {formatNumberWithCommas(row.getValue('turnover'))}
         </div>
@@ -141,11 +143,10 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
         return isNaN(price) ? sum : sum + price
       }, 0)
       return (
-        <div className="block w-full text-right font-medium">
+        <div className={colorCurrency(total, 'block text-right font-medium')}>
           <span className="text-neutral-300">Rp</span>
-          <span className="text-neutral-400">
-            {formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
-          </span>
+
+          {formatNumberWithCommas(total > 0 ? total : total, 0)}
         </div>
       )
     }
@@ -166,7 +167,7 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
     },
     cell: ({ row }) => {
       return (
-        <div className="block text-right font-medium">
+        <div className={colorCurrency(row.getValue('win_player'), 'block text-right font-medium')}>
           <span className="text-neutral-300">Rp</span>
           {formatNumberWithCommas(row.getValue('win_player'))}
         </div>
@@ -178,11 +179,10 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
         return isNaN(price) ? sum : sum + price
       }, 0)
       return (
-        <div className="block w-full text-right font-medium">
+        <div className={colorCurrency(total, 'block w-full text-right font-medium')}>
           <span className="text-neutral-300">Rp</span>
-          <span className="text-neutral-400">
-            {formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
-          </span>
+
+          {formatNumberWithCommas(total > 0 ? total : total, 0)}
         </div>
       )
     }
@@ -207,7 +207,7 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(profit > 0 && 'text-green-950', profit < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(profit > 0 ? profit : profit * -1, 0)}
+            {formatNumberWithCommas(profit, 0)}
           </span>
         </div>
       )
@@ -219,7 +219,7 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+          Rp{formatNumberWithCommas(total, 0)}
         </div>
       )
     }
@@ -234,11 +234,34 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
   }
 ]
 
+export const FooterRow = () => {
+  return <div className="text-left text-sm font-medium text-neutral-400">Total</div>
+}
+
 export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
   {
-    accessorKey: 'no',
-    header: () => <div className="text-keft">No</div>,
-    cell: ({ row }) => <div className="text-left">{row.index + 1}</div>
+    accessorKey: 'parent_id',
+    header: ({ column }) => {
+      const sortType = column.getIsSorted()
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(sortType === 'asc')}
+          className="has-[>svg]:px-0 w-full">
+          Super Agent
+          <ButtonSort sortType={sortType} />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="capitalize flex gap-x-1.5 items-center h-7">
+          <InitialAvatar name={row.getValue('parent_id')} />
+          {row.getValue('parent_id')}
+        </div>
+      )
+    },
+    footer: FooterRow
   },
   {
     accessorKey: 'dealer_id',
@@ -249,7 +272,7 @@ export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0 w-full">
-          Super Agent
+          Agent
           <ButtonSort sortType={sortType} />
         </Button>
       )
@@ -295,7 +318,7 @@ export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0 w-full justify-center">
-          Game
+          Game Type
           <ButtonSort sortType={sortType} />
         </Button>
       )
@@ -304,6 +327,28 @@ export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
       return (
         <div className="mx-auto capitalize flex gap-x-1.5 items-center h-7">
           {row.getValue('game_type')}
+        </div>
+      )
+    }
+  },
+  {
+    accessorKey: 'game_name',
+    header: ({ column }) => {
+      const sortType = column.getIsSorted()
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(sortType === 'asc')}
+          className="has-[>svg]:px-0 w-full justify-center">
+          Game Name
+          <ButtonSort sortType={sortType} />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="mx-auto capitalize flex gap-x-1.5 items-center h-7">
+          {row.getValue('game_name')}
         </div>
       )
     }
@@ -336,11 +381,10 @@ export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
         return isNaN(price) ? sum : sum + price
       }, 0)
       return (
-        <div className="block w-full text-right font-medium">
+        <div className={colorCurrency(total, 'block w-full text-right font-medium')}>
           <span className="text-neutral-300">Rp</span>
-          <span className="text-neutral-400">
-            {formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
-          </span>
+
+          {formatNumberWithCommas(total > 0 ? total : total, 0)}
         </div>
       )
     }
@@ -373,8 +417,10 @@ export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
         return isNaN(price) ? sum : sum + price
       }, 0)
       return (
-        <div className="text-sm font-semibold text-neutral-400">
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+        <div className={colorCurrency(total, 'block w-full text-right font-medium')}>
+          <span className="text-neutral-300">Rp</span>
+
+          {formatNumberWithCommas(total > 0 ? total : total, 0)}
         </div>
       )
     }
@@ -399,7 +445,7 @@ export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(profit > 0 && 'text-green-950', profit < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(profit > 0 ? profit : profit * -1, 0)}
+            {formatNumberWithCommas(profit, 0)}
           </span>
         </div>
       )
@@ -411,7 +457,7 @@ export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1, 0)}
+          Rp{formatNumberWithCommas(total)}
         </div>
       )
     }

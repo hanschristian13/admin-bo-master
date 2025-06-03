@@ -6,6 +6,8 @@ import FilterSelectDate from '@/components/filter/filter-select-time'
 import { useHandlePagination } from '@/hooks'
 import SearchInput from '@/components/form/search-input'
 import { ApiResponse } from '@/service'
+import { useContext } from 'react'
+import { SidebarContext } from '@/components/ui/sidebar'
 
 interface PageProps {
   data: ApiResponse<unknown>
@@ -13,12 +15,13 @@ interface PageProps {
 
 const Page = ({ data }: PageProps) => {
   const { pagination, onPaginationChange } = useHandlePagination()
-
+  const { webRole } = useContext(SidebarContext)
   return (
     <div className="w-full ">
       <div className="mb-9 flex justify-between">
-        <SearchInput param="q" placeholder="Search Superagent" />
-        <div className="flex items-center space-x-2.5">
+        {webRole === 'label' && <SearchInput param="q" placeholder="Search Super Agent" />}
+
+        <div className="flex items-center space-x-2.5 justify-end w-full">
           <FilterDateRange />
           <FilterSelectDate />
         </div>

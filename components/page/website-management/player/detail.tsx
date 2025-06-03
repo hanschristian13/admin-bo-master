@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import React from 'react'
 import Image from 'next/image'
@@ -5,27 +6,27 @@ import { Globe } from 'lucide-react'
 import { DataTable } from '@/components/data-table'
 import DotStatus from '@/components/dot-status'
 import ButtonBack from '@/components/form/button-back'
-import SearchInput from '@/components/form/search-input'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { formatNumberWithCommas } from '@/lib/format-number'
 import { usePathname } from 'next/navigation'
-import { dataPlayerTrensaction } from '@/mock/player'
 import { ColumnsPlayerTransaction } from './column'
 import { useHandlePagination } from '@/hooks'
 
-const Page = () => {
+const Page = ({ data, summary }: { data: any; summary: any }) => {
   const pathname = usePathname()
   const handleName = pathname.split('/')[2]
   const handleInitial = handleName.charAt(0)
-  const lastLogin = '2024-09-16 11:49:41'
+  const lastLogin = '-'
 
-  const { pagination } = useHandlePagination()
+  const { pagination, onPaginationChange } = useHandlePagination()
+
+  console.log(data)
   return (
     <div className="space-y-6">
       <ButtonBack url="/player" />
-      <div className="flex justify-between items-center gap-x-2.5">
-        <SearchInput param="" placeholder="Seacrh..." />
-      </div>
+      {/* <div className="flex justify-between items-center gap-x-2.5">
+        <SearchInput param="" placeholder="Search..." />
+      </div> */}
       <div className="grid auto-rows-min gap-4 xl:grid-cols-3 2xl:grid-cols-4">
         <Card className="w-full h-fit">
           <CardContent className="flex flex-col items-center pt-6 pb-5 space-y-5 relative">
@@ -60,13 +61,13 @@ const Page = () => {
                   <Globe className="size-4" />
                   {'Using IP'}
                 </div>
-                <div>{'54.86.50.139'}</div>
+                <div>-</div>
               </div>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col items-center border-t border-neutral-200 py-3 text-sm font-medium">
             <span className="text-neutral-300">All Transaction</span>
-            <span className="text-neutral-400">85</span>
+            <span className="text-neutral-400">{summary?.data?.total_transactions}</span>
           </CardFooter>
           <CardFooter className="grid grid-cols-2 border-t border-neutral-200 divide-x divide-neutral-200 p-0 text-sm font-medium text-neutral-300">
             <div className="flex flex-col items-center py-3">
@@ -74,7 +75,7 @@ const Page = () => {
               <div className="flex items-center">
                 <span>Rp</span>
                 <span className="text-neutral-400 font-semibold">
-                  {formatNumberWithCommas(2548984684, 0)}
+                  {formatNumberWithCommas(summary?.data?.turnover, 0)}
                 </span>
               </div>
             </div>
@@ -83,7 +84,7 @@ const Page = () => {
               <div className="flex items-center">
                 <span>Rp</span>
                 <span className="text-neutral-400 font-semibold">
-                  {formatNumberWithCommas(5489841, 0)}
+                  {formatNumberWithCommas(summary?.data?.win_player, 0)}
                 </span>
               </div>
             </div>
@@ -91,9 +92,11 @@ const Page = () => {
         </Card>
         <div className="grid auto-rows-min xl:col-span-2 2xl:col-span-3">
           <DataTable
+            rowCount={data?.total_items || 0}
             pagination={pagination}
-            data={dataPlayerTrensaction.data}
+            data={data?.data || []}
             columns={ColumnsPlayerTransaction}
+            onPaginationChange={onPaginationChange}
           />
         </div>
       </div>

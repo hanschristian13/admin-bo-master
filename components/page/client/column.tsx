@@ -20,12 +20,6 @@ export interface ClientType {
 
 export const ColumnsClient: ColumnDef<ClientType>[] = [
   {
-    accessorKey: 'no',
-    header: () => <div className="text-left">No</div>,
-    cell: ({ row }) => <div className="text-left">{row.index + 1}</div>,
-    footer: () => <div className="text-neutral-300">Total</div>
-  },
-  {
     accessorKey: 'date',
     header: ({ column }) => {
       const sortType = column.getIsSorted()
@@ -44,7 +38,10 @@ export const ColumnsClient: ColumnDef<ClientType>[] = [
         {' '}
         {format(row.getValue('date'), 'LLL dd, y')}{' '}
       </div>
-    )
+    ),
+    footer: () => {
+      return <div className="text-left text-sm font-medium text-neutral-400">Total</div>
+    }
   },
   {
     accessorKey: 'parent_id',
@@ -78,7 +75,7 @@ export const ColumnsClient: ColumnDef<ClientType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0 justify-end">
-          New Register Player
+          New Player
           <ButtonSort sortType={sortType} />
         </Button>
       )
@@ -134,7 +131,7 @@ export const ColumnsClient: ColumnDef<ClientType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1)}
+          Rp{formatNumberWithCommas(total > 0 ? total : total)}
         </div>
       )
     }
@@ -157,7 +154,7 @@ export const ColumnsClient: ColumnDef<ClientType>[] = [
       const win = row.getValue('win_player') as number
       return (
         <div className="block w-full text-right font-medium">
-          <span className="text-neutral-400">{formatNumberWithCommas(win)}</span>
+          <span className="text-neutral-400">Rp{formatNumberWithCommas(win)}</span>
         </div>
       )
     },
@@ -168,7 +165,7 @@ export const ColumnsClient: ColumnDef<ClientType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1)}
+          Rp{formatNumberWithCommas(total > 0 ? total : total)}
         </div>
       )
     }
@@ -193,7 +190,7 @@ export const ColumnsClient: ColumnDef<ClientType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(profit > 0 && 'text-green-950', profit < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(profit > 0 ? profit : profit * -1)}
+            {formatNumberWithCommas(profit)}
           </span>
         </div>
       )
@@ -205,7 +202,7 @@ export const ColumnsClient: ColumnDef<ClientType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1)}
+          Rp{formatNumberWithCommas(total)}
         </div>
       )
     }
@@ -228,6 +225,29 @@ export const ColumnsClientDetail: ColumnDef<ClientType>[] = [
     header: () => <div className="text-left">No</div>,
     cell: ({ row }) => <div className="text-left">{row.index + 1}</div>,
     footer: () => <div className="text-neutral-300">Total</div>
+  },
+  {
+    accessorKey: 'parent_id',
+    header: ({ column }) => {
+      const sortType = column.getIsSorted()
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(sortType === 'asc')}
+          className="has-[>svg]:px-0">
+          Super Agent
+          <ButtonSort sortType={sortType} />
+        </Button>
+      )
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="mx-auto capitalize flex gap-x-1.5 items-center h-7">
+          <InitialAvatar name={row.getValue('parent_id')} />
+          {row.getValue('parent_id')}
+        </div>
+      )
+    }
   },
   {
     accessorKey: 'dealer_id',
@@ -261,7 +281,7 @@ export const ColumnsClientDetail: ColumnDef<ClientType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(sortType === 'asc')}
           className="has-[>svg]:px-0 justify-end">
-          Active Player
+          New Player
           <ButtonSort sortType={sortType} />
         </Button>
       )
@@ -319,7 +339,7 @@ export const ColumnsClientDetail: ColumnDef<ClientType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1)}
+          Rp{formatNumberWithCommas(total)}
         </div>
       )
     }
@@ -342,7 +362,7 @@ export const ColumnsClientDetail: ColumnDef<ClientType>[] = [
       const win = row.getValue('win_player') as number
       return (
         <div className="block w-full text-right font-medium">
-          <span className="text-neutral-400">{formatNumberWithCommas(win)}</span>
+          <span className="text-neutral-400">Rp{formatNumberWithCommas(win)}</span>
         </div>
       )
     },
@@ -353,7 +373,7 @@ export const ColumnsClientDetail: ColumnDef<ClientType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1)}
+          Rp{formatNumberWithCommas(total > 0 ? total : total)}
         </div>
       )
     }
@@ -378,7 +398,7 @@ export const ColumnsClientDetail: ColumnDef<ClientType>[] = [
         <div className="block w-full text-right font-medium">
           <span className="text-neutral-300">Rp</span>
           <span className={cn(profit > 0 && 'text-green-950', profit < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(profit > 0 ? profit : profit * -1)}
+            {formatNumberWithCommas(profit)}
           </span>
         </div>
       )
@@ -390,7 +410,7 @@ export const ColumnsClientDetail: ColumnDef<ClientType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total * -1)}
+          Rp{formatNumberWithCommas(total > 0 ? total : total)}
         </div>
       )
     }

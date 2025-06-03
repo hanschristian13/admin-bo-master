@@ -1,5 +1,4 @@
 'use client'
-
 import { FC } from 'react'
 import { DataTable } from '@/components/data-table'
 import { ClientType, ColumnsClientDetail } from '@/components/page/client/column'
@@ -12,9 +11,9 @@ import { timeFormat } from '@/lib/utils'
 
 const Page: FC<{ data: ApiResponse<unknown> }> = ({ data }) => {
   const { pagination, onPaginationChange } = useHandlePagination()
-
   const { getUrlParams } = useGetUpdateParams()
   const date = getUrlParams('id')
+  
   return (
     <div className="w-full space-y-4">
       <div className="flex gap-2 items-center justify-between">
@@ -25,7 +24,11 @@ const Page: FC<{ data: ApiResponse<unknown> }> = ({ data }) => {
           </Button>
         </div>
         <div className="flex items-center">
-          <FilterDealerId />
+          {/* Pass the current page data to FilterDealerId */}
+          <FilterDealerId 
+            // pageData={data?.data as ClientType[]} 
+            // dealerIdField="dealer_id" 
+          />
         </div>
       </div>
       <div className="grid w-full">

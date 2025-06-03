@@ -17,38 +17,41 @@ const page = async () => {
   const listGame = await getListGame()
 
   const dailyTransaction = (await getDailyGameTransactions({
-    start_date,
+    start_date: timeFormat().format(),
     end_date
   })) as { data: iResponseGetOverviewDailyTransaction[] }
 
   const sum = response?.data as iDailyUserDashboard[]
 
-  const mergeDataDailyTransactionAndGameList = dailyTransaction?.data?.map(x => ({
-    ...x,
-    game_detail: listGame?.data?.find(y => y?.game_name === x?.game_name)
-  }))
-
-  console.log(listGame)
+  const mergeDataDailyTransactionAndGameList = listGame?.data?.map(x => ({
+    game_detail: {...x},
+    game_name: x.game_name,
+    total_player: 0,
+    turnover: 0,
+    win: 0,
+    ...dailyTransaction?.data?.find(y => y?.game_name === x?.game_name)
+  })).sort((a, b) => b.turnover - a.turnover);
 
   const todayData = sum?.find(x => timeFormat(x?.date)?.isSame(new Date())) as iDailyUserDashboard
   const yesterdayData = sum?.find(x =>
     timeFormat(x?.date)?.isBefore(new Date())
   ) as iDailyUserDashboard
+
   const dataProfit = [
     {
       title: 'turnover slot',
       amount: todayData?.turnover ?? 0,
-      percen: calculatePercentageChange(todayData?.turnover, yesterdayData?.turnover)
+      percen: calculatePercentageChange(todayData?.turnover ?? 0, yesterdayData?.turnover ?? 0)
+    },
+    {
+      title: 'win player slot',
+      amount: todayData?.win_player ?? 0,
+      percen: calculatePercentageChange(todayData?.win_player ?? 0, yesterdayData?.win_player ?? 0)
     },
     {
       title: 'profit slot',
       amount: todayData?.profit ?? 0,
-      percen: calculatePercentageChange(todayData?.profit, yesterdayData?.profit)
-    },
-    {
-      title: 'win slot',
-      amount: todayData?.win_player,
-      percen: calculatePercentageChange(todayData?.win_player, yesterdayData?.win_player)
+      percen: calculatePercentageChange(todayData?.profit ?? 0, yesterdayData?.profit ?? 0)
     }
   ]
 
