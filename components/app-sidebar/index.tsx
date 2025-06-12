@@ -18,14 +18,18 @@ import { Sidebar, SidebarContent, SidebarRail } from '@/components/ui/sidebar'
 import ContainerLogo from '../container-logo'
 import DateTimeDisplay from '../data-time-display'
 import { Separator } from '../ui/separator'
+import { useTranslations } from 'next-intl'
+
 
 export function AppSidebar({ webRole, ...props }: any) {
+  const t = useTranslations()
+
   const data: any = {
     navDashboard: {
-      title: undefined,
+      title: t('nav.dashboard'),
       items: [
         {
-          name: 'dashboard',
+          name: t('nav.dashboard'),
           url: '/',
           icon: <IconHome />
         }
@@ -33,88 +37,88 @@ export function AppSidebar({ webRole, ...props }: any) {
     },
     navMain: [
       {
-        title: 'Report',
+        title: t('nav.report'),
         url: '#',
         icon: <IconReport />,
         isActive: true,
         items: [
           {
-            title: 'Player Active',
+            title: t('nav.player_active'),
             url: '/player-active'
           },
           {
-            title: 'Clients',
+            title: t('nav.clients'),
             url: '/clients'
           },
           {
-            title: 'Slot',
+            title: t('nav.slot'),
             url: '/slot'
           },
           {
-            title: 'Profit Report',
+            title: t('nav.profit_report'),
             url: '/profit'
           },
           {
-            title: 'Client Shared',
+            title: t('nav.client_shared'),
             url: '/client-shared'
           }
         ]
       }
     ],
     navSuperAgent: {
-      title: undefined,
+      title: t('nav.super_agent'),
       items: [
         {
-          name: 'super agent',
+          name: t('nav.super_agent'),
           url: '/super-agent',
           icon: <IconSuperAgent />
         }
       ]
     },
     gameManagement: {
-      title: 'game management',
+      title: t('nav.game_management'),
       items: [
         {
-          name: 'slot games',
+          name: t('nav.slot_games'),
           url: '/slot-games',
           icon: <IconSlotGames />
         }
       ]
     },
     playersManagement: {
-      title: 'players management',
+      title: t('nav.players_management'),
       items: [
         {
-          name: 'player pending transaction',
+          name: t('nav.player_pending_transaction'),
           url: '/player-pending-transaction',
           icon: <IconPendingTransaction />
         }
       ]
     },
     websiteManagement: {
-      title: 'website management',
+      title: t('nav.website_management'),
       items: [
         ...(webRole === 'label'
           ? [
               {
-                name: 'player',
+                name: t('nav.player'),
                 url: '/player',
                 icon: <IconPlayer />
               }
             ]
           : []),
         {
-          name: 'invoice',
+          name: t('nav.invoice'),
           url: '/invoice',
           icon: <IconInvoice />
         }
       ]
     },
     navSetting: {
-      title: undefined,
+      title: t('nav.settings'),
       items: [
         {
-          name: 'settings',
+          name: t('nav.settings'),
           url: '/settings',
           icon: <IconSettings />
         }

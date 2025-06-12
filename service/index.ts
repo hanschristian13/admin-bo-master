@@ -1,4 +1,4 @@
-import { getCookieValue } from '@/app/action/auth'
+import { getCookieApiToken, getCookieValue } from '@/app/action/auth'
 import { getCookie } from '@/app/action/libs'
 import { isRedirectError } from 'next/dist/client/components/redirect-error'
 import { redirect } from 'next/navigation'
@@ -12,7 +12,6 @@ export type ApiResponse<T> = null | {
 
 class Request {
   private static BASE_URL: string = process.env.NEXT_PUBLIC_BASE_URL ?? ''
-  private static API_KEY: string | undefined = process.env.NEXT_PUBLIC_API_TOKEN
   private static status: number | null = null
 
   private static getErrorMessage(obj: Record<string, unknown>): unknown[] {
@@ -30,6 +29,7 @@ class Request {
     cache: RequestCache = 'no-store'
   ): Promise<ApiResponse<T> | null> {
     const token = await getCookieValue()
+    const apiKey = await getCookieApiToken()
     const web_role = await getCookie('WEB_ROLE')
     console.log('web_role', web_role)
     if (web_role === 'label') {
@@ -61,8 +61,8 @@ class Request {
       const response = await fetch(url.toString(), {
         method,
         headers: {
-          'x-api-key': this.API_KEY ?? '',
-          'Content-Type': body instanceof FormData ? 'multipart/form-data' : 'application/json',
+          ...(apiKey ? { 'x-api-key': apiKey } : {}),
+          ...(body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
           ...headers
         },

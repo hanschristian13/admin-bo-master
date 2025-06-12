@@ -1,0 +1,29 @@
+{
+  "nav": {
+    "dashboard": "Dasbor",
+    "report": "Laporan",
+    "player_active": "Pemain Aktif",
+    "clients": "Klien",
+    "slot": "Slot",
+    "profit_report": "Laporan Keuntungan",
+    "client_shared": "Klien Bersama",
+    "super_agent": "Agen Super",
+    "game_management": "Manajemen Permainan",
+    "slot_games": "Permainan Slot",
+    "players_management": "Manajemen Pemain",
+    "player_pending_transaction": "Transaksi Tertunda Pemain",
+    "website_management": "Manajemen Website",
+    "player": "Pemain",
+    "invoice": "Faktur",
+    "settings": "Pengaturan"
+  },
+  "table": {
+    "no": "No",
+    "date": "Tanggal",
+    "super_agent": "Agen Super",
+    "active_player": "Pemain Aktif",
+    "player": "Pemain",
+    "turnover": "Omset",
+    "profit": "Keuntungan"
+  }
+}

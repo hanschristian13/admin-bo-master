@@ -1,0 +1,29 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "report": "Report",
+    "player_active": "Player Active",
+    "clients": "Clients",
+    "slot": "Slot",
+    "profit_report": "Profit Report",
+    "client_shared": "Client Shared",
+    "super_agent": "Super Agent",
+    "game_management": "Game Management",
+    "slot_games": "Slot Games",
+    "players_management": "Players Management",
+    "player_pending_transaction": "Player Pending Transaction",
+    "website_management": "Website Management",
+    "player": "Player",
+    "invoice": "Invoice",
+    "settings": "Settings"
+  },
+  "table": {
+    "no": "No",
+    "date": "Date",
+    "super_agent": "Super Agent",
+    "active_player": "Active Player",
+    "player": "Player",
+    "turnover": "Turnover",
+    "profit": "Profit"
+  }
+}
