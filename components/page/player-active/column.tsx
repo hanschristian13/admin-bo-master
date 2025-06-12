@@ -6,6 +6,7 @@ import ButtonSort from '@/components/data-table/button-sort'
 import { format } from 'date-fns'
 import ButtonDetail from '@/components/button-detail'
 import InitialAvatar from '@/components/initial-avatar'
+import { useTranslations } from 'next-intl'
 
 export interface PlayerActiveType {
   date: string
@@ -28,133 +29,139 @@ export interface PlayerActiveDetailType {
   profit: number
 }
 
-export const ColumnsPlayerActive: ColumnDef<PlayerActiveType>[] = [
-  {
-    accessorKey: 'date',
-    header: ({ column }) => {
-      const sortType = column.getIsSorted()
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(sortType === 'asc')}
-          className="has-[>svg]:px-0 text-left">
-          Date
-          <ButtonSort sortType={sortType} />
-        </Button>
-      )
-    },
-    cell: ({ row }) => (
-      <div className="capitalize whitespace-nowrap text-left">
-        {' '}
-        {format(row.getValue('date'), 'LLL dd, y')}{' '}
-      </div>
-    )
-  },
-  {
-    accessorKey: 'parent_id',
-    id: 'parent_id',
-    header: ({ column }) => {
-      const sortType = column.getIsSorted()
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(sortType === 'asc')}
-          className="has-[>svg]:px-0 text-left">
-          Super Agent
-          <ButtonSort sortType={sortType} />
-        </Button>
-      )
-    },
-    cell: ({ row }) => {
-      return (
-        <div className="capitalize flex gap-x-1.5 items-center h-7 whitespace-nowrap text-left text-sm font-medium text-neutral-400">
-          <InitialAvatar name={row.getValue('parent_id')} />
-          {row.getValue('parent_id')}
+export const ColumnsPlayerActive = (): ColumnDef<PlayerActiveType>[] => {
+  const t = useTranslations()
+  return [
+    {
+      accessorKey: 'date',
+      header: ({ column }) => {
+        const sortType = column.getIsSorted()
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(sortType === 'asc')}
+            className="has-[>svg]:px-0 text-left">
+            {t('table.date')}
+            <ButtonSort sortType={sortType} />
+          </Button>
+        )
+      },
+      cell: ({ row }) => (
+        <div className="capitalize whitespace-nowrap text-left">
+          {' '}
+          {format(row.getValue('date'), 'LLL dd, y')}{' '}
         </div>
       )
-    }
-  },
-  {
-    accessorKey: 'active_player',
-    header: ({ column }) => {
-      const sortType = column.getIsSorted()
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(sortType === 'asc')}
-          className="has-[>svg]:px-0 text-right">
-          Active Player
-          <ButtonSort sortType={sortType} />
-        </Button>
-      )
     },
-    cell: ({ row }) => {
-      return <div className="text-right font-medium"> {row.getValue('active_player')} Player</div>
-    }
-  },
-  {
-    accessorKey: 'turnover',
-    header: ({ column }) => {
-      const sortType = column.getIsSorted()
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(sortType === 'asc')}
-          className="has-[>svg]:px-0 text-right">
-          Turnover
-          <ButtonSort sortType={sortType} />
-        </Button>
-      )
+    {
+      accessorKey: 'parent_id',
+      id: 'parent_id',
+      header: ({ column }) => {
+        const sortType = column.getIsSorted()
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(sortType === 'asc')}
+            className="has-[>svg]:px-0 text-left">
+            {t('table.super_agent')}
+            <ButtonSort sortType={sortType} />
+          </Button>
+        )
+      },
+      cell: ({ row }) => {
+        return (
+          <div className="capitalize flex gap-x-1.5 items-center h-7 whitespace-nowrap text-left text-sm font-medium text-neutral-400">
+            <InitialAvatar name={row.getValue('parent_id')} />
+            {row.getValue('parent_id')}
+          </div>
+        )
+      }
     },
-    cell: ({ row }) => {
-      return (
-        <div className="block text-right font-medium">
-          <span className="text-neutral-300">Rp</span>
-          {formatNumberWithCommas(row.getValue('turnover'))}
-        </div>
-      )
-    }
-  },
-  {
-    accessorKey: 'profit',
-    header: ({ column }) => {
-      const sortType = column.getIsSorted()
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(sortType === 'asc')}
-          className="has-[>svg]:px-0 text-right">
-          Profit
-          <ButtonSort sortType={sortType} />
-        </Button>
-      )
+    {
+      accessorKey: 'active_player',
+      header: ({ column }) => {
+        const sortType = column.getIsSorted()
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(sortType === 'asc')}
+            className="has-[>svg]:px-0 text-right">
+            {t('table.active_player')}
+            <ButtonSort sortType={sortType} />
+          </Button>
+        )
+      },
+      cell: ({ row }) => {
+        return <div className="text-right font-medium"> {row.getValue('active_player')} Player</div>
+      }
     },
-    cell: ({ row }) => {
-      const profit = row.getValue('profit') as number
-      return (
-        <div className="block w-full text-right font-medium">
-          <span className="text-neutral-300">Rp</span>
-          <span className={cn(profit > 0 && 'text-green-950', profit < 0 && 'text-red-950')}>
-            {formatNumberWithCommas(profit)}
-          </span>
-        </div>
-      )
+    {
+      accessorKey: 'turnover',
+      header: ({ column }) => {
+        const sortType = column.getIsSorted()
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(sortType === 'asc')}
+            className="has-[>svg]:px-0 text-right">
+            {t('table.turnover')}
+            <ButtonSort sortType={sortType} />
+          </Button>
+        )
+      },
+      cell: ({ row }) => {
+        return (
+          <div className="block text-right font-medium">
+            <span className="text-neutral-300">Rp</span>
+            {formatNumberWithCommas(row.getValue('turnover'))}
+          </div>
+        )
+      }
+    },
+    {
+      accessorKey: 'profit',
+      header: ({ column }) => {
+        const sortType = column.getIsSorted()
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(sortType === 'asc')}
+            className="has-[>svg]:px-0 text-right">
+            {t('table.profit')}
+            <ButtonSort sortType={sortType} />
+          </Button>
+        )
+      },
+      cell: ({ row }) => {
+        const profit = row.getValue('profit') as number
+        return (
+          <div className="block w-full text-right font-medium">
+            <span className="text-neutral-300">Rp</span>
+            <span className={cn(profit > 0 && 'text-green-950', profit < 0 && 'text-red-950')}>
+              {formatNumberWithCommas(profit)}
+            </span>
+          </div>
+        )
+      }
+    },
+    {
+      accessorKey: 'parent_id',
+      id: 'detail_id',
+      header: () => <div className="w-24"></div>,
+      cell: ({ row }) => {
+        const parentId: string = row.getValue('parent_id') ? row.getValue('parent_id') : '-'
+        return (
+          <div className="ml-auto">
+            <ButtonDetail
+              path="/player-active"
+              id={`${row?.original?.date}?parent_id=${parentId}`}
+            />
+          </div>
+        )
+      }
     }
-  },
-  {
-    accessorKey: 'parent_id',
-    id: 'detail_id',
-    header: () => <div className="w-24"></div>,
-    cell: ({ row }) => {
-      const parentId: string = row.getValue('parent_id') ? row.getValue('parent_id') : '-'
-      return (
-        <div className="ml-auto">
-          <ButtonDetail path="/player-active" id={`${row?.original?.date}?parent_id=${parentId}`} />
-        </div>
-      )
-    }
-  }
-]
+  ]
+}
 
 export const ColumnsPlayerActiveDetail: ColumnDef<PlayerActiveDetailType>[] = [
   {

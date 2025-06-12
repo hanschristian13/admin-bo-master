@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import FormLogin from '@/components/form/login'
-import { getWebRole } from '../action/libs'
+import { getWebRole } from '../../action/libs'
 import BadgeStatus from '@/components/badge-status'
 
 const PageLogin = async () => {

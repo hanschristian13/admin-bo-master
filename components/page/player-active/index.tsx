@@ -72,7 +72,7 @@ const Page = ({
             pagination={pagination}
             onPaginationChange={onPaginationChange}
             data={tabelData?.data as unknown as PlayerActiveType[]}
-            columns={ColumnsPlayerActive}
+            columns={ColumnsPlayerActive()}
           />
         </div>
       </div>

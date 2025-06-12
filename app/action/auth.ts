@@ -3,9 +3,15 @@ import { redirect } from 'next/navigation'
 import Request from '@/service'
 import { AuthState, LoginFormSchema } from '@/lib/definitions'
 import { createSessionToken, getCookie, getSessionToken, getWebRole, setCookie } from './libs'
+import { headers } from 'next/headers'
 
 export async function login(_: AuthState, formData: FormData) {
   let token = null
+  const head = await headers()
+  const host = head.get('host')
+  const data = (await Request.get('dealers/env/' + host!)) as { data?: { api_key: string } }
+  await setCookie('API_TOKEN', data?.data?.api_key || '')
+
   const webRole = await getWebRole()
   const validatedFields = LoginFormSchema.safeParse({
     username: formData.get('username'),
@@ -57,6 +63,10 @@ export async function logout() {
 
 export async function getCookieValue() {
   return await getSessionToken()
+}
+
+export async function getCookieApiToken() {
+  return await getCookie('API_TOKEN')
 }
 
 export async function getParentId() {

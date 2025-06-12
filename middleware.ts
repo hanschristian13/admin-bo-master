@@ -1,9 +1,14 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { destroySessionToken, setCookie } from './app/action/libs'
+import createMiddleware from 'next-intl/middleware'
+import { routing } from './i18n/routing'
 
 const ERROR_FALLBACK = '/logout'
+const handleI18nRouting = createMiddleware(routing)
+
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? ''
+
 export async function middleware(req: NextRequest) {
   const token = req.cookies.get('token')?.value
   const webRole = req.cookies.get('WEB_ROLE')?.value
@@ -12,35 +17,50 @@ export async function middleware(req: NextRequest) {
     await destroySessionToken()
     return NextResponse.redirect(new URL('/login', req.url))
   }
-  if (ispathLogin) {
-    if (!token) {
-      const response = NextResponse.next()
-      const config = await fetch(BASE_URL + '/dealers/env/' + req.nextUrl?.host, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        }
-      })
-      const data = await config.json()
-      if (data?.data) {
-        const { config } = data.data
 
-        if (config) {
-          await setCookie('WEB_ROLE', config.web_role)
-        }
-      }
-
-      return response
-    }
-    if (webRole === 'label') return NextResponse.redirect(new URL('/', req.url))
-    return NextResponse.redirect(new URL('/player-active', req.url))
-  } else {
-    if (!token) {
-      return NextResponse.redirect(new URL('/login', req.url))
-    }
+  const [, locale, ...segments] = req.nextUrl.pathname.split('/')
+  const isLogin = locale === 'login' || segments.join('/') === 'login'
+  if (token && isLogin) {
+    req.nextUrl.pathname = `${locale && `/${locale}`}/`
   }
+  if (!!!token && !isLogin) {
+    req.nextUrl.pathname = `${locale && `/${locale}`}/login`
+  }
+  const response = handleI18nRouting(req)
+  return response
+
+  // if (ispathLogin) {
+  //   if (!token) {
+  //     const response = NextResponse.next()
+  //     const config = await fetch(BASE_URL + '/dealers/env/' + req.nextUrl?.host, {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         Accept: 'application/json'
+  //       }
+  //     })
+  //     const data = await config.json()
+  //     if (data?.data) {
+  //       const { config } = data.data
+
+  //       if (config) {
+  //         await setCookie('WEB_ROLE', config.web_role)
+  //       }
+  //     }
+
+  //     return response
+  //   }
+  //   if (webRole === 'label') return NextResponse.redirect(new URL('/', req.url))
+  //   return NextResponse.redirect(new URL('/player-active', req.url))
+  // } else {
+  //   if (!token) {
+  //     return NextResponse.redirect(new URL('/login', req.url))
+  //   }
+  // }
 }
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|assets).*)']
+  matcher: [
+    '/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|assets).*)',
+    '/((?!api|trpc|_next|_vercel|.*\\..*).*)'
+  ]
 }
