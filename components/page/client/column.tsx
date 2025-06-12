@@ -221,12 +221,6 @@ export const ColumnsClient: ColumnDef<ClientType>[] = [
 
 export const ColumnsClientDetail: ColumnDef<ClientType>[] = [
   {
-    accessorKey: 'no',
-    header: () => <div className="text-left">No</div>,
-    cell: ({ row }) => <div className="text-left">{row.index + 1}</div>,
-    footer: () => <div className="text-neutral-300">Total</div>
-  },
-  {
     accessorKey: 'parent_id',
     header: ({ column }) => {
       const sortType = column.getIsSorted()
