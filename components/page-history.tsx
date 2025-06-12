@@ -9,9 +9,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { Separator } from './ui/separator'
 import { cn } from '@/lib/utils'
+import { usePathname } from '@/i18n/navigation'
 
 const getPageTitleFromPath = (path: string): string => {
   const segment = path.split('/')[1] || 'Dashboard'
@@ -37,6 +38,7 @@ type HistoryItem = {
 export default function PageHistoryTabs() {
   const router = useRouter()
   const currentPath = usePathname()
+
   const [visitedPages, setVisitedPages] = useState<HistoryItem[]>(() => {
     return getStoredHistory()
   })
@@ -120,30 +122,28 @@ export default function PageHistoryTabs() {
       {visiblePages.map((page, index) => {
         const isActive = page.url.toLowerCase() === currentPath.toLowerCase()
         return (
-          <div
-            key={index}
-            className='inline-flex -space-x-px rounded-md'
-          >
+          <div key={index} className="inline-flex -space-x-px rounded-md">
             <Button
-              className={cn('text-sm rounded-none shadow-none first:rounded-s-md last:rounded-e-md',
-                visiblePages.length < 1 && "cursor-default"
+              className={cn(
+                'text-sm rounded-none shadow-none first:rounded-s-md last:rounded-e-md',
+                visiblePages.length < 1 && 'cursor-default'
               )}
               variant={isActive ? 'default' : 'outline'}
-              size='xs'
-              onClick={() => visiblePages.length > 0 ? navigateTo(page.url) : {}}>
+              size="xs"
+              onClick={() => (visiblePages.length > 0 ? navigateTo(page.url) : {})}>
               {page.title}
             </Button>
-            {visiblePages.length > 1 ?
-            <Button
-              className='rounded-none shadow-none first:rounded-s-md last:rounded-e-md'
-              variant={isActive ? 'default' : 'outline'}
-              onClick={e => {
-                removePage(index, e)
-              }}
-              size='xs'>
-              <X className="h-3 w-3 " />
-            </Button>
-            : null }
+            {visiblePages.length > 1 ? (
+              <Button
+                className="rounded-none shadow-none first:rounded-s-md last:rounded-e-md"
+                variant={isActive ? 'default' : 'outline'}
+                onClick={e => {
+                  removePage(index, e)
+                }}
+                size="xs">
+                <X className="h-3 w-3 " />
+              </Button>
+            ) : null}
           </div>
         )
       })}
@@ -178,7 +178,7 @@ export default function PageHistoryTabs() {
 
       {visitedPages.length > 1 ? (
         <React.Fragment>
-          <Separator orientation='vertical' className='data-[orientation=vertical]:h-[28px]' />
+          <Separator orientation="vertical" className="data-[orientation=vertical]:h-[28px]" />
           <Button
             variant="outline"
             size="xs"

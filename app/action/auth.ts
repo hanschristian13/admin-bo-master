@@ -2,10 +2,11 @@
 import { redirect } from 'next/navigation'
 import Request from '@/service'
 import { AuthState, LoginFormSchema } from '@/lib/definitions'
-import { createSessionToken, getCookie, getSessionToken, setCookie } from './libs'
+import { createSessionToken, getCookie, getSessionToken, getWebRole, setCookie } from './libs'
 
 export async function login(_: AuthState, formData: FormData) {
   let token = null
+  const webRole = await getWebRole()
   const validatedFields = LoginFormSchema.safeParse({
     username: formData.get('username'),
     password: formData.get('password')
@@ -41,7 +42,10 @@ export async function login(_: AuthState, formData: FormData) {
     return { message: error instanceof Error ? error.message : 'An error occurred during login' }
   } finally {
     if (!!token) {
-      redirect('/')
+      if (webRole === 'label') {
+        redirect('/')
+      }
+      redirect('/player-active')
     }
     token = null
   }
