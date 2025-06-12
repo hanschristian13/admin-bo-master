@@ -31,7 +31,7 @@ class Request {
     const token = await getCookieValue()
     const apiKey = await getCookieApiToken()
     const web_role = await getCookie('WEB_ROLE')
-    console.log('web_role', web_role)
+
     if (web_role === 'label') {
       if (endpoint.includes('/admin/')) {
         endpoint = endpoint.replaceAll('/admin/', '/superadmin/')
@@ -41,11 +41,8 @@ class Request {
         endpoint = endpoint.replaceAll('/superadmin/', '/admin/')
       }
     }
-
-    console.log(endpoint)
     try {
       const url = new URL(`${this.BASE_URL}/${endpoint}`)
-      console.log(url)
       Object.entries(params).forEach(([key, value]) => {
         if (value !== undefined) {
           if (Array.isArray(value)) {

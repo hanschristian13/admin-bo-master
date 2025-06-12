@@ -1,10 +1,10 @@
-"use client"
+'use client'
 
-import * as React from "react"
-import { Check } from "lucide-react"
-import { IconArrowDown } from "@/components/icon"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import * as React from 'react'
+import { Check } from 'lucide-react'
+import { IconArrowDown } from '@/components/icon'
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 import US from 'country-flag-icons/react/3x2/US'
 import ID from 'country-flag-icons/react/3x2/ID'
 // import TH from 'country-flag-icons/react/3x2/TH'
@@ -15,28 +15,24 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList,
-} from "@/components/ui/command"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-import { useLocale } from "next-intl"
+  CommandList
+} from '@/components/ui/command'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { useLocale } from 'next-intl'
 import { usePathname, useRouter } from '@/i18n/navigation'
 import { useSearchParams } from 'next/navigation'
 
 const langs = [
   {
-    value: "us",
-    label: "US",
+    value: 'en',
+    label: 'EN',
     icon: <US title="United State" />
   },
   {
-    value: "id",
-    label: "ID",
+    value: 'id',
+    label: 'ID',
     icon: <ID title="Indonesia" />
-  },
+  }
   // {
   //   value: "th",
   //   label: "TH",
@@ -54,7 +50,7 @@ export function ComboboxLang() {
   const params = useSearchParams()
   const [open, setOpen] = React.useState(false)
   const [lang, setLang] = React.useState({
-    name: "id",
+    name: 'id',
     icon: <ID title="Indonesia" />
   })
 
@@ -68,7 +64,6 @@ export function ComboboxLang() {
   React.useEffect(() => {
     const found = langs.find(l => l.value === locale) || langs[0]
     setLang({ name: found.value, icon: found.icon })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locale])
 
   // 5. Handle language change
@@ -90,11 +85,8 @@ export function ComboboxLang() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-fit h-6 justify-between"
-        >
-          {lang
-            ? lang.icon
-            : "Select Lang..."}
+          className="w-fit h-6 justify-between">
+          {lang ? lang.icon : 'Select Lang...'}
           <IconArrowDown className="text-base" />
         </Button>
       </PopoverTrigger>
@@ -104,18 +96,17 @@ export function ComboboxLang() {
           <CommandList>
             <CommandEmpty>No Language found.</CommandEmpty>
             <CommandGroup>
-              {langs.map((framework) => (
+              {langs.map(framework => (
                 <CommandItem
                   key={framework.value}
                   value={framework.value}
-                  onSelect={handleLangChange}
-                >
+                  onSelect={handleLangChange}>
                   {framework.icon}
                   {framework.label}
                   <Check
                     className={cn(
-                      "ml-auto",
-                      lang.name === framework.value ? "opacity-100" : "opacity-0"
+                      'ml-auto',
+                      lang.name === framework.value ? 'opacity-100' : 'opacity-0'
                     )}
                   />
                 </CommandItem>
