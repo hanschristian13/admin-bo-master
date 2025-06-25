@@ -28,7 +28,7 @@ const CardGames: FC<CardGamesProps> = ({ data }) => {
         <div>
           <div>
             <span className="text-neutral-300">
-              total turnover: Rp{formatNumberWithCommas(data?.turnover ? data?.turnover : 0)}
+              total turnover: Rp {formatNumberWithCommas(data?.turnover ? data?.turnover : 0)}
             </span>
           </div>
         </div>

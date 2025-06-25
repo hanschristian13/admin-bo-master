@@ -9,7 +9,7 @@ export function formatNumberWithCommas(amount: number, com?: number): string {
     const formattedNumber = decimalPart
       ? `${formattedIntegerPart},${decimalPart}`
       : formattedIntegerPart
-    return isNegative ? `-${formattedNumber}` : formattedNumber
+    return ' ' + (isNegative ? `-${formattedNumber}` : formattedNumber)
   }
   return 'Err'
 }
