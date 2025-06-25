@@ -17,7 +17,8 @@ const Page = ({ list }: any) => {
           <SearchInput param="q" placeholder="Search Username or name..." />
           {/* Use FilterDealerId without the "All" option */}
           <FilterDealerId
-          // showAllOption={false}
+            withAll={false}
+            // showAllOption={false}
           />
         </div>
       </div>

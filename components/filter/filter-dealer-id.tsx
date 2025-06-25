@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import React from 'react'
 import SelectForFilter from './select-for-filter'
@@ -7,27 +8,31 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 const FilterDealerId = ({
   isClient = false,
   value,
-  onChange
+  onChange,
+  withAll = true
 }: {
   isClient?: boolean
   value?: string | undefined
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  withAll?: boolean
   onChange?: any
 }) => {
   const { data } = useDealerList()
 
+  const finalList = withAll
+    ? ([{ label: 'All Agent', value: 'all' }, ...data] as any[])
+    : ((data ?? []) as any[])
   if (isClient)
     return (
       <Select
-        value={data?.find(x => x?.value === value)?.value ?? undefined}
+        value={finalList?.find(x => x?.value === value)?.value ?? undefined}
         onValueChange={onChange}
         aria-label="Results per page">
         <SelectTrigger className="w-full whitespace-nowrap capitalize">
           <SelectValue placeholder={'Select Agent'} />
         </SelectTrigger>
         <SelectContent>
-          {data.map(item => (
-            <SelectItem key={item.value} value={item.value.toString()} className="capitalize">
+          {finalList.map((item, index) => (
+            <SelectItem key={index} value={item?.value.toString()} className="capitalize">
               {item.label}
             </SelectItem>
           ))}
@@ -35,7 +40,14 @@ const FilterDealerId = ({
       </Select>
     )
 
-  return <SelectForFilter placeholder="Filter Agent" keys="dealer_id" option={data} />
+  return (
+    <SelectForFilter
+      defaultValue={withAll ? 'all' : undefined}
+      placeholder={withAll ? '' : 'Filter Agent'}
+      keys="dealer_id"
+      option={finalList}
+    />
+  )
 }
 
 export default FilterDealerId

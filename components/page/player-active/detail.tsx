@@ -30,10 +30,7 @@ const Page = ({ data }: { data: ApiResponse<unknown> }) => {
         </div>
         <div className="flex items-center space-x-2.5">
           <SearchInput param="q" placeholder="Search Username" />
-          <FilterDealerId
-          // pageData={data?.data as PlayerActiveDetailType[]}
-          // dealerIdField="dealer_id"
-          />
+          <FilterDealerId />
           <ButtonExportXLS />
         </div>
       </div>
