@@ -11,6 +11,7 @@ import FilterSelectDate from '@/components/filter/filter-select-time'
 import { useHandlePagination } from '@/hooks'
 import { ApiResponse } from '@/service'
 import { SidebarContext } from '@/components/ui/sidebar'
+import ButtonExportXLS from '@/components/ui/button-export-xls'
 
 const Page: FC<{ superAgentList: ApiResponse<unknown>; detail: ApiResponse<unknown> }> = ({
   superAgentList,
@@ -25,6 +26,7 @@ const Page: FC<{ superAgentList: ApiResponse<unknown>; detail: ApiResponse<unkno
         <div className="flex items-center space-x-2.5 w-full justify-end">
           <FilterDateRange />
           <FilterSelectDate />
+          <ButtonExportXLS />
         </div>
       </div>
 

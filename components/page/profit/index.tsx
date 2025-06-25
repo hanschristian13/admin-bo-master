@@ -6,6 +6,7 @@ import MonthPicker from '@/components/form/month-picker'
 import { ApiResponse } from '@/service'
 import { useHandlePagination, useUpdateSearchParams } from '@/hooks'
 import { timeFormat } from '@/lib/utils'
+import ButtonExportXLS from '@/components/ui/button-export-xls'
 
 const Page: FC<{ data: ApiResponse<unknown> }> = ({ data }) => {
   const { pagination, onPaginationChange } = useHandlePagination()
@@ -13,14 +14,18 @@ const Page: FC<{ data: ApiResponse<unknown> }> = ({ data }) => {
   console.log(data)
   return (
     <div className="w-full space-y-4">
-      <div className="flex w-[152px]">
-        <MonthPicker
-          className="w-min"
-          onMonthSelect={x => setSearchParam(timeFormat(x)?.startOf('months').format())}
-          selectedMonth={timeFormat(value ? value : new Date()).toDate()}
-          align="start"
-        />
+      <div className="flex justify-between">
+        <div className="flex w-[152px]">
+          <MonthPicker
+            className="w-min"
+            onMonthSelect={x => setSearchParam(timeFormat(x)?.startOf('months').format())}
+            selectedMonth={timeFormat(value ? value : new Date()).toDate()}
+            align="start"
+          />
+        </div>
+        <ButtonExportXLS />
       </div>
+
       <div className="grid w-full">
         <DataTable
           rowCount={data?.total_items}

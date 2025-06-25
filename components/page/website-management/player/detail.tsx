@@ -12,6 +12,7 @@ import { usePathname } from 'next/navigation'
 import { ColumnsPlayerTransaction } from './column'
 import { useHandlePagination } from '@/hooks'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
+import ButtonExportXLS from '@/components/ui/button-export-xls'
 
 const Page = ({ data, summary }: { data: any; summary: any }) => {
   const pathname = usePathname()
@@ -43,7 +44,11 @@ const Page = ({ data, summary }: { data: any; summary: any }) => {
         </DialogContent>
       </Dialog>
       <div className="space-y-6">
-        <ButtonBack url="/player" />
+        <div className="flex justify-between">
+          <ButtonBack url="/player" />
+          <ButtonExportXLS />
+        </div>
+
         {/* <div className="flex justify-between items-center gap-x-2.5">
         <SearchInput param="" placeholder="Search..." />
       </div> */}
