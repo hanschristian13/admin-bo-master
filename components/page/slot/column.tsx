@@ -219,7 +219,7 @@ export const ColumnsSlot: ColumnDef<SlotType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total, 0)}
+          Rp {formatNumberWithCommas(total, 0)}
         </div>
       )
     }
@@ -457,7 +457,7 @@ export const ColumnsSlotDetail: ColumnDef<SlotDetailType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total)}
+          Rp {formatNumberWithCommas(total)}
         </div>
       )
     }
