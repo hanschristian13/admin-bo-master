@@ -8,6 +8,7 @@ import { useHandlePagination, useGetUpdateParams } from '@/hooks'
 import { Button } from '@/components/ui/button'
 import { timeFormat } from '@/lib/utils'
 import FilterDealerId from '@/components/filter/filter-dealer-id'
+import ButtonExportXLS from '@/components/ui/button-export-xls'
 
 const Page = ({ data }: { data: ApiResponse<unknown> }) => {
   const { pagination } = useHandlePagination()
@@ -23,11 +24,13 @@ const Page = ({ data }: { data: ApiResponse<unknown> }) => {
             {timeFormat(date).format('LLL dd, y')}
           </Button>
         </div>
-        {/* Pass the current page data to FilterDealerId */}
-        <FilterDealerId
-        // pageData={data?.data as ClientSharedDetailType[]}
-        // dealerIdField="dealer_id"
-        />
+        <div className="flex items-center space-x-2.5">
+          <FilterDealerId
+          // pageData={data?.data as ClientSharedDetailType[]}
+          // dealerIdField="dealer_id"
+          />
+          <ButtonExportXLS />
+        </div>
       </div>
       <div className="grid w-full">
         <DataTable

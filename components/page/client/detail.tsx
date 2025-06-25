@@ -8,12 +8,13 @@ import { ApiResponse } from '@/service'
 import { useGetUpdateParams, useHandlePagination } from '@/hooks'
 import FilterDealerId from '@/components/filter/filter-dealer-id'
 import { timeFormat } from '@/lib/utils'
+import ButtonExportXLS from '@/components/ui/button-export-xls'
 
 const Page: FC<{ data: ApiResponse<unknown> }> = ({ data }) => {
   const { pagination, onPaginationChange } = useHandlePagination()
   const { getUrlParams } = useGetUpdateParams()
   const date = getUrlParams('id')
-  
+
   return (
     <div className="w-full space-y-4">
       <div className="flex gap-2 items-center justify-between">
@@ -25,10 +26,13 @@ const Page: FC<{ data: ApiResponse<unknown> }> = ({ data }) => {
         </div>
         <div className="flex items-center">
           {/* Pass the current page data to FilterDealerId */}
-          <FilterDealerId 
-            // pageData={data?.data as ClientType[]} 
-            // dealerIdField="dealer_id" 
-          />
+          <div className="flex space-x-2.5">
+            <FilterDealerId
+            // pageData={data?.data as ClientType[]}
+            // dealerIdField="dealer_id"
+            />
+            <ButtonExportXLS />
+          </div>
         </div>
       </div>
       <div className="grid w-full">

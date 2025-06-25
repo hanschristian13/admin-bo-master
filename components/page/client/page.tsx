@@ -8,6 +8,7 @@ import SearchInput from '@/components/form/search-input'
 import { ApiResponse } from '@/service'
 import { useContext } from 'react'
 import { SidebarContext } from '@/components/ui/sidebar'
+import ButtonExportXLS from '@/components/ui/button-export-xls'
 
 interface PageProps {
   data: ApiResponse<unknown>
@@ -24,6 +25,7 @@ const Page = ({ data }: PageProps) => {
         <div className="flex items-center space-x-2.5 justify-end w-full">
           <FilterDateRange />
           <FilterSelectDate />
+          <ButtonExportXLS />
         </div>
       </div>
 
