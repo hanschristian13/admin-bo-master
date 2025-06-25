@@ -10,6 +10,7 @@ import {
 } from '@/components/page/website-management/invoice/column'
 import CardDashboardToday from '@/components/page/dashboard/card-dashboard-today'
 import { useHandlePaginationClient } from '@/hooks'
+import ButtonExportXLS from '@/components/ui/button-export-xls'
 
 const Page = ({ data, detail, month }: any) => {
   console.log(detail)
@@ -23,7 +24,10 @@ const Page = ({ data, detail, month }: any) => {
 
   return (
     <div className="w-full space-y-4">
-      <ButtonBack url="/invoice" />
+      <div className="flex justify-between">
+        <ButtonBack url="/invoice" />
+        <ButtonExportXLS />
+      </div>
       <div className="w-fit">
         <CardDashboardToday
           title={`${month} Monthly Invoice Amount`}

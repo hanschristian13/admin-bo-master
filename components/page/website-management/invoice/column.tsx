@@ -453,7 +453,7 @@ export const ColumnsCategoryDetail: ColumnDef<InvoiceType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total)}
+          Rp {formatNumberWithCommas(total > 0 ? total : total)}
         </div>
       )
     }
@@ -492,7 +492,7 @@ export const ColumnsCategoryDetail: ColumnDef<InvoiceType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total)}
+          Rp {formatNumberWithCommas(total > 0 ? total : total)}
         </div>
       )
     }
@@ -530,7 +530,7 @@ export const ColumnsCategoryDetail: ColumnDef<InvoiceType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total)}
+          Rp {formatNumberWithCommas(total > 0 ? total : total)}
         </div>
       )
     }
@@ -575,7 +575,7 @@ export const ColumnsCategoryDetail: ColumnDef<InvoiceType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total)}
+          Rp {formatNumberWithCommas(total > 0 ? total : total)}
         </div>
       )
     }
@@ -621,7 +621,7 @@ export const ColumnsOtherExpenses: ColumnDef<OtherExpensesType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total)}
+          Rp {formatNumberWithCommas(total > 0 ? total : total)}
         </div>
       )
     }

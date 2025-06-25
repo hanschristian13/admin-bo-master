@@ -198,7 +198,7 @@ export const ColumnsClientShared: ColumnDef<ClientSharedType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total)}
+          Rp {formatNumberWithCommas(total)}
         </div>
       )
     }
@@ -295,7 +295,7 @@ export const ColumnsClientSharedDetail: ColumnDef<ClientSharedDetailType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total, 0)}
+          Rp {formatNumberWithCommas(total > 0 ? total : total, 0)}
         </div>
       )
     }
@@ -406,7 +406,7 @@ export const ColumnsClientSharedDetail: ColumnDef<ClientSharedDetailType>[] = [
       }, 0)
       return (
         <div className={cn(total > 0 && 'text-green-950', total < 0 && 'text-red-950')}>
-          Rp{formatNumberWithCommas(total > 0 ? total : total, 0)}
+          Rp {formatNumberWithCommas(total > 0 ? total : total, 0)}
         </div>
       )
     }

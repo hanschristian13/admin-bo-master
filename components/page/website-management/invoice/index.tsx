@@ -36,6 +36,7 @@ import { usePost } from '@/hooks/usePost'
 import { putInvoice } from '@/service/invoice'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
+import ButtonExportXLS from '@/components/ui/button-export-xls'
 
 function getActionStates(data: { status: string }[]) {
   const statuses = [...new Set(data.map(item => item.status.toLowerCase()))]
@@ -144,7 +145,10 @@ const Page = ({ data }: { data: ApiResponse<InvoiceType[]> }) => {
               })
             }
             aria-label="Results per Page">
-            <SelectTrigger id="filter Paid" className="w-fit whitespace-nowrap capitalize">
+            <SelectTrigger
+              defaultValue="pending"
+              id="filter Paid"
+              className="w-fit whitespace-nowrap capitalize">
               <SelectValue placeholder="Filter Paid" />
             </SelectTrigger>
             <SelectContent>
@@ -188,6 +192,7 @@ const Page = ({ data }: { data: ApiResponse<InvoiceType[]> }) => {
             <RefreshCcw />
             Generate
           </Button>
+          <ButtonExportXLS />
           <AlertDialog
             open={isAlertDialogGenerateInvoiceOpen}
             onOpenChange={setIsAlertDialogGenerateInvoiceOpen}>

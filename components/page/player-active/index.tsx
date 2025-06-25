@@ -12,6 +12,7 @@ import FilterDateRange from '@/components/filter/filter-date-range'
 import { useHandlePagination } from '@/hooks'
 import { ApiResponse } from '@/service'
 import { SidebarContext } from '@/components/ui/sidebar'
+import ButtonExportXLS from '@/components/ui/button-export-xls'
 
 const Page = ({
   reportSummary,
@@ -46,6 +47,7 @@ const Page = ({
         <div className="flex items-center space-x-2.5 justify-end w-full">
           <FilterDateRange />
           <FilterSelectDate />
+          <ButtonExportXLS />
         </div>
       </div>
       <h5 className="mb-4 text-sm font-medium text-neutral-400 capitalize">report summary</h5>
