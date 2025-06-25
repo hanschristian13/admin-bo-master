@@ -59,6 +59,10 @@ export async function getCookieValue() {
   return await getSessionToken()
 }
 
+export async function getCookieApiToken() {
+  return await getCookie('API_TOKEN')
+}
+
 export async function getParentId() {
   return await getCookie('parentId')
 }

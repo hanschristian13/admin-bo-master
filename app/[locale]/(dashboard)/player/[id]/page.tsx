@@ -29,6 +29,7 @@ const page = async ({ searchParams, params }: PageProps): Promise<JSX.Element> =
     start_date,
     end_date
   })
+
   return <PageWebsiteManagementPlayer data={data} summary={summary} />
 }
 

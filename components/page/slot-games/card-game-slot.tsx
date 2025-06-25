@@ -32,6 +32,8 @@ const CardGameSlot: React.FC<any> = ({ data, number }) => {
     setIsAlertDialogOpen(false)
   }
 
+  console.log(data)
+
   return (
     <Card className="flex flex-col overflow-hidden text-sm text-neutral-400">
       <form id="action-form-change-game-status" className="flex items-center justify-between p-5">
@@ -63,10 +65,13 @@ const CardGameSlot: React.FC<any> = ({ data, number }) => {
             <AlertDialogContent className="flex flex-col p-0 overflow-hidden">
               <div className="flex flex-col items-center p-5">
                 <div className="size-10 rounded-lg bg-red-100"></div>
-                <h5 className="mt-4 text-base font-medium text-neutral-400">Are you sure?</h5>
+                <h5 className="mt-4 text-base font-medium text-neutral-400">
+                  Are you sure want to switch {state?.game_status ? 'OFF' : 'ON'} {data?.game_name}{' '}
+                  ?
+                </h5>
                 <div className="text-center">
-                  This action cannot be undone, all values associated with this field will be turned
-                  off.
+                  This action cannot be undone, all values associated with this field will be turned{' '}
+                  {state?.game_status ? 'off' : 'on'}
                 </div>
               </div>
               <AlertDialogFooter className="w-full px-5 py-4 border-t border-neutral-200 bg-neutral-100">
