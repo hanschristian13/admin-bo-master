@@ -42,7 +42,7 @@ const RolesOverview: React.FC = () => {
             />
 
             <div className="space-y-3 p-4 max-h-[450px] overflow-auto">
-              <FilterDealerId value={dealer} onChange={setDealer} isClient />
+              <FilterDealerId withAll={false} value={dealer} onChange={setDealer} isClient />
               {roles?.map((item, index) => (
                 <Card key={index} className="p-4 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-x-4">

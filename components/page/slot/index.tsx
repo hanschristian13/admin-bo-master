@@ -13,6 +13,7 @@ import { ApiResponse } from '@/service'
 import ButtonDetail from '@/components/button-detail'
 import { usePathname } from 'next/navigation'
 import { SidebarContext } from '@/components/ui/sidebar'
+import ButtonExportXLS from '@/components/ui/button-export-xls'
 
 export const ButtonPageToDetailWithParent = ({
   sub,
@@ -43,6 +44,7 @@ const Page: FC<{ superAgent: ApiResponse<unknown>; detail: ApiResponse<unknown> 
         <div className="flex items-center space-x-2.5 justify-end w-full">
           <FilterDateRange />
           <FilterSelectDate />
+          <ButtonExportXLS />
         </div>
       </div>
 

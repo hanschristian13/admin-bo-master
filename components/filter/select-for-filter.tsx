@@ -24,24 +24,25 @@ const SelectForFilter = ({
   const { getValue, setSearchParams } = useGetUpdateParams()
 
   const value = getValue(keys) || defaultValue
-  
+
   const handleValueChange = (newValue: string) => {
     // If "all" is selected, set the parameter to an empty string
     // which effectively removes the filter when processed by your backend
-    if (newValue === "all") {
+    if (newValue === 'all') {
       // Pass an empty string to effectively clear the filter
-      setSearchParams({ [keys]: "", page: 1 })
+      setSearchParams({ [keys]: '', page: 1 })
     } else {
       // Otherwise, apply the filter
       setSearchParams({ [keys]: newValue, page: 1 })
     }
   }
-  
+
   return (
     <Select
       value={value}
       onValueChange={handleValueChange}
       required={required}
+      defaultValue={value}
       aria-label={placeholder}>
       <SelectTrigger className="w-fit whitespace-nowrap capitalize">
         <SelectValue placeholder={placeholder} />

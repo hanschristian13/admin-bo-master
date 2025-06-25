@@ -9,6 +9,7 @@ import { useHandlePagination } from '@/hooks'
 import FilterSelectDate from '@/components/filter/filter-select-time'
 import FilterStatusBet from '@/components/filter/filter-status-bet'
 import { ApiResponse } from '@/service'
+import ButtonExportXLS from '@/components/ui/button-export-xls'
 
 const Page = ({ data }: { data: ApiResponse<unknown> }) => {
   const { pagination, onPaginationChange } = useHandlePagination()
@@ -22,6 +23,7 @@ const Page = ({ data }: { data: ApiResponse<unknown> }) => {
         <div className="flex items-center jus space-x-2.5">
           <FilterDateRange />
           <FilterSelectDate />
+          <ButtonExportXLS />
         </div>
       </div>
       <div className="grid w-full">

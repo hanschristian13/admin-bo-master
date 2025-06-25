@@ -13,6 +13,7 @@ import { ApiResponse } from '@/service'
 import { useGetUpdateParams, useHandlePagination } from '@/hooks'
 import FilterDealerId from '@/components/filter/filter-dealer-id'
 import { timeFormat } from '@/lib/utils'
+import ButtonExportXLS from '@/components/ui/button-export-xls'
 
 const Page = ({ data }: { data: ApiResponse<unknown> }) => {
   const { pagination, onPaginationChange } = useHandlePagination()
@@ -29,10 +30,8 @@ const Page = ({ data }: { data: ApiResponse<unknown> }) => {
         </div>
         <div className="flex items-center space-x-2.5">
           <SearchInput param="q" placeholder="Search Username" />
-          <FilterDealerId 
-            // pageData={data?.data as PlayerActiveDetailType[]} 
-            // dealerIdField="dealer_id" 
-          />
+          <FilterDealerId />
+          <ButtonExportXLS />
         </div>
       </div>
       <div className="grid w-full">

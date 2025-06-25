@@ -183,9 +183,9 @@ export const ColumnsPlayerTransaction = ({
         return (
           <div className="flex space-x-2">
             <Button
-              disabled={!row?.original?.reply}
-              onClick={() => onClickAction(row?.original?.reply)}>
-              Reply
+              disabled={!row?.original?.replay}
+              onClick={() => onClickAction(row?.original?.replay)}>
+              Replay
             </Button>
             <Button
               disabled={!row?.original?.history}

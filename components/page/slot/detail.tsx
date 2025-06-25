@@ -8,6 +8,7 @@ import { ApiResponse } from '@/service'
 import FilterDealerId from '@/components/filter/filter-dealer-id'
 import { Button } from '@/components/ui/button'
 import { timeFormat } from '@/lib/utils'
+import ButtonExportXLS from '@/components/ui/button-export-xls'
 
 const Page: FC<{ data: ApiResponse<unknown> }> = ({ data }) => {
   const { pagination, onPaginationChange } = useHandlePagination()
@@ -22,10 +23,14 @@ const Page: FC<{ data: ApiResponse<unknown> }> = ({ data }) => {
             {timeFormat(date).format('LLL dd, y')}
           </Button>
         </div>
-        <FilterDealerId 
-            // pageData={data?.data as SlotDetailType[]} 
-            // dealerIdField="dealer_id" 
+
+        <div className="flex space-x-2.5 items-center">
+          <FilterDealerId
+          // pageData={data?.data as SlotDetailType[]}
+          // dealerIdField="dealer_id"
           />
+          <ButtonExportXLS />
+        </div>
       </div>
       <div className="grid">
         <DataTable
