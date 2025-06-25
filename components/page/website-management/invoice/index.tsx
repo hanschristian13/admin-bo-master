@@ -145,7 +145,10 @@ const Page = ({ data }: { data: ApiResponse<InvoiceType[]> }) => {
               })
             }
             aria-label="Results per Page">
-            <SelectTrigger id="filter Paid" className="w-fit whitespace-nowrap capitalize">
+            <SelectTrigger
+              defaultValue="pending"
+              id="filter Paid"
+              className="w-fit whitespace-nowrap capitalize">
               <SelectValue placeholder="Filter Paid" />
             </SelectTrigger>
             <SelectContent>
