@@ -137,7 +137,7 @@ const Page = ({ data }: { data: ApiResponse<InvoiceType[]> }) => {
             selectedMonth={timeFormat(from).toDate() || timeFormat(new Date()).format()}
           />
           <Select
-            value={getValue('status')}
+            value={getValue('status') || 'pending'}
             onValueChange={val =>
               setSearchParams({
                 status: val,
